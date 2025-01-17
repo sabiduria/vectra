@@ -18,7 +18,7 @@ class AreasController extends AppController
     public function index()
     {
         $query = $this->Areas->find()->where(['Areas.deleted' => 0]);
-        $areas = $this->paginate($query);
+        $areas = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('areas'));
     }

@@ -3,16 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Shopstock $shopstock
  */
+ $this->set('title_2', 'Shopstocks');
 ?>
 <div class="row">
     <div class="column column-80">
         <div class="shopstocks view content">
             <h3><?= h($shopstock->id) ?></h3>
             <table class="table">
-                <tr>
-                    <th><?= __('Shop') ?></th>
-                    <td><?= $shopstock->hasValue('shop') ? $this->Html->link($shopstock->shop->name, ['controller' => 'Shops', 'action' => 'view', $shopstock->shop->id]) : '' ?></td>
-                </tr>
                 <tr>
                     <th><?= __('Product') ?></th>
                     <td><?= $shopstock->hasValue('product') ? $this->Html->link($shopstock->product->name, ['controller' => 'Products', 'action' => 'view', $shopstock->product->id]) : '' ?></td>

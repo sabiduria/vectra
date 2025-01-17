@@ -4,12 +4,14 @@
  * @var \App\Model\Entity\Loyaltypoint $loyaltypoint
  * @var string[]|\Cake\Collection\CollectionInterface $customers
  */
+$this->set('title_2', 'Loyaltypoints');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($loyaltypoint) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('customer_id', ['options' => $customers, 'class' => 'form-select select2', 'label' => 'customer_id']); ?>
+                <?= $this->Form->control('customer_id', ['options' => $customers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'customer_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('issuedpoints', ['class' => 'form-control', 'label' => 'issuedpoints']); ?>

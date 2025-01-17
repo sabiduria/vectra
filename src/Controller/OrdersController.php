@@ -19,7 +19,7 @@ class OrdersController extends AppController
     {
         $query = $this->Orders->find()->where(['Orders.deleted' => 0])
             ->contain(['Customers', 'Statuses']);
-        $orders = $this->paginate($query);
+        $orders = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('orders'));
     }

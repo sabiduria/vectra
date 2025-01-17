@@ -5,15 +5,17 @@
  * @var string[]|\Cake\Collection\CollectionInterface $purchases
  * @var string[]|\Cake\Collection\CollectionInterface $products
  */
+$this->set('title_2', 'Purchasesitems');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($purchasesitem) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('purchase_id', ['options' => $purchases, 'class' => 'form-select select2', 'label' => 'purchase_id']); ?>
+                <?= $this->Form->control('purchase_id', ['options' => $purchases, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'purchase_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('product_id', ['options' => $products, 'class' => 'form-select select2', 'label' => 'product_id']); ?>
+                <?= $this->Form->control('product_id', ['options' => $products, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'product_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>

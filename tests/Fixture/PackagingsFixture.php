@@ -21,8 +21,8 @@ class PackagingsFixture extends TestFixture
             [
                 'id' => 1,
                 'name' => 'Lorem ipsum dolor sit amet',
-                'created' => '2025-01-16 17:22:04',
-                'modified' => '2025-01-16 17:22:04',
+                'created' => '2025-01-17 14:10:48',
+                'modified' => '2025-01-17 14:10:48',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

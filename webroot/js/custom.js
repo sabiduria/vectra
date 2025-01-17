@@ -125,7 +125,7 @@
       });
     });
 
-    themeContainerPrimary.appendChild(button);
+    //themeContainerPrimary.appendChild(button);
   }
   nanoButtons[0].click();
   /* for theme primary */

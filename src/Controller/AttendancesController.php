@@ -19,7 +19,7 @@ class AttendancesController extends AppController
     {
         $query = $this->Attendances->find()->where(['Attendances.deleted' => 0])
             ->contain(['Affectations', 'Attendancestypes']);
-        $attendances = $this->paginate($query);
+        $attendances = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('attendances'));
     }

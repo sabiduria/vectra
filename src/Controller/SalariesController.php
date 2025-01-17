@@ -19,7 +19,7 @@ class SalariesController extends AppController
     {
         $query = $this->Salaries->find()->where(['Salaries.deleted' => 0])
             ->contain(['Users']);
-        $salaries = $this->paginate($query);
+        $salaries = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('salaries'));
     }

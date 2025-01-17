@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Auditlog $auditlog
  */
+ $this->set('title_2', 'Auditlogs');
 ?>
 <div class="row">
     <div class="column column-80">

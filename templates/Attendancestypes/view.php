@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Attendancestype $attendancestype
  */
+ $this->set('title_2', 'Attendancestypes');
 ?>
 <div class="row">
     <div class="column column-80">

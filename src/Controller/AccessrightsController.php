@@ -19,7 +19,7 @@ class AccessrightsController extends AppController
     {
         $query = $this->Accessrights->find()->where(['Accessrights.deleted' => 0])
             ->contain(['Profiles', 'Resources']);
-        $accessrights = $this->paginate($query);
+        $accessrights = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('accessrights'));
     }

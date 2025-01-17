@@ -5,15 +5,17 @@
  * @var \Cake\Collection\CollectionInterface|string[] $transfers
  * @var \Cake\Collection\CollectionInterface|string[] $products
  */
+$this->set('title_2', 'Transfersdetails');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($transfersdetail) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('transfer_id', ['options' => $transfers, 'class' => 'form-select select2', 'label' => 'transfer_id']); ?>
+                <?= $this->Form->control('transfer_id', ['options' => $transfers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'transfer_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('product_id', ['options' => $products, 'class' => 'form-select select2', 'label' => 'product_id']); ?>
+                <?= $this->Form->control('product_id', ['options' => $products, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'product_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>

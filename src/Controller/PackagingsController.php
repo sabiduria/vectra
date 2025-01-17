@@ -18,7 +18,7 @@ class PackagingsController extends AppController
     public function index()
     {
         $query = $this->Packagings->find()->where(['Packagings.deleted' => 0]);
-        $packagings = $this->paginate($query);
+        $packagings = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('packagings'));
     }

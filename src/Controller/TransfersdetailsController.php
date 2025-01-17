@@ -19,7 +19,7 @@ class TransfersdetailsController extends AppController
     {
         $query = $this->Transfersdetails->find()->where(['Transfersdetails.deleted' => 0])
             ->contain(['Transfers', 'Products']);
-        $transfersdetails = $this->paginate($query);
+        $transfersdetails = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('transfersdetails'));
     }

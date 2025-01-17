@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
 /**
  * Shopstocks Model
  *
- * @property \App\Model\Table\ShopsTable&\Cake\ORM\Association\BelongsTo $Shops
  * @property \App\Model\Table\ProductsTable&\Cake\ORM\Association\BelongsTo $Products
  * @property \App\Model\Table\RoomsTable&\Cake\ORM\Association\BelongsTo $Rooms
  *
@@ -49,16 +48,13 @@ class ShopstocksTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Shops', [
-            'foreignKey' => 'shop_id',
-            'joinType' => 'INNER',
-        ]);
         $this->belongsTo('Products', [
             'foreignKey' => 'product_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Rooms', [
             'foreignKey' => 'room_id',
+            'joinType' => 'INNER',
         ]);
     }
 
@@ -71,16 +67,12 @@ class ShopstocksTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('shop_id')
-            ->notEmptyString('shop_id');
-
-        $validator
             ->integer('product_id')
             ->notEmptyString('product_id');
 
         $validator
             ->integer('room_id')
-            ->allowEmptyString('room_id');
+            ->notEmptyString('room_id');
 
         $validator
             ->numeric('stock')
@@ -116,7 +108,6 @@ class ShopstocksTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['shop_id'], 'Shops'), ['errorField' => 'shop_id']);
         $rules->add($rules->existsIn(['product_id'], 'Products'), ['errorField' => 'product_id']);
         $rules->add($rules->existsIn(['room_id'], 'Rooms'), ['errorField' => 'room_id']);
 

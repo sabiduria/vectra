@@ -19,7 +19,7 @@ class ShopsController extends AppController
     {
         $query = $this->Shops->find()->where(['Shops.deleted' => 0])
             ->contain(['Areas']);
-        $shops = $this->paginate($query);
+        $shops = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('shops'));
     }
@@ -33,7 +33,7 @@ class ShopsController extends AppController
      */
     public function view($id = null)
     {
-        $shop = $this->Shops->get($id, contain: ['Areas', 'Affectations', 'Expenses', 'Shopstocks', 'Stockins', 'Transfers']);
+        $shop = $this->Shops->get($id, contain: ['Areas', 'Affectations', 'Expenses', 'Stockins', 'Transfers']);
         $this->set(compact('shop'));
     }
 

@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Leavestype $leavestype
  */
+$this->set('title_2', 'Leavestypes');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($leavestype) ?>

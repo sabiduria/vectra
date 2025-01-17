@@ -18,7 +18,7 @@ class CategoriesController extends AppController
     public function index()
     {
         $query = $this->Categories->find()->where(['Categories.deleted' => 0]);
-        $categories = $this->paginate($query);
+        $categories = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('categories'));
     }

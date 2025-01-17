@@ -18,7 +18,7 @@ class AttendancestypesController extends AppController
     public function index()
     {
         $query = $this->Attendancestypes->find()->where(['Attendancestypes.deleted' => 0]);
-        $attendancestypes = $this->paginate($query);
+        $attendancestypes = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('attendancestypes'));
     }

@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Currency $currency
  */
+$this->set('title_2', 'Currencies');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($currency) ?>

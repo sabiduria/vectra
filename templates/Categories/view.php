@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Category $category
  */
+ $this->set('title_2', 'Categories');
 ?>
 <div class="row">
     <div class="column column-80">

@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Profile $profile
  */
+$this->set('title_2', 'Profiles');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($profile) ?>

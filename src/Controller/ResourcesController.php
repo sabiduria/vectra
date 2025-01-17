@@ -18,7 +18,7 @@ class ResourcesController extends AppController
     public function index()
     {
         $query = $this->Resources->find()->where(['Resources.deleted' => 0]);
-        $resources = $this->paginate($query);
+        $resources = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('resources'));
     }

@@ -19,7 +19,7 @@ class ProductsController extends AppController
     {
         $query = $this->Products->find()->where(['Products.deleted' => 0])
             ->contain(['Suppliers', 'Categories', 'Packagings']);
-        $products = $this->paginate($query);
+        $products = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('products'));
     }

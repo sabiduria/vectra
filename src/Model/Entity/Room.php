@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
  * @property string|null $createdby
  * @property string|null $modifiedby
  * @property bool|null $deleted
+ * @property int $shops_id
  *
  * @property \App\Model\Entity\Shopstock[] $shopstocks
  */
@@ -38,6 +39,7 @@ class Room extends Entity
         'createdby' => true,
         'modifiedby' => true,
         'deleted' => true,
+        'shops_id' => true,
         'shopstocks' => true,
     ];
 }

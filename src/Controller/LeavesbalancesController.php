@@ -19,7 +19,7 @@ class LeavesbalancesController extends AppController
     {
         $query = $this->Leavesbalances->find()->where(['Leavesbalances.deleted' => 0])
             ->contain(['Users', 'Leavestypes']);
-        $leavesbalances = $this->paginate($query);
+        $leavesbalances = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('leavesbalances'));
     }

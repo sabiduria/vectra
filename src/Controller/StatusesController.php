@@ -18,7 +18,7 @@ class StatusesController extends AppController
     public function index()
     {
         $query = $this->Statuses->find()->where(['Statuses.deleted' => 0]);
-        $statuses = $this->paginate($query);
+        $statuses = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('statuses'));
     }

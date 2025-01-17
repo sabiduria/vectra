@@ -18,7 +18,7 @@ class SuppliersController extends AppController
     public function index()
     {
         $query = $this->Suppliers->find()->where(['Suppliers.deleted' => 0]);
-        $suppliers = $this->paginate($query);
+        $suppliers = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('suppliers'));
     }

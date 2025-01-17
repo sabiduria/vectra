@@ -5,15 +5,17 @@
  * @var string[]|\Cake\Collection\CollectionInterface $products
  * @var string[]|\Cake\Collection\CollectionInterface $stockins
  */
+$this->set('title_2', 'Stockinsdetails');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($stockinsdetail) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('product_id', ['options' => $products, 'class' => 'form-select select2', 'label' => 'product_id']); ?>
+                <?= $this->Form->control('product_id', ['options' => $products, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'product_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('stockin_id', ['options' => $stockins, 'class' => 'form-select select2', 'label' => 'stockin_id']); ?>
+                <?= $this->Form->control('stockin_id', ['options' => $stockins, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'stockin_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('purchase_price', ['class' => 'form-control', 'label' => 'purchase_price']); ?>

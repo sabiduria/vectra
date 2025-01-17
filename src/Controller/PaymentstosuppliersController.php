@@ -19,7 +19,7 @@ class PaymentstosuppliersController extends AppController
     {
         $query = $this->Paymentstosuppliers->find()->where(['Paymentstosuppliers.deleted' => 0])
             ->contain(['Purchases']);
-        $paymentstosuppliers = $this->paginate($query);
+        $paymentstosuppliers = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('paymentstosuppliers'));
     }

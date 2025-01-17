@@ -19,7 +19,7 @@ class StockinsdetailsController extends AppController
     {
         $query = $this->Stockinsdetails->find()->where(['Stockinsdetails.deleted' => 0])
             ->contain(['Products', 'Stockins']);
-        $stockinsdetails = $this->paginate($query);
+        $stockinsdetails = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('stockinsdetails'));
     }

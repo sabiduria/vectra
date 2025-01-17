@@ -18,7 +18,7 @@ class ProfilesController extends AppController
     public function index()
     {
         $query = $this->Profiles->find()->where(['Profiles.deleted' => 0]);
-        $profiles = $this->paginate($query);
+        $profiles = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('profiles'));
     }

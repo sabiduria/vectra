@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Category $category
  */
+$this->set('title_2', 'Categories');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($category) ?>

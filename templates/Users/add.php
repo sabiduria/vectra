@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
  */
+$this->set('title_2', 'Users');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($user) ?>

@@ -9,9 +9,8 @@ use Cake\ORM\Entity;
  * Shopstock Entity
  *
  * @property int $id
- * @property int $shop_id
  * @property int $product_id
- * @property int|null $room_id
+ * @property int $room_id
  * @property float|null $stock
  * @property float|null $stock_min
  * @property \Cake\I18n\DateTime|null $created
@@ -36,7 +35,6 @@ class Shopstock extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'shop_id' => true,
         'product_id' => true,
         'room_id' => true,
         'stock' => true,

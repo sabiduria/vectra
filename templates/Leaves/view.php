@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Leave $leave
  */
+ $this->set('title_2', 'Leaves');
 ?>
 <div class="row">
     <div class="column column-80">

@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Exchangerate $exchangerate
  */
+$this->set('title_2', 'Exchangerates');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($exchangerate) ?>

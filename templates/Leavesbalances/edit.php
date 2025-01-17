@@ -5,15 +5,17 @@
  * @var string[]|\Cake\Collection\CollectionInterface $users
  * @var string[]|\Cake\Collection\CollectionInterface $leavestypes
  */
+$this->set('title_2', 'Leavesbalances');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($leavesbalance) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('user_id', ['options' => $users, 'class' => 'form-select select2', 'label' => 'user_id']); ?>
+                <?= $this->Form->control('user_id', ['options' => $users, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'user_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('leavestype_id', ['options' => $leavestypes, 'class' => 'form-select select2', 'label' => 'leavestype_id']); ?>
+                <?= $this->Form->control('leavestype_id', ['options' => $leavestypes, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'leavestype_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('available_balance', ['class' => 'form-control', 'label' => 'available_balance']); ?>

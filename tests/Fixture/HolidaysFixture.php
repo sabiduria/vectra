@@ -20,10 +20,10 @@ class HolidaysFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'holidaydate' => '2025-01-16',
+                'holidaydate' => '2025-01-17',
                 'description' => 'Lorem ipsum dolor sit amet',
-                'created' => '2025-01-16 17:22:03',
-                'modified' => '2025-01-16 17:22:03',
+                'created' => '2025-01-17 14:10:47',
+                'modified' => '2025-01-17 14:10:47',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

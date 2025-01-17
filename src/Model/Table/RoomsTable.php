@@ -47,6 +47,10 @@ class RoomsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Shops', [
+            'foreignKey' => 'shops_id',
+            'joinType' => 'INNER',
+        ]);
         $this->hasMany('Shopstocks', [
             'foreignKey' => 'room_id',
         ]);
@@ -83,6 +87,24 @@ class RoomsTable extends Table
             ->boolean('deleted')
             ->allowEmptyString('deleted');
 
+        $validator
+            ->integer('shops_id')
+            ->notEmptyString('shops_id');
+
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['shops_id'], 'Shops'), ['errorField' => 'shops_id']);
+
+        return $rules;
     }
 }

@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Auditlog $auditlog
  */
+$this->set('title_2', 'Auditlogs');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($auditlog) ?>

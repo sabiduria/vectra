@@ -19,7 +19,7 @@ class PricingsController extends AppController
     {
         $query = $this->Pricings->find()->where(['Pricings.deleted' => 0])
             ->contain(['Products', 'Packagings']);
-        $pricings = $this->paginate($query);
+        $pricings = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('pricings'));
     }

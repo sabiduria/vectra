@@ -5,15 +5,17 @@
  * @var \Cake\Collection\CollectionInterface|string[] $shops
  * @var \Cake\Collection\CollectionInterface|string[] $expensestypes
  */
+$this->set('title_2', 'Expenses');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($expense) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('shop_id', ['options' => $shops, 'class' => 'form-select select2', 'label' => 'shop_id']); ?>
+                <?= $this->Form->control('shop_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shop_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('expensestype_id', ['options' => $expensestypes, 'class' => 'form-select select2', 'label' => 'expensestype_id']); ?>
+                <?= $this->Form->control('expensestype_id', ['options' => $expensestypes, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'expensestype_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('amount', ['class' => 'form-control', 'label' => 'amount']); ?>

@@ -22,11 +22,12 @@ class RoomsFixture extends TestFixture
                 'id' => 1,
                 'name' => 'Lorem ipsum dolor sit amet',
                 'capacity' => 1,
-                'created' => '2025-01-16 17:22:07',
-                'modified' => '2025-01-16 17:22:07',
+                'created' => '2025-01-17 14:10:50',
+                'modified' => '2025-01-17 14:10:50',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,
+                'shops_id' => 1,
             ],
         ];
         parent::init();

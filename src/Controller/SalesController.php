@@ -19,7 +19,7 @@ class SalesController extends AppController
     {
         $query = $this->Sales->find()->where(['Sales.deleted' => 0])
             ->contain(['Users', 'Customers', 'Statuses']);
-        $sales = $this->paginate($query);
+        $sales = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('sales'));
     }

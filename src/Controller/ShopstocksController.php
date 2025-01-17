@@ -18,8 +18,8 @@ class ShopstocksController extends AppController
     public function index()
     {
         $query = $this->Shopstocks->find()->where(['Shopstocks.deleted' => 0])
-            ->contain(['Shops', 'Products', 'Rooms']);
-        $shopstocks = $this->paginate($query);
+            ->contain(['Products', 'Rooms']);
+        $shopstocks = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('shopstocks'));
     }
@@ -33,7 +33,7 @@ class ShopstocksController extends AppController
      */
     public function view($id = null)
     {
-        $shopstock = $this->Shopstocks->get($id, contain: ['Shops', 'Products', 'Rooms']);
+        $shopstock = $this->Shopstocks->get($id, contain: ['Products', 'Rooms']);
         $this->set(compact('shopstock'));
     }
 
@@ -60,10 +60,9 @@ class ShopstocksController extends AppController
             }
             $this->Flash->error(__('The shopstock could not be saved. Please, try again.'));
         }
-        $shops = $this->Shopstocks->Shops->find('list', limit: 200)->all();
         $products = $this->Shopstocks->Products->find('list', limit: 200)->all();
         $rooms = $this->Shopstocks->Rooms->find('list', limit: 200)->all();
-        $this->set(compact('shopstock', 'shops', 'products', 'rooms'));
+        $this->set(compact('shopstock', 'products', 'rooms'));
     }
 
     /**
@@ -89,10 +88,9 @@ class ShopstocksController extends AppController
             }
             $this->Flash->error(__('The shopstock could not be saved. Please, try again.'));
         }
-        $shops = $this->Shopstocks->Shops->find('list', limit: 200)->all();
         $products = $this->Shopstocks->Products->find('list', limit: 200)->all();
         $rooms = $this->Shopstocks->Rooms->find('list', limit: 200)->all();
-        $this->set(compact('shopstock', 'shops', 'products', 'rooms'));
+        $this->set(compact('shopstock', 'products', 'rooms'));
     }
 
     /**

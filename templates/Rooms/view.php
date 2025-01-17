@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Room $room
  */
+ $this->set('title_2', 'Rooms');
 ?>
 <div class="row">
     <div class="column column-80">
@@ -20,6 +21,10 @@
                 <tr>
                     <th><?= __('Modifiedby') ?></th>
                     <td><?= h($room->modifiedby) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Shop') ?></th>
+                    <td><?= $room->hasValue('shop') ? $this->Html->link($room->shop->name, ['controller' => 'Shops', 'action' => 'view', $room->shop->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>
@@ -49,7 +54,6 @@
                     <table class="table table-bordered">
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Shop Id') ?></th>
                             <th><?= __('Product Id') ?></th>
                             <th><?= __('Room Id') ?></th>
                             <th><?= __('Stock') ?></th>
@@ -64,7 +68,6 @@
                         <?php foreach ($room->shopstocks as $shopstock) : ?>
                         <tr>
                             <td><?= h($shopstock->id) ?></td>
-                            <td><?= h($shopstock->shop_id) ?></td>
                             <td><?= h($shopstock->product_id) ?></td>
                             <td><?= h($shopstock->room_id) ?></td>
                             <td><?= h($shopstock->stock) ?></td>

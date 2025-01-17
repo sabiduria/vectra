@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Product $product
  */
+ $this->set('title_2', 'Products');
 ?>
 <div class="row">
     <div class="column column-80">
@@ -327,7 +328,6 @@
                     <table class="table table-bordered">
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Shop Id') ?></th>
                             <th><?= __('Product Id') ?></th>
                             <th><?= __('Room Id') ?></th>
                             <th><?= __('Stock') ?></th>
@@ -342,7 +342,6 @@
                         <?php foreach ($product->shopstocks as $shopstock) : ?>
                         <tr>
                             <td><?= h($shopstock->id) ?></td>
-                            <td><?= h($shopstock->shop_id) ?></td>
                             <td><?= h($shopstock->product_id) ?></td>
                             <td><?= h($shopstock->room_id) ?></td>
                             <td><?= h($shopstock->stock) ?></td>

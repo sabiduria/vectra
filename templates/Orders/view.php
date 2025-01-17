@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Order $order
  */
+ $this->set('title_2', 'Orders');
 ?>
 <div class="row">
     <div class="column column-80">

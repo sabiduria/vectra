@@ -18,7 +18,7 @@ class ExpensestypesController extends AppController
     public function index()
     {
         $query = $this->Expensestypes->find()->where(['Expensestypes.deleted' => 0]);
-        $expensestypes = $this->paginate($query);
+        $expensestypes = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('expensestypes'));
     }

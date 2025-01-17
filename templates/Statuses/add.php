@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Status $status
  */
+$this->set('title_2', 'Statuses');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($status) ?>

@@ -19,7 +19,7 @@ class SpoilagesController extends AppController
     {
         $query = $this->Spoilages->find()->where(['Spoilages.deleted' => 0])
             ->contain(['Products']);
-        $spoilages = $this->paginate($query);
+        $spoilages = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('spoilages'));
     }

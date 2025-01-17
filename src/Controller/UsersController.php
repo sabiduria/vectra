@@ -18,7 +18,7 @@ class UsersController extends AppController
     public function index()
     {
         $query = $this->Users->find()->where(['Users.deleted' => 0]);
-        $users = $this->paginate($query);
+        $users = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('users'));
     }

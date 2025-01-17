@@ -2,22 +2,20 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Shopstock $shopstock
- * @var string[]|\Cake\Collection\CollectionInterface $shops
  * @var string[]|\Cake\Collection\CollectionInterface $products
  * @var string[]|\Cake\Collection\CollectionInterface $rooms
  */
+$this->set('title_2', 'Shopstocks');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($shopstock) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('shop_id', ['options' => $shops, 'class' => 'form-select select2', 'label' => 'shop_id']); ?>
+                <?= $this->Form->control('product_id', ['options' => $products, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'product_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('product_id', ['options' => $products, 'class' => 'form-select select2', 'label' => 'product_id']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('room_id', ['options' => $rooms, 'empty' => true, 'class' => 'form-select select2', 'label' => 'room_id']); ?>
+                <?= $this->Form->control('room_id', ['options' => $rooms, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'room_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('stock', ['class' => 'form-control', 'label' => 'stock']); ?>

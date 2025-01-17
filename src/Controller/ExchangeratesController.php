@@ -18,7 +18,7 @@ class ExchangeratesController extends AppController
     public function index()
     {
         $query = $this->Exchangerates->find()->where(['Exchangerates.deleted' => 0]);
-        $exchangerates = $this->paginate($query);
+        $exchangerates = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('exchangerates'));
     }

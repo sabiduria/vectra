@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Exchangerate $exchangerate
  */
+ $this->set('title_2', 'Exchangerates');
 ?>
 <div class="row">
     <div class="column column-80">

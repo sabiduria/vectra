@@ -2,7 +2,10 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Room $room
+ * @var \Cake\Collection\CollectionInterface|string[] $shops
  */
+$this->set('title_2', 'Rooms');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($room) ?>
@@ -12,6 +15,9 @@
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('capacity', ['class' => 'form-control', 'label' => 'capacity']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('shops_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shops_id']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

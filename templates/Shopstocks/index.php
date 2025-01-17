@@ -3,16 +3,15 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Shopstock> $shopstocks
  */
+$this->set('title_2', 'Shopstocks');
 ?>
 <div class="mt-3">
-    <?= $this->Html->link(__('New Shopstock'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm']) ?>
-    <h3><?= __('Shopstocks') ?></h3>
+    <?= $this->Html->link(__('New Shopstock'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
-        <table class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" id="datatable-buttons">
+        <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('shop_id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('room_id') ?></th>
                     <th><?= $this->Paginator->sort('stock') ?></th>
@@ -29,7 +28,6 @@
                 <?php foreach ($shopstocks as $shopstock): ?>
                 <tr>
                     <td><?= $this->Number->format($shopstock->id) ?></td>
-                    <td><?= $shopstock->hasValue('shop') ? $this->Html->link($shopstock->shop->name, ['controller' => 'Shops', 'action' => 'view', $shopstock->shop->id]) : '' ?></td>
                     <td><?= $shopstock->hasValue('product') ? $this->Html->link($shopstock->product->name, ['controller' => 'Products', 'action' => 'view', $shopstock->product->id]) : '' ?></td>
                     <td><?= $shopstock->hasValue('room') ? $this->Html->link($shopstock->room->name, ['controller' => 'Rooms', 'action' => 'view', $shopstock->room->id]) : '' ?></td>
                     <td><?= $shopstock->stock === null ? '' : $this->Number->format($shopstock->stock) ?></td>

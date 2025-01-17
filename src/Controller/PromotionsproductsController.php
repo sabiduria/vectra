@@ -19,7 +19,7 @@ class PromotionsproductsController extends AppController
     {
         $query = $this->Promotionsproducts->find()->where(['Promotionsproducts.deleted' => 0])
             ->contain(['Products']);
-        $promotionsproducts = $this->paginate($query);
+        $promotionsproducts = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('promotionsproducts'));
     }

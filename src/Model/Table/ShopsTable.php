@@ -14,7 +14,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\BelongsTo $Areas
  * @property \App\Model\Table\AffectationsTable&\Cake\ORM\Association\HasMany $Affectations
  * @property \App\Model\Table\ExpensesTable&\Cake\ORM\Association\HasMany $Expenses
- * @property \App\Model\Table\ShopstocksTable&\Cake\ORM\Association\HasMany $Shopstocks
  * @property \App\Model\Table\StockinsTable&\Cake\ORM\Association\HasMany $Stockins
  * @property \App\Model\Table\TransfersTable&\Cake\ORM\Association\HasMany $Transfers
  *
@@ -60,9 +59,6 @@ class ShopsTable extends Table
             'foreignKey' => 'shop_id',
         ]);
         $this->hasMany('Expenses', [
-            'foreignKey' => 'shop_id',
-        ]);
-        $this->hasMany('Shopstocks', [
             'foreignKey' => 'shop_id',
         ]);
         $this->hasMany('Stockins', [

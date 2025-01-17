@@ -19,7 +19,7 @@ class AffectationsController extends AppController
     {
         $query = $this->Affectations->find()->where(['Affectations.deleted' => 0])
             ->contain(['Users', 'Profiles', 'Shops']);
-        $affectations = $this->paginate($query);
+        $affectations = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('affectations'));
     }

@@ -19,7 +19,7 @@ class PurchasesController extends AppController
     {
         $query = $this->Purchases->find()->where(['Purchases.deleted' => 0])
             ->contain(['Statuses', 'Suppliers']);
-        $purchases = $this->paginate($query);
+        $purchases = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('purchases'));
     }

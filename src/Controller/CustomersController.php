@@ -18,7 +18,7 @@ class CustomersController extends AppController
     public function index()
     {
         $query = $this->Customers->find()->where(['Customers.deleted' => 0]);
-        $customers = $this->paginate($query);
+        $customers = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('customers'));
     }

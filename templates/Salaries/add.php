@@ -4,12 +4,14 @@
  * @var \App\Model\Entity\Salary $salary
  * @var \Cake\Collection\CollectionInterface|string[] $users
  */
+$this->set('title_2', 'Salaries');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($salary) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('user_id', ['options' => $users, 'class' => 'form-select select2', 'label' => 'user_id']); ?>
+                <?= $this->Form->control('user_id', ['options' => $users, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'user_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('amount', ['class' => 'form-control', 'label' => 'amount']); ?>

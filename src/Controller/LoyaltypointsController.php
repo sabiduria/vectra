@@ -19,7 +19,7 @@ class LoyaltypointsController extends AppController
     {
         $query = $this->Loyaltypoints->find()->where(['Loyaltypoints.deleted' => 0])
             ->contain(['Customers']);
-        $loyaltypoints = $this->paginate($query);
+        $loyaltypoints = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('loyaltypoints'));
     }

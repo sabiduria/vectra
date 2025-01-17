@@ -18,7 +18,7 @@ class HolidaysController extends AppController
     public function index()
     {
         $query = $this->Holidays->find()->where(['Holidays.deleted' => 0]);
-        $holidays = $this->paginate($query);
+        $holidays = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('holidays'));
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class GeneralController extends AppController
@@ -13,7 +14,12 @@ class GeneralController extends AppController
      */
     public function dashboard(): void
     {
-        
+        $this->viewBuilder()->setLayout('dashboard');
+    }
+
+    public function monitoring(): void
+    {
+        $this->viewBuilder()->setLayout('dashboard');
     }
 
     /**
@@ -42,5 +48,54 @@ class GeneralController extends AppController
         }
 
         return $prefix . '-' . $reference;
+    }
+
+    /**
+     * @param $table
+     * @return mixed|null
+     */
+    public static function getCountAll($table): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(*) as nber FROM ' . strtolower($table));
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
+
+    public static function getNameOf($id, $tableName): ?string
+    {
+        $table = TableRegistry::getTableLocator()->get($tableName)
+            ->find()
+            ->select(['name'])
+            ->where(['id' => $id])
+            ->first();
+
+        return $table ? $table->name : null;
+    }
+
+    public static function getUserNameOf($id): ?string
+    {
+        $table = TableRegistry::getTableLocator()->get('Users');
+
+        $user = $table->find()
+            ->select([
+                'name' => $table->query()->newExpr()->add([
+                    'CONCAT(firstname, " ", lastname)'
+                ])
+            ])
+            ->where(['id' => $id])
+            ->first();
+
+        return $user ? $user->name : null;
+    }
+
+    static function dateDiffInDays($date1, $date2): float|int
+    {
+        $diff = strtotime($date2) - strtotime($date1);
+        return abs(round($diff / 86400));
     }
 }

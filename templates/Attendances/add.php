@@ -5,15 +5,17 @@
  * @var \Cake\Collection\CollectionInterface|string[] $affectations
  * @var \Cake\Collection\CollectionInterface|string[] $attendancestypes
  */
+$this->set('title_2', 'Attendances');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($attendance) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('affectation_id', ['options' => $affectations, 'class' => 'form-select select2', 'label' => 'affectation_id']); ?>
+                <?= $this->Form->control('affectation_id', ['options' => $affectations, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'affectation_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('attendancestype_id', ['options' => $attendancestypes, 'class' => 'form-select select2', 'label' => 'attendancestype_id']); ?>
+                <?= $this->Form->control('attendancestype_id', ['options' => $attendancestypes, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'attendancestype_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('check_in', ['empty' => true, 'class' => 'form-control', 'label' => 'check_in']); ?>

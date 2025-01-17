@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Resource $resource
  */
+$this->set('title_2', 'Resources');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($resource) ?>

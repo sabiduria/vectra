@@ -4,6 +4,8 @@
  * @var \App\Model\Entity\Transfer $transfer
  * @var \Cake\Collection\CollectionInterface|string[] $shops
  */
+$this->set('title_2', 'Transfers');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($transfer) ?>
@@ -12,7 +14,7 @@
                 <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('shop_id', ['options' => $shops, 'class' => 'form-select select2', 'label' => 'shop_id']); ?>
+                <?= $this->Form->control('shop_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shop_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('receiver_id', ['class' => 'form-control', 'label' => 'receiver_id']); ?>

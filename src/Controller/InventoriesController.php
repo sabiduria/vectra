@@ -19,7 +19,7 @@ class InventoriesController extends AppController
     {
         $query = $this->Inventories->find()->where(['Inventories.deleted' => 0])
             ->contain(['Products']);
-        $inventories = $this->paginate($query);
+        $inventories = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('inventories'));
     }

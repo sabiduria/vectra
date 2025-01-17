@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inventory $inventory
  */
+ $this->set('title_2', 'Inventories');
 ?>
 <div class="row">
     <div class="column column-80">

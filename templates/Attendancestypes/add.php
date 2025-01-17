@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Attendancestype $attendancestype
  */
+$this->set('title_2', 'Attendancestypes');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($attendancestype) ?>

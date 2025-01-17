@@ -5,15 +5,17 @@
  * @var \Cake\Collection\CollectionInterface|string[] $profiles
  * @var \Cake\Collection\CollectionInterface|string[] $resources
  */
+$this->set('title_2', 'Accessrights');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($accessright) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('profile_id', ['options' => $profiles, 'class' => 'form-select select2', 'label' => 'profile_id']); ?>
+                <?= $this->Form->control('profile_id', ['options' => $profiles, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'profile_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('resource_id', ['options' => $resources, 'class' => 'form-select select2', 'label' => 'resource_id']); ?>
+                <?= $this->Form->control('resource_id', ['options' => $resources, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'resource_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('c', ['class' => 'form-control', 'label' => 'c']); ?>

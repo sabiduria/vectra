@@ -5,15 +5,17 @@
  * @var string[]|\Cake\Collection\CollectionInterface $customers
  * @var string[]|\Cake\Collection\CollectionInterface $statuses
  */
+$this->set('title_2', 'Orders');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($order) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('customer_id', ['options' => $customers, 'class' => 'form-select select2', 'label' => 'customer_id']); ?>
+                <?= $this->Form->control('customer_id', ['options' => $customers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'customer_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('status_id', ['options' => $statuses, 'empty' => true, 'class' => 'form-select select2', 'label' => 'status_id']); ?>
+                <?= $this->Form->control('status_id', ['options' => $statuses, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'status_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>

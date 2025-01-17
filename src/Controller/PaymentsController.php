@@ -19,7 +19,7 @@ class PaymentsController extends AppController
     {
         $query = $this->Payments->find()->where(['Payments.deleted' => 0])
             ->contain(['Orders']);
-        $payments = $this->paginate($query);
+        $payments = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('payments'));
     }

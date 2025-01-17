@@ -19,7 +19,7 @@ class PurchasesitemsController extends AppController
     {
         $query = $this->Purchasesitems->find()->where(['Purchasesitems.deleted' => 0])
             ->contain(['Purchases', 'Products']);
-        $purchasesitems = $this->paginate($query);
+        $purchasesitems = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('purchasesitems'));
     }

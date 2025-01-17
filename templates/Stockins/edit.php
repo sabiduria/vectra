@@ -4,12 +4,14 @@
  * @var \App\Model\Entity\Stockin $stockin
  * @var string[]|\Cake\Collection\CollectionInterface $shops
  */
+$this->set('title_2', 'Stockins');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($stockin) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('shop_id', ['options' => $shops, 'class' => 'form-select select2', 'label' => 'shop_id']); ?>
+                <?= $this->Form->control('shop_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shop_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>

@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Leavestype $leavestype
  */
+ $this->set('title_2', 'Leavestypes');
 ?>
 <div class="row">
     <div class="column column-80">

@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Pricing $pricing
  */
+ $this->set('title_2', 'Pricings');
 ?>
 <div class="row">
     <div class="column column-80">

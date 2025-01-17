@@ -26,7 +26,6 @@ class ShopsControllerTest extends TestCase
         'app.Areas',
         'app.Affectations',
         'app.Expenses',
-        'app.Shopstocks',
         'app.Stockins',
         'app.Transfers',
     ];

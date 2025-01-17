@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Loyaltypoint $loyaltypoint
  */
+ $this->set('title_2', 'Loyaltypoints');
 ?>
 <div class="row">
     <div class="column column-80">

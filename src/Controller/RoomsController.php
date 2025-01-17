@@ -17,8 +17,9 @@ class RoomsController extends AppController
      */
     public function index()
     {
-        $query = $this->Rooms->find()->where(['Rooms.deleted' => 0]);
-        $rooms = $this->paginate($query);
+        $query = $this->Rooms->find()->where(['Rooms.deleted' => 0])
+            ->contain(['Shops']);
+        $rooms = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('rooms'));
     }
@@ -32,7 +33,7 @@ class RoomsController extends AppController
      */
     public function view($id = null)
     {
-        $room = $this->Rooms->get($id, contain: ['Shopstocks']);
+        $room = $this->Rooms->get($id, contain: ['Shops', 'Shopstocks']);
         $this->set(compact('room'));
     }
 
@@ -59,7 +60,8 @@ class RoomsController extends AppController
             }
             $this->Flash->error(__('The room could not be saved. Please, try again.'));
         }
-        $this->set(compact('room'));
+        $shops = $this->Rooms->Shops->find('list', limit: 200)->all();
+        $this->set(compact('room', 'shops'));
     }
 
     /**
@@ -85,7 +87,8 @@ class RoomsController extends AppController
             }
             $this->Flash->error(__('The room could not be saved. Please, try again.'));
         }
-        $this->set(compact('room'));
+        $shops = $this->Rooms->Shops->find('list', limit: 200)->all();
+        $this->set(compact('room', 'shops'));
     }
 
     /**

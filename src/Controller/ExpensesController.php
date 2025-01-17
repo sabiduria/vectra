@@ -19,7 +19,7 @@ class ExpensesController extends AppController
     {
         $query = $this->Expenses->find()->where(['Expenses.deleted' => 0])
             ->contain(['Shops', 'Expensestypes']);
-        $expenses = $this->paginate($query);
+        $expenses = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('expenses'));
     }

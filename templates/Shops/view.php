@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Shop $shop
  */
+ $this->set('title_2', 'Shops');
 ?>
 <div class="row">
     <div class="column column-80">
@@ -125,49 +126,6 @@
                                 <?= $this->Html->link(__('View'), ['controller' => 'Expenses', 'action' => 'view', $expense->id], ['class' => 'btn btn-success btn-sm']) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Expenses', 'action' => 'edit', $expense->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Delete'), ['controller' => 'Expenses', 'action' => 'delete', $expense->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
-            <div class="related">
-                <h4><?= __('Related Shopstocks') ?></h4>
-                <?php if (!empty($shop->shopstocks)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Shop Id') ?></th>
-                            <th><?= __('Product Id') ?></th>
-                            <th><?= __('Room Id') ?></th>
-                            <th><?= __('Stock') ?></th>
-                            <th><?= __('Stock Min') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th><?= __('Createdby') ?></th>
-                            <th><?= __('Modifiedby') ?></th>
-                            <th><?= __('Deleted') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($shop->shopstocks as $shopstock) : ?>
-                        <tr>
-                            <td><?= h($shopstock->id) ?></td>
-                            <td><?= h($shopstock->shop_id) ?></td>
-                            <td><?= h($shopstock->product_id) ?></td>
-                            <td><?= h($shopstock->room_id) ?></td>
-                            <td><?= h($shopstock->stock) ?></td>
-                            <td><?= h($shopstock->stock_min) ?></td>
-                            <td><?= h($shopstock->created) ?></td>
-                            <td><?= h($shopstock->modified) ?></td>
-                            <td><?= h($shopstock->createdby) ?></td>
-                            <td><?= h($shopstock->modifiedby) ?></td>
-                            <td><?= h($shopstock->deleted) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Shopstocks', 'action' => 'view', $shopstock->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Shopstocks', 'action' => 'edit', $shopstock->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Shopstocks', 'action' => 'delete', $shopstock->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

@@ -6,18 +6,20 @@
  * @var string[]|\Cake\Collection\CollectionInterface $leavestypes
  * @var string[]|\Cake\Collection\CollectionInterface $statuses
  */
+$this->set('title_2', 'Leaves');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($leave) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('user_id', ['options' => $users, 'class' => 'form-select select2', 'label' => 'user_id']); ?>
+                <?= $this->Form->control('user_id', ['options' => $users, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'user_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('leavestype_id', ['options' => $leavestypes, 'class' => 'form-select select2', 'label' => 'leavestype_id']); ?>
+                <?= $this->Form->control('leavestype_id', ['options' => $leavestypes, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'leavestype_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('status_id', ['options' => $statuses, 'empty' => true, 'class' => 'form-select select2', 'label' => 'status_id']); ?>
+                <?= $this->Form->control('status_id', ['options' => $statuses, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'status_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('startdate', ['empty' => true, 'class' => 'form-control', 'label' => 'startdate']); ?>

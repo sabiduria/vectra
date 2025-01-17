@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Status $status
  */
+ $this->set('title_2', 'Statuses');
 ?>
 <div class="row">
     <div class="column column-80">

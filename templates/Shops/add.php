@@ -4,12 +4,14 @@
  * @var \App\Model\Entity\Shop $shop
  * @var \Cake\Collection\CollectionInterface|string[] $areas
  */
+$this->set('title_2', 'Shops');
+$emptyText = "Please select";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($shop) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('area_id', ['options' => $areas, 'class' => 'form-select select2', 'label' => 'area_id']); ?>
+                <?= $this->Form->control('area_id', ['options' => $areas, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'area_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>

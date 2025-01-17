@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Spoilage $spoilage
  */
+ $this->set('title_2', 'Spoilages');
 ?>
 <div class="row">
     <div class="column column-80">

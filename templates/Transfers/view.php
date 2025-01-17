@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Transfer $transfer
  */
+ $this->set('title_2', 'Transfers');
 ?>
 <div class="row">
     <div class="column column-80">

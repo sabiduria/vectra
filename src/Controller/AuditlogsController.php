@@ -18,7 +18,7 @@ class AuditlogsController extends AppController
     public function index()
     {
         $query = $this->Auditlogs->find()->where(['Auditlogs.deleted' => 0]);
-        $auditlogs = $this->paginate($query);
+        $auditlogs = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('auditlogs'));
     }
