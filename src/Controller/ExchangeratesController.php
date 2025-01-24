@@ -102,7 +102,7 @@ class ExchangeratesController extends AppController
         $exchangerate = $this->Exchangerates->get($id);
 
         $exchangerate->modifiedby = $session->read('Auth.Username');
-        $exchangerate->deleted = 0;
+        $exchangerate->deleted = 1;
 
         if ($this->Exchangerates->save($exchangerate)) {
             $this->Flash->success(__('The exchangerate has been deleted.'));

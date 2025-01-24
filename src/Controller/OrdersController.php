@@ -107,7 +107,7 @@ class OrdersController extends AppController
         $order = $this->Orders->get($id);
 
         $order->modifiedby = $session->read('Auth.Username');
-        $order->deleted = 0;
+        $order->deleted = 1;
 
         if ($this->Orders->save($order)) {
             $this->Flash->success(__('The order has been deleted.'));

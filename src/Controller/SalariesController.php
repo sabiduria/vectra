@@ -105,7 +105,7 @@ class SalariesController extends AppController
         $salary = $this->Salaries->get($id);
 
         $salary->modifiedby = $session->read('Auth.Username');
-        $salary->deleted = 0;
+        $salary->deleted = 1;
 
         if ($this->Salaries->save($salary)) {
             $this->Flash->success(__('The salary has been deleted.'));

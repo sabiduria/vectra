@@ -102,7 +102,7 @@ class AttendancestypesController extends AppController
         $attendancestype = $this->Attendancestypes->get($id);
 
         $attendancestype->modifiedby = $session->read('Auth.Username');
-        $attendancestype->deleted = 0;
+        $attendancestype->deleted = 1;
 
         if ($this->Attendancestypes->save($attendancestype)) {
             $this->Flash->success(__('The attendancestype has been deleted.'));

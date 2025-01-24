@@ -105,7 +105,7 @@ class RoomsController extends AppController
         $room = $this->Rooms->get($id);
 
         $room->modifiedby = $session->read('Auth.Username');
-        $room->deleted = 0;
+        $room->deleted = 1;
 
         if ($this->Rooms->save($room)) {
             $this->Flash->success(__('The room has been deleted.'));

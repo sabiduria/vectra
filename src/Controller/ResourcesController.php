@@ -102,7 +102,7 @@ class ResourcesController extends AppController
         $resource = $this->Resources->get($id);
 
         $resource->modifiedby = $session->read('Auth.Username');
-        $resource->deleted = 0;
+        $resource->deleted = 1;
 
         if ($this->Resources->save($resource)) {
             $this->Flash->success(__('The resource has been deleted.'));

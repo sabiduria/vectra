@@ -105,7 +105,7 @@ class StockinsController extends AppController
         $stockin = $this->Stockins->get($id);
 
         $stockin->modifiedby = $session->read('Auth.Username');
-        $stockin->deleted = 0;
+        $stockin->deleted = 1;
 
         if ($this->Stockins->save($stockin)) {
             $this->Flash->success(__('The stockin has been deleted.'));

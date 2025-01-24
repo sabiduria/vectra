@@ -105,7 +105,7 @@ class PaymentsController extends AppController
         $payment = $this->Payments->get($id);
 
         $payment->modifiedby = $session->read('Auth.Username');
-        $payment->deleted = 0;
+        $payment->deleted = 1;
 
         if ($this->Payments->save($payment)) {
             $this->Flash->success(__('The payment has been deleted.'));

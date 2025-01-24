@@ -102,7 +102,7 @@ class PackagingsController extends AppController
         $packaging = $this->Packagings->get($id);
 
         $packaging->modifiedby = $session->read('Auth.Username');
-        $packaging->deleted = 0;
+        $packaging->deleted = 1;
 
         if ($this->Packagings->save($packaging)) {
             $this->Flash->success(__('The packaging has been deleted.'));

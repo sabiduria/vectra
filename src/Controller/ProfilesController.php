@@ -102,7 +102,7 @@ class ProfilesController extends AppController
         $profile = $this->Profiles->get($id);
 
         $profile->modifiedby = $session->read('Auth.Username');
-        $profile->deleted = 0;
+        $profile->deleted = 1;
 
         if ($this->Profiles->save($profile)) {
             $this->Flash->success(__('The profile has been deleted.'));

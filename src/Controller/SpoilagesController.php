@@ -105,7 +105,7 @@ class SpoilagesController extends AppController
         $spoilage = $this->Spoilages->get($id);
 
         $spoilage->modifiedby = $session->read('Auth.Username');
-        $spoilage->deleted = 0;
+        $spoilage->deleted = 1;
 
         if ($this->Spoilages->save($spoilage)) {
             $this->Flash->success(__('The spoilage has been deleted.'));

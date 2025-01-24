@@ -102,7 +102,7 @@ class HolidaysController extends AppController
         $holiday = $this->Holidays->get($id);
 
         $holiday->modifiedby = $session->read('Auth.Username');
-        $holiday->deleted = 0;
+        $holiday->deleted = 1;
 
         if ($this->Holidays->save($holiday)) {
             $this->Flash->success(__('The holiday has been deleted.'));

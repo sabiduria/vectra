@@ -107,7 +107,7 @@ class ShopstocksController extends AppController
         $shopstock = $this->Shopstocks->get($id);
 
         $shopstock->modifiedby = $session->read('Auth.Username');
-        $shopstock->deleted = 0;
+        $shopstock->deleted = 1;
 
         if ($this->Shopstocks->save($shopstock)) {
             $this->Flash->success(__('The shopstock has been deleted.'));

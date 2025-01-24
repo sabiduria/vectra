@@ -102,7 +102,7 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
 
         $user->modifiedby = $session->read('Auth.Username');
-        $user->deleted = 0;
+        $user->deleted = 1;
 
         if ($this->Users->save($user)) {
             $this->Flash->success(__('The user has been deleted.'));

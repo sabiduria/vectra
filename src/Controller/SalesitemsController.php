@@ -109,7 +109,7 @@ class SalesitemsController extends AppController
         $salesitem = $this->Salesitems->get($id);
 
         $salesitem->modifiedby = $session->read('Auth.Username');
-        $salesitem->deleted = 0;
+        $salesitem->deleted = 1;
 
         if ($this->Salesitems->save($salesitem)) {
             $this->Flash->success(__('The salesitem has been deleted.'));

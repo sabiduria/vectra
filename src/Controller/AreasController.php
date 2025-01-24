@@ -102,7 +102,7 @@ class AreasController extends AppController
         $area = $this->Areas->get($id);
 
         $area->modifiedby = $session->read('Auth.Username');
-        $area->deleted = 0;
+        $area->deleted = 1;
 
         if ($this->Areas->save($area)) {
             $this->Flash->success(__('The area has been deleted.'));

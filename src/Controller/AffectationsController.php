@@ -109,7 +109,7 @@ class AffectationsController extends AppController
         $affectation = $this->Affectations->get($id);
 
         $affectation->modifiedby = $session->read('Auth.Username');
-        $affectation->deleted = 0;
+        $affectation->deleted = 1;
 
         if ($this->Affectations->save($affectation)) {
             $this->Flash->success(__('The affectation has been deleted.'));

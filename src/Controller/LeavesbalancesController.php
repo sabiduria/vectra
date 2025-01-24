@@ -107,7 +107,7 @@ class LeavesbalancesController extends AppController
         $leavesbalance = $this->Leavesbalances->get($id);
 
         $leavesbalance->modifiedby = $session->read('Auth.Username');
-        $leavesbalance->deleted = 0;
+        $leavesbalance->deleted = 1;
 
         if ($this->Leavesbalances->save($leavesbalance)) {
             $this->Flash->success(__('The leavesbalance has been deleted.'));

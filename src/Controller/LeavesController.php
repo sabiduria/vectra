@@ -109,7 +109,7 @@ class LeavesController extends AppController
         $leave = $this->Leaves->get($id);
 
         $leave->modifiedby = $session->read('Auth.Username');
-        $leave->deleted = 0;
+        $leave->deleted = 1;
 
         if ($this->Leaves->save($leave)) {
             $this->Flash->success(__('The leave has been deleted.'));

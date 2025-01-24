@@ -105,7 +105,7 @@ class PayrollsController extends AppController
         $payroll = $this->Payrolls->get($id);
 
         $payroll->modifiedby = $session->read('Auth.Username');
-        $payroll->deleted = 0;
+        $payroll->deleted = 1;
 
         if ($this->Payrolls->save($payroll)) {
             $this->Flash->success(__('The payroll has been deleted.'));

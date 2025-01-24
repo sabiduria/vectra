@@ -107,7 +107,7 @@ class AttendancesController extends AppController
         $attendance = $this->Attendances->get($id);
 
         $attendance->modifiedby = $session->read('Auth.Username');
-        $attendance->deleted = 0;
+        $attendance->deleted = 1;
 
         if ($this->Attendances->save($attendance)) {
             $this->Flash->success(__('The attendance has been deleted.'));

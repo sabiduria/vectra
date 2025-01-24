@@ -105,7 +105,7 @@ class PaymentstosuppliersController extends AppController
         $paymentstosupplier = $this->Paymentstosuppliers->get($id);
 
         $paymentstosupplier->modifiedby = $session->read('Auth.Username');
-        $paymentstosupplier->deleted = 0;
+        $paymentstosupplier->deleted = 1;
 
         if ($this->Paymentstosuppliers->save($paymentstosupplier)) {
             $this->Flash->success(__('The paymentstosupplier has been deleted.'));

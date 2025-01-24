@@ -107,7 +107,7 @@ class AccessrightsController extends AppController
         $accessright = $this->Accessrights->get($id);
 
         $accessright->modifiedby = $session->read('Auth.Username');
-        $accessright->deleted = 0;
+        $accessright->deleted = 1;
 
         if ($this->Accessrights->save($accessright)) {
             $this->Flash->success(__('The accessright has been deleted.'));

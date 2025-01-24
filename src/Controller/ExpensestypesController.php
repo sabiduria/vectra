@@ -102,7 +102,7 @@ class ExpensestypesController extends AppController
         $expensestype = $this->Expensestypes->get($id);
 
         $expensestype->modifiedby = $session->read('Auth.Username');
-        $expensestype->deleted = 0;
+        $expensestype->deleted = 1;
 
         if ($this->Expensestypes->save($expensestype)) {
             $this->Flash->success(__('The expensestype has been deleted.'));

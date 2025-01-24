@@ -102,7 +102,7 @@ class CurrenciesController extends AppController
         $currency = $this->Currencies->get($id);
 
         $currency->modifiedby = $session->read('Auth.Username');
-        $currency->deleted = 0;
+        $currency->deleted = 1;
 
         if ($this->Currencies->save($currency)) {
             $this->Flash->success(__('The currency has been deleted.'));

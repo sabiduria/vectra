@@ -105,7 +105,7 @@ class PromotionsproductsController extends AppController
         $promotionsproduct = $this->Promotionsproducts->get($id);
 
         $promotionsproduct->modifiedby = $session->read('Auth.Username');
-        $promotionsproduct->deleted = 0;
+        $promotionsproduct->deleted = 1;
 
         if ($this->Promotionsproducts->save($promotionsproduct)) {
             $this->Flash->success(__('The promotionsproduct has been deleted.'));

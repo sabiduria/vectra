@@ -102,7 +102,7 @@ class AuditlogsController extends AppController
         $auditlog = $this->Auditlogs->get($id);
 
         $auditlog->modifiedby = $session->read('Auth.Username');
-        $auditlog->deleted = 0;
+        $auditlog->deleted = 1;
 
         if ($this->Auditlogs->save($auditlog)) {
             $this->Flash->success(__('The auditlog has been deleted.'));

@@ -107,7 +107,7 @@ class PurchasesitemsController extends AppController
         $purchasesitem = $this->Purchasesitems->get($id);
 
         $purchasesitem->modifiedby = $session->read('Auth.Username');
-        $purchasesitem->deleted = 0;
+        $purchasesitem->deleted = 1;
 
         if ($this->Purchasesitems->save($purchasesitem)) {
             $this->Flash->success(__('The purchasesitem has been deleted.'));

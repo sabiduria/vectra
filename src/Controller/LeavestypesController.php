@@ -102,7 +102,7 @@ class LeavestypesController extends AppController
         $leavestype = $this->Leavestypes->get($id);
 
         $leavestype->modifiedby = $session->read('Auth.Username');
-        $leavestype->deleted = 0;
+        $leavestype->deleted = 1;
 
         if ($this->Leavestypes->save($leavestype)) {
             $this->Flash->success(__('The leavestype has been deleted.'));

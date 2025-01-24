@@ -102,7 +102,7 @@ class CategoriesController extends AppController
         $category = $this->Categories->get($id);
 
         $category->modifiedby = $session->read('Auth.Username');
-        $category->deleted = 0;
+        $category->deleted = 1;
 
         if ($this->Categories->save($category)) {
             $this->Flash->success(__('The category has been deleted.'));

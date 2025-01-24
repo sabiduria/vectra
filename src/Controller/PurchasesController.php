@@ -107,7 +107,7 @@ class PurchasesController extends AppController
         $purchase = $this->Purchases->get($id);
 
         $purchase->modifiedby = $session->read('Auth.Username');
-        $purchase->deleted = 0;
+        $purchase->deleted = 1;
 
         if ($this->Purchases->save($purchase)) {
             $this->Flash->success(__('The purchase has been deleted.'));

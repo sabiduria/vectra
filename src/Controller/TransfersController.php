@@ -105,7 +105,7 @@ class TransfersController extends AppController
         $transfer = $this->Transfers->get($id);
 
         $transfer->modifiedby = $session->read('Auth.Username');
-        $transfer->deleted = 0;
+        $transfer->deleted = 1;
 
         if ($this->Transfers->save($transfer)) {
             $this->Flash->success(__('The transfer has been deleted.'));

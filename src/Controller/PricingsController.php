@@ -107,7 +107,7 @@ class PricingsController extends AppController
         $pricing = $this->Pricings->get($id);
 
         $pricing->modifiedby = $session->read('Auth.Username');
-        $pricing->deleted = 0;
+        $pricing->deleted = 1;
 
         if ($this->Pricings->save($pricing)) {
             $this->Flash->success(__('The pricing has been deleted.'));

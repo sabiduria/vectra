@@ -107,7 +107,7 @@ class OrdersitemsController extends AppController
         $ordersitem = $this->Ordersitems->get($id);
 
         $ordersitem->modifiedby = $session->read('Auth.Username');
-        $ordersitem->deleted = 0;
+        $ordersitem->deleted = 1;
 
         if ($this->Ordersitems->save($ordersitem)) {
             $this->Flash->success(__('The ordersitem has been deleted.'));

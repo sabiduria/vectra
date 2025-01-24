@@ -105,7 +105,7 @@ class InventoriesController extends AppController
         $inventory = $this->Inventories->get($id);
 
         $inventory->modifiedby = $session->read('Auth.Username');
-        $inventory->deleted = 0;
+        $inventory->deleted = 1;
 
         if ($this->Inventories->save($inventory)) {
             $this->Flash->success(__('The inventory has been deleted.'));

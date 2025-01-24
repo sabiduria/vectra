@@ -102,7 +102,7 @@ class StatusesController extends AppController
         $status = $this->Statuses->get($id);
 
         $status->modifiedby = $session->read('Auth.Username');
-        $status->deleted = 0;
+        $status->deleted = 1;
 
         if ($this->Statuses->save($status)) {
             $this->Flash->success(__('The status has been deleted.'));

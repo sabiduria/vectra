@@ -109,7 +109,7 @@ class ProductsController extends AppController
         $product = $this->Products->get($id);
 
         $product->modifiedby = $session->read('Auth.Username');
-        $product->deleted = 0;
+        $product->deleted = 1;
 
         if ($this->Products->save($product)) {
             $this->Flash->success(__('The product has been deleted.'));

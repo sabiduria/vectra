@@ -102,7 +102,7 @@ class CustomersController extends AppController
         $customer = $this->Customers->get($id);
 
         $customer->modifiedby = $session->read('Auth.Username');
-        $customer->deleted = 0;
+        $customer->deleted = 1;
 
         if ($this->Customers->save($customer)) {
             $this->Flash->success(__('The customer has been deleted.'));

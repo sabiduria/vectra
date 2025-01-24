@@ -107,7 +107,7 @@ class ExpensesController extends AppController
         $expense = $this->Expenses->get($id);
 
         $expense->modifiedby = $session->read('Auth.Username');
-        $expense->deleted = 0;
+        $expense->deleted = 1;
 
         if ($this->Expenses->save($expense)) {
             $this->Flash->success(__('The expense has been deleted.'));

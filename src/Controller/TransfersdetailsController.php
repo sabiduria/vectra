@@ -107,7 +107,7 @@ class TransfersdetailsController extends AppController
         $transfersdetail = $this->Transfersdetails->get($id);
 
         $transfersdetail->modifiedby = $session->read('Auth.Username');
-        $transfersdetail->deleted = 0;
+        $transfersdetail->deleted = 1;
 
         if ($this->Transfersdetails->save($transfersdetail)) {
             $this->Flash->success(__('The transfersdetail has been deleted.'));

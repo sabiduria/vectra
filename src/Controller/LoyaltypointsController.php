@@ -105,7 +105,7 @@ class LoyaltypointsController extends AppController
         $loyaltypoint = $this->Loyaltypoints->get($id);
 
         $loyaltypoint->modifiedby = $session->read('Auth.Username');
-        $loyaltypoint->deleted = 0;
+        $loyaltypoint->deleted = 1;
 
         if ($this->Loyaltypoints->save($loyaltypoint)) {
             $this->Flash->success(__('The loyaltypoint has been deleted.'));

@@ -109,7 +109,7 @@ class SalesController extends AppController
         $sale = $this->Sales->get($id);
 
         $sale->modifiedby = $session->read('Auth.Username');
-        $sale->deleted = 0;
+        $sale->deleted = 1;
 
         if ($this->Sales->save($sale)) {
             $this->Flash->success(__('The sale has been deleted.'));

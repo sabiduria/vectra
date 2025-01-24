@@ -105,7 +105,7 @@ class ShopsController extends AppController
         $shop = $this->Shops->get($id);
 
         $shop->modifiedby = $session->read('Auth.Username');
-        $shop->deleted = 0;
+        $shop->deleted = 1;
 
         if ($this->Shops->save($shop)) {
             $this->Flash->success(__('The shop has been deleted.'));
