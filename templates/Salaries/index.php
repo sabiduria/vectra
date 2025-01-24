@@ -6,7 +6,7 @@
 $this->set('title_2', 'Salaries');
 ?>
 <div class="mt-3">
-    <?= $this->Html->link(__('New Salary'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
+    <?= $this->Html->link(__('Nouveau Salary'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
@@ -34,9 +34,9 @@ $this->set('title_2', 'Salaries');
                     <td><?= h($salary->modifiedby) ?></td>
                     <td><?= h($salary->deleted) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $salary->id], ['class' => 'btn btn-success btn-sm']) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $salary->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $salary->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                        <?= $this->Html->link(__('Details'), ['action' => 'view', $salary->id], ['class' => 'btn btn-success btn-sm']) ?>
+                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $salary->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $salary->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

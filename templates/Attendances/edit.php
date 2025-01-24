@@ -6,7 +6,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $attendancestypes
  */
 $this->set('title_2', 'Attendances');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($attendance) ?>

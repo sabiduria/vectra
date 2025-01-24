@@ -80,9 +80,9 @@
                             <td><?= h($expense->modifiedby) ?></td>
                             <td><?= h($expense->deleted) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Expenses', 'action' => 'view', $expense->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Expenses', 'action' => 'edit', $expense->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Expenses', 'action' => 'delete', $expense->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                                <?= $this->Html->link(__('Details'), ['controller' => 'Expenses', 'action' => 'view', $expense->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Editer'), ['controller' => 'Expenses', 'action' => 'edit', $expense->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Expenses', 'action' => 'delete', $expense->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

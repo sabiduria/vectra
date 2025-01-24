@@ -78,9 +78,9 @@
                             <td><?= h($accessright->modifiedby) ?></td>
                             <td><?= h($accessright->deleted) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Accessrights', 'action' => 'view', $accessright->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Accessrights', 'action' => 'edit', $accessright->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Accessrights', 'action' => 'delete', $accessright->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                                <?= $this->Html->link(__('Details'), ['controller' => 'Accessrights', 'action' => 'view', $accessright->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Editer'), ['controller' => 'Accessrights', 'action' => 'edit', $accessright->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Accessrights', 'action' => 'delete', $accessright->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -119,9 +119,9 @@
                             <td><?= h($affectation->modifiedby) ?></td>
                             <td><?= h($affectation->deleted) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Affectations', 'action' => 'view', $affectation->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Affectations', 'action' => 'edit', $affectation->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Affectations', 'action' => 'delete', $affectation->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                                <?= $this->Html->link(__('Details'), ['controller' => 'Affectations', 'action' => 'view', $affectation->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Editer'), ['controller' => 'Affectations', 'action' => 'edit', $affectation->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Affectations', 'action' => 'delete', $affectation->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

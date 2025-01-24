@@ -6,7 +6,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $expensestypes
  */
 $this->set('title_2', 'Expenses');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($expense) ?>

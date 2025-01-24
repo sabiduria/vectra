@@ -6,7 +6,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $resources
  */
 $this->set('title_2', 'Accessrights');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($accessright) ?>

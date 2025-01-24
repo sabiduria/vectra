@@ -76,9 +76,9 @@
                             <td><?= h($shop->modifiedby) ?></td>
                             <td><?= h($shop->deleted) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Shops', 'action' => 'view', $shop->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Shops', 'action' => 'edit', $shop->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Shops', 'action' => 'delete', $shop->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                                <?= $this->Html->link(__('Details'), ['controller' => 'Shops', 'action' => 'view', $shop->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Editer'), ['controller' => 'Shops', 'action' => 'edit', $shop->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Shops', 'action' => 'delete', $shop->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

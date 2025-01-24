@@ -7,7 +7,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $statuses
  */
 $this->set('title_2', 'Leaves');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($leave) ?>

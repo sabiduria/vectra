@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Profile $profile
  */
 $this->set('title_2', 'Profiles');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($profile) ?>

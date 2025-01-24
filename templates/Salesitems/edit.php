@@ -7,7 +7,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $packagings
  */
 $this->set('title_2', 'Salesitems');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($salesitem) ?>

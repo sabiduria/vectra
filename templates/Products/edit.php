@@ -7,11 +7,14 @@
  * @var string[]|\Cake\Collection\CollectionInterface $packagings
  */
 $this->set('title_2', 'Products');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($product) ?>
         <div class="row gy-2">
+            <div class="col-xl-12">
+                <?= $this->Form->control('image', ['class' => 'form-control', 'label' => 'image']); ?>
+            </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('supplier_id', ['options' => $suppliers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'supplier_id']); ?>
             </div>

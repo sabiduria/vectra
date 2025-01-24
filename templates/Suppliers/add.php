@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Supplier $supplier
  */
 $this->set('title_2', 'Suppliers');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($supplier) ?>

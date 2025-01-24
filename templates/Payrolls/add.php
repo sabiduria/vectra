@@ -5,7 +5,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $salaries
  */
 $this->set('title_2', 'Payrolls');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($payroll) ?>

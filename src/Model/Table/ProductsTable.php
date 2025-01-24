@@ -111,6 +111,11 @@ class ProductsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('image')
+            ->maxLength('image', 45)
+            ->allowEmptyFile('image');
+
+        $validator
             ->integer('supplier_id')
             ->notEmptyString('supplier_id');
 

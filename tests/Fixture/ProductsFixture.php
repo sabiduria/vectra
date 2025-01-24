@@ -20,6 +20,7 @@ class ProductsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'image' => 'Lorem ipsum dolor sit amet',
                 'supplier_id' => 1,
                 'category_id' => 1,
                 'reference' => 'Lorem ipsum dolor sit amet',
@@ -28,8 +29,8 @@ class ProductsFixture extends TestFixture
                 'specifications' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'notes' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'packaging_id' => 1,
-                'created' => '2025-01-17 14:10:49',
-                'modified' => '2025-01-17 14:10:49',
+                'created' => '2025-01-17 20:25:00',
+                'modified' => '2025-01-17 20:25:00',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

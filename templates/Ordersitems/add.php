@@ -6,7 +6,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $orders
  */
 $this->set('title_2', 'Ordersitems');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($ordersitem) ?>

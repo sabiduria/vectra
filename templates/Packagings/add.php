@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Packaging $packaging
  */
 $this->set('title_2', 'Packagings');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($packaging) ?>

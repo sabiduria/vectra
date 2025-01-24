@@ -7,7 +7,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $shops
  */
 $this->set('title_2', 'Affectations');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($affectation) ?>

@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Area $area
  */
 $this->set('title_2', 'Areas');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($area) ?>

@@ -5,7 +5,7 @@
  * @var string[]|\Cake\Collection\CollectionInterface $customers
  */
 $this->set('title_2', 'Loyaltypoints');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($loyaltypoint) ?>

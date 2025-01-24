@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Holiday $holiday
  */
 $this->set('title_2', 'Holidays');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($holiday) ?>

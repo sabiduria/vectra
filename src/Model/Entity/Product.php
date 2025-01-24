@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Product Entity
  *
  * @property int $id
+ * @property string|null $image
  * @property int $supplier_id
  * @property int $category_id
  * @property string|null $reference
@@ -49,6 +50,7 @@ class Product extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'image' => true,
         'supplier_id' => true,
         'category_id' => true,
         'reference' => true,

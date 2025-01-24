@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Resource $resource
  */
 $this->set('title_2', 'Resources');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($resource) ?>

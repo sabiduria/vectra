@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Expensestype $expensestype
  */
 $this->set('title_2', 'Expensestypes');
-$emptyText = "Please select";
+$emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($expensestype) ?>

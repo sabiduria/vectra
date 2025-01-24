@@ -62,6 +62,7 @@
                     <table class="table table-bordered">
                         <tr>
                             <th><?= __('Id') ?></th>
+                            <th><?= __('Image') ?></th>
                             <th><?= __('Supplier Id') ?></th>
                             <th><?= __('Category Id') ?></th>
                             <th><?= __('Reference') ?></th>
@@ -80,6 +81,7 @@
                         <?php foreach ($supplier->products as $product) : ?>
                         <tr>
                             <td><?= h($product->id) ?></td>
+                            <td><?= h($product->image) ?></td>
                             <td><?= h($product->supplier_id) ?></td>
                             <td><?= h($product->category_id) ?></td>
                             <td><?= h($product->reference) ?></td>
@@ -94,9 +96,9 @@
                             <td><?= h($product->modifiedby) ?></td>
                             <td><?= h($product->deleted) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Products', 'action' => 'view', $product->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Products', 'action' => 'edit', $product->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Products', 'action' => 'delete', $product->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                                <?= $this->Html->link(__('Details'), ['controller' => 'Products', 'action' => 'view', $product->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Editer'), ['controller' => 'Products', 'action' => 'edit', $product->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Products', 'action' => 'delete', $product->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -137,9 +139,9 @@
                             <td><?= h($purchase->modifiedby) ?></td>
                             <td><?= h($purchase->deleted) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Purchases', 'action' => 'view', $purchase->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Purchases', 'action' => 'edit', $purchase->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Purchases', 'action' => 'delete', $purchase->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Are you sure you want to delete this record ?')]) ?>
+                                <?= $this->Html->link(__('Details'), ['controller' => 'Purchases', 'action' => 'view', $purchase->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Editer'), ['controller' => 'Purchases', 'action' => 'edit', $purchase->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Purchases', 'action' => 'delete', $purchase->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
