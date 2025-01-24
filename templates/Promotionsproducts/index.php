@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Promotionsproduct> $promotionsproducts
  */
 $this->set('title_2', 'Promotionsproducts');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Promotionsproduct'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Promotionsproducts');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('percent') ?></th>
@@ -27,6 +29,7 @@ $this->set('title_2', 'Promotionsproducts');
             <tbody>
                 <?php foreach ($promotionsproducts as $promotionsproduct): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($promotionsproduct->id) ?></td>
                     <td><?= $promotionsproduct->hasValue('product') ? $this->Html->link($promotionsproduct->product->name, ['controller' => 'Products', 'action' => 'view', $promotionsproduct->product->id]) : '' ?></td>
                     <td><?= $promotionsproduct->percent === null ? '' : $this->Number->format($promotionsproduct->percent) ?></td>

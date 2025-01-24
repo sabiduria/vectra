@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Currency> $currencies
  */
 $this->set('title_2', 'Currencies');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Currency'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Currencies');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('short_name') ?></th>
@@ -25,6 +27,7 @@ $this->set('title_2', 'Currencies');
             <tbody>
                 <?php foreach ($currencies as $currency): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($currency->id) ?></td>
                     <td><?= h($currency->name) ?></td>
                     <td><?= h($currency->short_name) ?></td>

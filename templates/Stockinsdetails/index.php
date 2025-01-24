@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Stockinsdetail> $stockinsdetails
  */
 $this->set('title_2', 'Stockinsdetails');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Stockinsdetail'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Stockinsdetails');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('stockin_id') ?></th>
@@ -29,6 +31,7 @@ $this->set('title_2', 'Stockinsdetails');
             <tbody>
                 <?php foreach ($stockinsdetails as $stockinsdetail): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($stockinsdetail->id) ?></td>
                     <td><?= $stockinsdetail->hasValue('product') ? $this->Html->link($stockinsdetail->product->name, ['controller' => 'Products', 'action' => 'view', $stockinsdetail->product->id]) : '' ?></td>
                     <td><?= $stockinsdetail->hasValue('stockin') ? $this->Html->link($stockinsdetail->stockin->id, ['controller' => 'Stockins', 'action' => 'view', $stockinsdetail->stockin->id]) : '' ?></td>

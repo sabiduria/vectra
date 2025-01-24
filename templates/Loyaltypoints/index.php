@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Loyaltypoint> $loyaltypoints
  */
 $this->set('title_2', 'Loyaltypoints');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Loyaltypoint'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Loyaltypoints');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('customer_id') ?></th>
                     <th><?= $this->Paginator->sort('issuedpoints') ?></th>
@@ -26,6 +28,7 @@ $this->set('title_2', 'Loyaltypoints');
             <tbody>
                 <?php foreach ($loyaltypoints as $loyaltypoint): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($loyaltypoint->id) ?></td>
                     <td><?= $loyaltypoint->hasValue('customer') ? $this->Html->link($loyaltypoint->customer->name, ['controller' => 'Customers', 'action' => 'view', $loyaltypoint->customer->id]) : '' ?></td>
                     <td><?= $loyaltypoint->issuedpoints === null ? '' : $this->Number->format($loyaltypoint->issuedpoints) ?></td>

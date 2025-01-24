@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Accessright> $accessrights
  */
 $this->set('title_2', 'Accessrights');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Accessright'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Accessrights');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('profile_id') ?></th>
                     <th><?= $this->Paginator->sort('resource_id') ?></th>
@@ -31,6 +33,7 @@ $this->set('title_2', 'Accessrights');
             <tbody>
                 <?php foreach ($accessrights as $accessright): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($accessright->id) ?></td>
                     <td><?= $accessright->hasValue('profile') ? $this->Html->link($accessright->profile->name, ['controller' => 'Profiles', 'action' => 'view', $accessright->profile->id]) : '' ?></td>
                     <td><?= $accessright->hasValue('resource') ? $this->Html->link($accessright->resource->name, ['controller' => 'Resources', 'action' => 'view', $accessright->resource->id]) : '' ?></td>

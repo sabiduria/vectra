@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Customer> $customers
  */
 $this->set('title_2', 'Customers');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Customer'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Customers');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('phone') ?></th>
@@ -28,6 +30,7 @@ $this->set('title_2', 'Customers');
             <tbody>
                 <?php foreach ($customers as $customer): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($customer->id) ?></td>
                     <td><?= h($customer->name) ?></td>
                     <td><?= h($customer->phone) ?></td>

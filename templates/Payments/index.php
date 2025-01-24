@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Payment> $payments
  */
 $this->set('title_2', 'Payments');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Payment'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Payments');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('order_id') ?></th>
                     <th><?= $this->Paginator->sort('amount') ?></th>
@@ -25,6 +27,7 @@ $this->set('title_2', 'Payments');
             <tbody>
                 <?php foreach ($payments as $payment): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($payment->id) ?></td>
                     <td><?= $payment->hasValue('order') ? $this->Html->link($payment->order->id, ['controller' => 'Orders', 'action' => 'view', $payment->order->id]) : '' ?></td>
                     <td><?= $payment->amount === null ? '' : $this->Number->format($payment->amount) ?></td>

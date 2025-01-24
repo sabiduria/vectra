@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Category> $categories
  */
 $this->set('title_2', 'Categories');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Category'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Categories');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -24,6 +26,7 @@ $this->set('title_2', 'Categories');
             <tbody>
                 <?php foreach ($categories as $category): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($category->id) ?></td>
                     <td><?= h($category->name) ?></td>
                     <td><?= h($category->created) ?></td>

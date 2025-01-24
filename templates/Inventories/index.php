@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Inventory> $inventories
  */
 $this->set('title_2', 'Inventories');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Inventory'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Inventories');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('qty') ?></th>
@@ -26,6 +28,7 @@ $this->set('title_2', 'Inventories');
             <tbody>
                 <?php foreach ($inventories as $inventory): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($inventory->id) ?></td>
                     <td><?= $inventory->hasValue('product') ? $this->Html->link($inventory->product->name, ['controller' => 'Products', 'action' => 'view', $inventory->product->id]) : '' ?></td>
                     <td><?= $inventory->qty === null ? '' : $this->Number->format($inventory->qty) ?></td>

@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Spoilage> $spoilages
  */
 $this->set('title_2', 'Spoilages');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Spoilage'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Spoilages');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('qty') ?></th>
@@ -25,6 +27,7 @@ $this->set('title_2', 'Spoilages');
             <tbody>
                 <?php foreach ($spoilages as $spoilage): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($spoilage->id) ?></td>
                     <td><?= $spoilage->hasValue('product') ? $this->Html->link($spoilage->product->name, ['controller' => 'Products', 'action' => 'view', $spoilage->product->id]) : '' ?></td>
                     <td><?= $spoilage->qty === null ? '' : $this->Number->format($spoilage->qty) ?></td>

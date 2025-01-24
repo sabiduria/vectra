@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Transfersdetail> $transfersdetails
  */
 $this->set('title_2', 'Transfersdetails');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Transfersdetail'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Transfersdetails');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('transfer_id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
@@ -26,6 +28,7 @@ $this->set('title_2', 'Transfersdetails');
             <tbody>
                 <?php foreach ($transfersdetails as $transfersdetail): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($transfersdetail->id) ?></td>
                     <td><?= $transfersdetail->hasValue('transfer') ? $this->Html->link($transfersdetail->transfer->id, ['controller' => 'Transfers', 'action' => 'view', $transfersdetail->transfer->id]) : '' ?></td>
                     <td><?= $transfersdetail->hasValue('product') ? $this->Html->link($transfersdetail->product->name, ['controller' => 'Products', 'action' => 'view', $transfersdetail->product->id]) : '' ?></td>

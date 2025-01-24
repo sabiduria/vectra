@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Ordersitem> $ordersitems
  */
 $this->set('title_2', 'Ordersitems');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Ordersitem'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Ordersitems');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('order_id') ?></th>
@@ -28,6 +30,7 @@ $this->set('title_2', 'Ordersitems');
             <tbody>
                 <?php foreach ($ordersitems as $ordersitem): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($ordersitem->id) ?></td>
                     <td><?= $ordersitem->hasValue('product') ? $this->Html->link($ordersitem->product->name, ['controller' => 'Products', 'action' => 'view', $ordersitem->product->id]) : '' ?></td>
                     <td><?= $ordersitem->hasValue('order') ? $this->Html->link($ordersitem->order->id, ['controller' => 'Orders', 'action' => 'view', $ordersitem->order->id]) : '' ?></td>

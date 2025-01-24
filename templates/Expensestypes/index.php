@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Expensestype> $expensestypes
  */
 $this->set('title_2', 'Expensestypes');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Expensestype'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Expensestypes');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('monthy_amount') ?></th>
@@ -25,6 +27,7 @@ $this->set('title_2', 'Expensestypes');
             <tbody>
                 <?php foreach ($expensestypes as $expensestype): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($expensestype->id) ?></td>
                     <td><?= h($expensestype->name) ?></td>
                     <td><?= $expensestype->monthy_amount === null ? '' : $this->Number->format($expensestype->monthy_amount) ?></td>

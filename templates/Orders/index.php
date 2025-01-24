@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Order> $orders
  */
 $this->set('title_2', 'Orders');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Order'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Orders');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('customer_id') ?></th>
                     <th><?= $this->Paginator->sort('status_id') ?></th>
@@ -26,6 +28,7 @@ $this->set('title_2', 'Orders');
             <tbody>
                 <?php foreach ($orders as $order): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($order->id) ?></td>
                     <td><?= $order->hasValue('customer') ? $this->Html->link($order->customer->name, ['controller' => 'Customers', 'action' => 'view', $order->customer->id]) : '' ?></td>
                     <td><?= $order->hasValue('status') ? $this->Html->link($order->status->name, ['controller' => 'Statuses', 'action' => 'view', $order->status->id]) : '' ?></td>

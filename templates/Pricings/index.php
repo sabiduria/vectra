@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Pricing> $pricings
  */
 $this->set('title_2', 'Pricings');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Pricing'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Pricings');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('packaging_id') ?></th>
@@ -28,6 +30,7 @@ $this->set('title_2', 'Pricings');
             <tbody>
                 <?php foreach ($pricings as $pricing): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($pricing->id) ?></td>
                     <td><?= $pricing->hasValue('product') ? $this->Html->link($pricing->product->name, ['controller' => 'Products', 'action' => 'view', $pricing->product->id]) : '' ?></td>
                     <td><?= $pricing->hasValue('packaging') ? $this->Html->link($pricing->packaging->name, ['controller' => 'Packagings', 'action' => 'view', $pricing->packaging->id]) : '' ?></td>

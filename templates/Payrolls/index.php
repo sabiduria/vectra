@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Payroll> $payrolls
  */
 $this->set('title_2', 'Payrolls');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Payroll'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Payrolls');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('salary_id') ?></th>
                     <th><?= $this->Paginator->sort('period_start') ?></th>
@@ -31,6 +33,7 @@ $this->set('title_2', 'Payrolls');
             <tbody>
                 <?php foreach ($payrolls as $payroll): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($payroll->id) ?></td>
                     <td><?= $payroll->hasValue('salary') ? $this->Html->link($payroll->salary->id, ['controller' => 'Salaries', 'action' => 'view', $payroll->salary->id]) : '' ?></td>
                     <td><?= h($payroll->period_start) ?></td>

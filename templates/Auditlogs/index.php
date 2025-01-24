@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Auditlog> $auditlogs
  */
 $this->set('title_2', 'Auditlogs');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Auditlog'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Auditlogs');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('event_type') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -24,6 +26,7 @@ $this->set('title_2', 'Auditlogs');
             <tbody>
                 <?php foreach ($auditlogs as $auditlog): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($auditlog->id) ?></td>
                     <td><?= h($auditlog->event_type) ?></td>
                     <td><?= h($auditlog->created) ?></td>

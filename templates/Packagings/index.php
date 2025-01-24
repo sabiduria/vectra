@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Packaging> $packagings
  */
 $this->set('title_2', 'Packagings');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Packaging'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Packagings');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -24,6 +26,7 @@ $this->set('title_2', 'Packagings');
             <tbody>
                 <?php foreach ($packagings as $packaging): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($packaging->id) ?></td>
                     <td><?= h($packaging->name) ?></td>
                     <td><?= h($packaging->created) ?></td>

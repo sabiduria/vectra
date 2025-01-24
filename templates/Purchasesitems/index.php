@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Purchasesitem> $purchasesitems
  */
 $this->set('title_2', 'Purchasesitems');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Purchasesitem'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Purchasesitems');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('purchase_id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
@@ -26,6 +28,7 @@ $this->set('title_2', 'Purchasesitems');
             <tbody>
                 <?php foreach ($purchasesitems as $purchasesitem): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($purchasesitem->id) ?></td>
                     <td><?= $purchasesitem->hasValue('purchase') ? $this->Html->link($purchasesitem->purchase->id, ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase->id]) : '' ?></td>
                     <td><?= $purchasesitem->hasValue('product') ? $this->Html->link($purchasesitem->product->name, ['controller' => 'Products', 'action' => 'view', $purchasesitem->product->id]) : '' ?></td>

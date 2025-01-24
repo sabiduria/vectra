@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Exchangerate> $exchangerates
  */
 $this->set('title_2', 'Exchangerates');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Exchangerate'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Exchangerates');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('currency_from') ?></th>
                     <th><?= $this->Paginator->sort('currency_to') ?></th>
@@ -27,6 +29,7 @@ $this->set('title_2', 'Exchangerates');
             <tbody>
                 <?php foreach ($exchangerates as $exchangerate): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($exchangerate->id) ?></td>
                     <td><?= $exchangerate->currency_from === null ? '' : $this->Number->format($exchangerate->currency_from) ?></td>
                     <td><?= $exchangerate->currency_to === null ? '' : $this->Number->format($exchangerate->currency_to) ?></td>

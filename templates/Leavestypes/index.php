@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Leavestype> $leavestypes
  */
 $this->set('title_2', 'Leavestypes');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Leavestype'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Leavestypes');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('maxdaysperyear') ?></th>
@@ -25,6 +27,7 @@ $this->set('title_2', 'Leavestypes');
             <tbody>
                 <?php foreach ($leavestypes as $leavestype): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($leavestype->id) ?></td>
                     <td><?= h($leavestype->name) ?></td>
                     <td><?= $leavestype->maxdaysperyear === null ? '' : $this->Number->format($leavestype->maxdaysperyear) ?></td>

@@ -4,6 +4,7 @@
  * @var iterable<\App\Model\Entity\Attendance> $attendances
  */
 $this->set('title_2', 'Attendances');
+$Number = 1;
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouveau Attendance'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
@@ -11,6 +12,7 @@ $this->set('title_2', 'Attendances');
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('affectation_id') ?></th>
                     <th><?= $this->Paginator->sort('attendancestype_id') ?></th>
@@ -27,6 +29,7 @@ $this->set('title_2', 'Attendances');
             <tbody>
                 <?php foreach ($attendances as $attendance): ?>
                 <tr>
+                    <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($attendance->id) ?></td>
                     <td><?= $attendance->hasValue('affectation') ? $this->Html->link($attendance->affectation->id, ['controller' => 'Affectations', 'action' => 'view', $attendance->affectation->id]) : '' ?></td>
                     <td><?= $attendance->hasValue('attendancestype') ? $this->Html->link($attendance->attendancestype->name, ['controller' => 'Attendancestypes', 'action' => 'view', $attendance->attendancestype->id]) : '' ?></td>
