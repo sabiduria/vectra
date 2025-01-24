@@ -102,7 +102,7 @@ class SuppliersController extends AppController
         $supplier = $this->Suppliers->get($id);
 
         $supplier->modifiedby = $session->read('Auth.Username');
-        $supplier->deleted = 0;
+        $supplier->deleted = 1;
 
         if ($this->Suppliers->save($supplier)) {
             $this->Flash->success(__('The supplier has been deleted.'));
