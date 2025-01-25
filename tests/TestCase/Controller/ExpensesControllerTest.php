@@ -81,4 +81,15 @@ class ExpensesControllerTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test insert method
+     *
+     * @return void
+     * @uses \App\Controller\ExpensesController::insert()
+     */
+    public function testInsert(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

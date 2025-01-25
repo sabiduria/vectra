@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Salaries Controller
  *
@@ -114,5 +116,46 @@ class SalariesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $salary = $this->Salaries->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $salary = $this->Salaries->patchEntity($salary, $this->request->getData());
+
+            $salary->createdby = $session->read('Auth.Username');
+            $salary->modifiedby = $session->read('Auth.Username');
+            $salary->deleted = 0;
+
+            try{
+                if ($this->Salaries->save($salary)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $salary->toArray()
+                    ];
+                }else {
+                    $errors = $salary->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Inventories Controller
  *
@@ -114,5 +116,46 @@ class InventoriesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $inventory = $this->Inventories->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $inventory = $this->Inventories->patchEntity($inventory, $this->request->getData());
+
+            $inventory->createdby = $session->read('Auth.Username');
+            $inventory->modifiedby = $session->read('Auth.Username');
+            $inventory->deleted = 0;
+
+            try{
+                if ($this->Inventories->save($inventory)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $inventory->toArray()
+                    ];
+                }else {
+                    $errors = $inventory->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

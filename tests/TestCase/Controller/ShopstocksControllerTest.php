@@ -81,4 +81,15 @@ class ShopstocksControllerTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test insert method
+     *
+     * @return void
+     * @uses \App\Controller\ShopstocksController::insert()
+     */
+    public function testInsert(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

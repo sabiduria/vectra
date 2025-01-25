@@ -17,7 +17,7 @@ $emptyText = "Veuillez selectionner";
             </div>
         </div>
         <div class="mt-3 mb-3">
-            <?= $this->Form->button(__('Submit'), ['class'=>'btn btn-success']) ?>
+            <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
         </div>
     <?= $this->Form->end() ?>
 </div>

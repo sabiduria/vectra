@@ -83,4 +83,15 @@ class AffectationsControllerTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test insert method
+     *
+     * @return void
+     * @uses \App\Controller\AffectationsController::insert()
+     */
+    public function testInsert(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

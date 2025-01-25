@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Users Controller
  *
@@ -111,5 +113,46 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $user = $this->Users->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+
+            $user->createdby = $session->read('Auth.Username');
+            $user->modifiedby = $session->read('Auth.Username');
+            $user->deleted = 0;
+
+            try{
+                if ($this->Users->save($user)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $user->toArray()
+                    ];
+                }else {
+                    $errors = $user->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

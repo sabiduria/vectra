@@ -80,4 +80,15 @@ class PaymentstosuppliersControllerTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test insert method
+     *
+     * @return void
+     * @uses \App\Controller\PaymentstosuppliersController::insert()
+     */
+    public function testInsert(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

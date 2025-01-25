@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Purchasesitems Controller
  *
@@ -116,5 +118,46 @@ class PurchasesitemsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $purchasesitem = $this->Purchasesitems->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $purchasesitem = $this->Purchasesitems->patchEntity($purchasesitem, $this->request->getData());
+
+            $purchasesitem->createdby = $session->read('Auth.Username');
+            $purchasesitem->modifiedby = $session->read('Auth.Username');
+            $purchasesitem->deleted = 0;
+
+            try{
+                if ($this->Purchasesitems->save($purchasesitem)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $purchasesitem->toArray()
+                    ];
+                }else {
+                    $errors = $purchasesitem->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

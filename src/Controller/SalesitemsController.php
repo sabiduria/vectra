@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Salesitems Controller
  *
@@ -118,5 +120,46 @@ class SalesitemsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $salesitem = $this->Salesitems->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $salesitem = $this->Salesitems->patchEntity($salesitem, $this->request->getData());
+
+            $salesitem->createdby = $session->read('Auth.Username');
+            $salesitem->modifiedby = $session->read('Auth.Username');
+            $salesitem->deleted = 0;
+
+            try{
+                if ($this->Salesitems->save($salesitem)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $salesitem->toArray()
+                    ];
+                }else {
+                    $errors = $salesitem->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

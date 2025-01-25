@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Paymentstosuppliers Controller
  *
@@ -114,5 +116,46 @@ class PaymentstosuppliersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $paymentstosupplier = $this->Paymentstosuppliers->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $paymentstosupplier = $this->Paymentstosuppliers->patchEntity($paymentstosupplier, $this->request->getData());
+
+            $paymentstosupplier->createdby = $session->read('Auth.Username');
+            $paymentstosupplier->modifiedby = $session->read('Auth.Username');
+            $paymentstosupplier->deleted = 0;
+
+            try{
+                if ($this->Paymentstosuppliers->save($paymentstosupplier)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $paymentstosupplier->toArray()
+                    ];
+                }else {
+                    $errors = $paymentstosupplier->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

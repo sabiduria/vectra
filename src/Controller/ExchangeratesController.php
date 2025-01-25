@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Exchangerates Controller
  *
@@ -111,5 +113,46 @@ class ExchangeratesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $exchangerate = $this->Exchangerates->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $exchangerate = $this->Exchangerates->patchEntity($exchangerate, $this->request->getData());
+
+            $exchangerate->createdby = $session->read('Auth.Username');
+            $exchangerate->modifiedby = $session->read('Auth.Username');
+            $exchangerate->deleted = 0;
+
+            try{
+                if ($this->Exchangerates->save($exchangerate)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $exchangerate->toArray()
+                    ];
+                }else {
+                    $errors = $exchangerate->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Profiles Controller
  *
@@ -111,5 +113,46 @@ class ProfilesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $profile = $this->Profiles->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $profile = $this->Profiles->patchEntity($profile, $this->request->getData());
+
+            $profile->createdby = $session->read('Auth.Username');
+            $profile->modifiedby = $session->read('Auth.Username');
+            $profile->deleted = 0;
+
+            try{
+                if ($this->Profiles->save($profile)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $profile->toArray()
+                    ];
+                }else {
+                    $errors = $profile->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

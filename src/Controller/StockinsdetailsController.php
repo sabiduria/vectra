@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Stockinsdetails Controller
  *
@@ -116,5 +118,46 @@ class StockinsdetailsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Insert method
+     */
+    public function insert()
+    {
+        $this->request->allowMethod(['ajax', 'post']);
+        $session = $this->request->getSession();
+        $stockinsdetail = $this->Stockinsdetails->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $stockinsdetail = $this->Stockinsdetails->patchEntity($stockinsdetail, $this->request->getData());
+
+            $stockinsdetail->createdby = $session->read('Auth.Username');
+            $stockinsdetail->modifiedby = $session->read('Auth.Username');
+            $stockinsdetail->deleted = 0;
+
+            try{
+                if ($this->Stockinsdetails->save($stockinsdetail)) {
+                    $response = [
+                        'message' => 'Data saved successfully!',
+                        'data' => $stockinsdetail->toArray()
+                    ];
+                }else {
+                    $errors = $stockinsdetail->getErrors();
+                    $response = ['message' => 'Failed to save data.', 'errors' => $errors];
+                }
+            }
+            catch (Exception $e) {
+                $response = ['message' => 'An error occurred: ' . $e->getMessage()];
+            }
+            // Set the response type to JSON
+            $this->response = $this->response->withType('application/json');
+
+            // Serialize the response to JSON
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']); // Automatically serializes the response variable as JSON
+
+            // Ensure the response is sent as JSON (no need for a view)
+            return $this->response->withStringBody(json_encode($response));
+        }
     }
 }

@@ -81,4 +81,15 @@ class TransfersControllerTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test insert method
+     *
+     * @return void
+     * @uses \App\Controller\TransfersController::insert()
+     */
+    public function testInsert(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }
