@@ -172,6 +172,24 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <li class="slide has-sub">
+            <a href="javascript:void(0);" class="side-menu__item">
+                <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                <i class="fa-thin fa-users w-6 h-6 side-menu__icon"></i>
+                <span class="side-menu__label">Employés</span>
+            </a>
+            <ul class="slide-menu child1">
+                <li class="slide">
+                    <?= $this->Html->link('Internes', ['controller' => 'users', 'action' => 'index', 'Intern'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Externes', ['controller' => 'users', 'action' => 'index', 'Extern'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+            </ul>
+        </li>
+        <!-- End::slide -->
+
+        <!-- Start::slide -->
         <li class="slide">
             <?= $this->Html->link('<i class="fa-thin fa-calendar-check w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Présences</span>', ['controller' => 'attendances', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
         </li>

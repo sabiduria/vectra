@@ -106,6 +106,11 @@ class UsersTable extends Table
             ->allowEmptyString('leave_days_month');
 
         $validator
+            ->scalar('employeetype')
+            ->maxLength('employeetype', 45)
+            ->allowEmptyString('employeetype');
+
+        $validator
             ->scalar('username')
             ->maxLength('username', 45)
             ->allowEmptyString('username');
