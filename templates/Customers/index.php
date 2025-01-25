@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Customer> $customers
  */
-$this->set('title_2', 'Customers');
+$this->set('title_2', 'Clients');
 $Number = 1;
 ?>
 <div class="mt-3">
@@ -11,16 +11,16 @@ $Number = 1;
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('Nom') ?></th>
-                    <th><?= $this->Paginator->sort('Telephome') ?></th>
-                    <th><?= $this->Paginator->sort('Username') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+            <tr>
+                <th><?= $this->Paginator->sort('N°') ?></th>
+                <th><?= $this->Paginator->sort('Nom') ?></th>
+                <th><?= $this->Paginator->sort('Telephome') ?></th>
+                <th><?= $this->Paginator->sort('Username') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($customers as $customer): ?>
+            <?php foreach ($customers as $customer): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
                     <td><?= h($customer->name) ?></td>
@@ -32,7 +32,7 @@ $Number = 1;
                         <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $customer->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
@@ -41,33 +41,33 @@ $Number = 1;
 <div class="offcanvas offcanvas-end" tabindex="-1" id="NewItem"
      aria-labelledby="offcanvasRightLabel1">
     <div class="offcanvas-header border-bottom border-block-end-dashed">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Customers</h5>
+        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Client</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-3">
         <div class="row">
             <div id="response"></div>
-<div class="mt-3">
-    <?= $this->Form->create(null, ['id' => 'DataForm']);?>
-        <div class="row gy-2">
-            <div class="col-xl-12">
-                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Nom']); ?>
+            <div class="mt-3">
+                <?= $this->Form->create(null, ['id' => 'DataForm']);?>
+                <div class="row gy-2">
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Nom']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('phone', ['class' => 'form-control', 'label' => 'Telephone']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('username', ['class' => 'form-control', 'label' => 'Username']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('password', ['class' => 'form-control', 'label' => 'Mot de passe']); ?>
+                    </div>
+                </div>
+                <div class="mt-3 mb-3">
+                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                </div>
+                <?= $this->Form->end() ?>
             </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('phone', ['class' => 'form-control', 'label' => 'Telephone']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('username', ['class' => 'form-control', 'label' => 'Username']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('password', ['class' => 'form-control', 'label' => 'Mot de passe']); ?>
-            </div>
-        </div>
-        <div class="mt-3 mb-3">
-            <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
-        </div>
-    <?= $this->Form->end() ?>
-</div>
 
         </div>
     </div>
