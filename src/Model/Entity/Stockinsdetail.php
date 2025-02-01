@@ -13,9 +13,11 @@ use Cake\ORM\Entity;
  * @property int $stockin_id
  * @property int|null $room_id
  * @property float|null $purchase_price
+ * @property float|null $tax
  * @property string|null $barcode
  * @property float|null $qty
  * @property \Cake\I18n\Date|null $expiry_date
+ * @property int|null $entry_state
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -24,6 +26,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Product $product
  * @property \App\Model\Entity\Stockin $stockin
+ * @property \App\Model\Entity\Room $room
  */
 class Stockinsdetail extends Entity
 {
@@ -41,9 +44,11 @@ class Stockinsdetail extends Entity
         'stockin_id' => true,
         'room_id' => true,
         'purchase_price' => true,
+        'tax' => true,
         'barcode' => true,
         'qty' => true,
         'expiry_date' => true,
+        'entry_state' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,
@@ -51,5 +56,6 @@ class Stockinsdetail extends Entity
         'deleted' => true,
         'product' => true,
         'stockin' => true,
+        'room' => true,
     ];
 }

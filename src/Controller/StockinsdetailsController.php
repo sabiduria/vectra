@@ -20,7 +20,7 @@ class StockinsdetailsController extends AppController
     public function index()
     {
         $query = $this->Stockinsdetails->find()->where(['Stockinsdetails.deleted' => 0])
-            ->contain(['Products', 'Stockins']);
+            ->contain(['Products', 'Stockins', 'Rooms']);
         $stockinsdetails = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('stockinsdetails'));
@@ -35,7 +35,7 @@ class StockinsdetailsController extends AppController
      */
     public function view($id = null)
     {
-        $stockinsdetail = $this->Stockinsdetails->get($id, contain: ['Products', 'Stockins']);
+        $stockinsdetail = $this->Stockinsdetails->get($id, contain: ['Products', 'Stockins', 'Rooms']);
         $this->set(compact('stockinsdetail'));
     }
 
@@ -64,7 +64,8 @@ class StockinsdetailsController extends AppController
         }
         $products = $this->Stockinsdetails->Products->find('list', limit: 200)->all();
         $stockins = $this->Stockinsdetails->Stockins->find('list', limit: 200)->all();
-        $this->set(compact('stockinsdetail', 'products', 'stockins'));
+        $rooms = $this->Stockinsdetails->Rooms->find('list', limit: 200)->all();
+        $this->set(compact('stockinsdetail', 'products', 'stockins', 'rooms'));
     }
 
     /**
@@ -92,7 +93,8 @@ class StockinsdetailsController extends AppController
         }
         $products = $this->Stockinsdetails->Products->find('list', limit: 200)->all();
         $stockins = $this->Stockinsdetails->Stockins->find('list', limit: 200)->all();
-        $this->set(compact('stockinsdetail', 'products', 'stockins'));
+        $rooms = $this->Stockinsdetails->Rooms->find('list', limit: 200)->all();
+        $this->set(compact('stockinsdetail', 'products', 'stockins', 'rooms'));
     }
 
     /**

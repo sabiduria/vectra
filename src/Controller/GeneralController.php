@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
+use Cake\I18n\DateTime;
 use Cake\ORM\TableRegistry;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -97,5 +98,101 @@ class GeneralController extends AppController
     {
         $diff = strtotime($date2) - strtotime($date1);
         return abs(round($diff / 86400));
+    }
+
+    public static function NewPricings($product_id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username){
+        $connection = ConnectionManager::get('default');
+
+        $connection->insert('pricings', [
+            'product_id' => $product_id,
+            'packaging_id' => $packaging_id,
+            'unit_price' => $unit_price,
+            'wholesale_price' => $wholesale_price,
+            'special_price' => $special_price,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+    }
+
+    public static function NewShopStocks($product_id, $room_id, $stock, $stock_min, $stock_max, $username): void
+    {
+        $connection = ConnectionManager::get('default');
+
+        $connection->insert('shopstocks', [
+            'product_id' => $product_id,
+            'room_id' => $room_id,
+            'stock' => $stock,
+            'stock_min' => $stock_min,
+            'stock_max' => $stock_max,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+    }
+
+    public static function NewStockInsDetails($product_id, $room_id, $purchase_price, $tax, $barcode, $qty, $expiry_date, $username): void
+    {
+        $connection = ConnectionManager::get('default');
+
+        $connection->insert('stockinsdetails', [
+            'product_id' => $product_id,
+            'stockin_id' => self::getLastIdInsertedBy($username, 'stockins'),
+            'room_id' => $room_id,
+            'purchase_price' => $purchase_price,
+            'tax' => $tax,
+            'barcode' => $barcode,
+            'qty' => $qty,
+            'expiry_date' => $expiry_date,
+            'entry_state' => 1,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+    }
+
+    public static function NewStockIns($shop_id, $username): void
+    {
+        $connection = ConnectionManager::get('default');
+
+        $connection->insert('stockins', [
+            'entrytype_id' => 1,
+            'shop_id' => $shop_id,
+            'reference' => self::generateReference('Stockins', 'ENT'),
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+    }
+
+    public static function getLastIdInsertedBy($username, $tableName): ?int
+    {
+        $table = TableRegistry::getTableLocator()->get($tableName)
+            ->find()
+            ->select(['id'])
+            //->where(['createdby' => $username])
+            ->orderByDesc('id')
+            ->first();
+
+        return $table ? $table->id : null;
+    }
+
+    public static function getShopIdFromRoom($room_id): ?int
+    {
+        $table = TableRegistry::getTableLocator()->get('Rooms')
+            ->find()
+            ->select(['shops_id'])
+            ->where(['id' => $room_id])
+            ->first();
+
+        return $table ? $table->shops_id : null;
     }
 }

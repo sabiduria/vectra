@@ -11,6 +11,10 @@
             <h3><?= h($stockin->id) ?></h3>
             <table class="table">
                 <tr>
+                    <th><?= __('Entrytype') ?></th>
+                    <td><?= $stockin->hasValue('entrytype') ? $this->Html->link($stockin->entrytype->name, ['controller' => 'Entrytypes', 'action' => 'view', $stockin->entrytype->id]) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Shop') ?></th>
                     <td><?= $stockin->hasValue('shop') ? $this->Html->link($stockin->shop->name, ['controller' => 'Shops', 'action' => 'view', $stockin->shop->id]) : '' ?></td>
                 </tr>
@@ -52,6 +56,7 @@
                             <th><?= __('Id') ?></th>
                             <th><?= __('Product Id') ?></th>
                             <th><?= __('Stockin Id') ?></th>
+                            <th><?= __('Room Id') ?></th>
                             <th><?= __('Purchase Price') ?></th>
                             <th><?= __('Barcode') ?></th>
                             <th><?= __('Qty') ?></th>
@@ -68,6 +73,7 @@
                             <td><?= h($stockinsdetail->id) ?></td>
                             <td><?= h($stockinsdetail->product_id) ?></td>
                             <td><?= h($stockinsdetail->stockin_id) ?></td>
+                            <td><?= h($stockinsdetail->room_id) ?></td>
                             <td><?= h($stockinsdetail->purchase_price) ?></td>
                             <td><?= h($stockinsdetail->barcode) ?></td>
                             <td><?= h($stockinsdetail->qty) ?></td>

@@ -65,21 +65,52 @@ class ProductsController extends AppController
             }
             /*8888888888888888888888888888888888888 -Image- 8888888888888888888888888888888888888888*/
 
+            $room_id = $this->request->getData('room_id');
+            $packaging_id = $this->request->getData('packaging_id');
+            $unit_price = $this->request->getData('unit_price');
+            $wholesale_price = $this->request->getData('wholesale_price');
+            $special_price = $this->request->getData('special_price');
+            $stock = $this->request->getData('stock');
+            $stock_min = $this->request->getData('stock_min');
+            $stock_max = $this->request->getData('stock_max');
+            $purchase_price = $this->request->getData('purchase_price');
+            $tax = $this->request->getData('tax');
+            $barcode = $this->request->getData('barcode');
+            $qty = $this->request->getData('stock');
+            $expiry_date = $this->request->getData('expiry_date');
+
+            $username = $session->read('Auth.Username');
             $product->createdby = $session->read('Auth.Username');
             $product->modifiedby = $session->read('Auth.Username');
             $product->deleted = 0;
 
             if ($this->Products->save($product)) {
+
+                $shop_id = GeneralController::getShopIdFromRoom($room_id);
+                GeneralController::NewStockIns($shop_id, $username);
+                GeneralController::NewPricings($product->id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username);
+                GeneralController::NewShopStocks($product->id, $room_id, $stock, $stock_min, $stock_max, $username);
+                GeneralController::NewStockInsDetails($product->id, $room_id, $purchase_price, $tax, $barcode, $qty, $expiry_date, $username);
+
                 $this->Flash->success(__('The product has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $product->id]);
             }
             $this->Flash->error(__('The product could not be saved. Please, try again.'));
         }
         $suppliers = $this->Products->Suppliers->find('list', limit: 200)->all();
         $categories = $this->Products->Categories->find('list', limit: 200)->all();
         $packagings = $this->Products->Packagings->find('list', limit: 200)->all();
-        $this->set(compact('product', 'suppliers', 'categories', 'packagings'));
+        $rooms = $this->fetchTable('Rooms')
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => function ($room) {
+                    return $room->name . ' - ' . $room->shop->name;
+                }
+            ])
+            ->contain(['Shops'])
+            ->all();
+        $this->set(compact('product', 'suppliers', 'categories', 'packagings', 'rooms'));
     }
 
     /**

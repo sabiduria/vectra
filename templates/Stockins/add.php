@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Stockin $stockin
+ * @var \Cake\Collection\CollectionInterface|string[] $entrytypes
  * @var \Cake\Collection\CollectionInterface|string[] $shops
  */
 $this->set('title_2', 'Stockins');
@@ -10,6 +11,9 @@ $emptyText = "Veuillez selectionner";
 <div class="mt-3">
     <?= $this->Form->create($stockin) ?>
         <div class="row gy-2">
+            <div class="col-xl-12">
+                <?= $this->Form->control('entrytype_id', ['options' => $entrytypes, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'entrytype_id']); ?>
+            </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('shop_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shop_id']); ?>
             </div>

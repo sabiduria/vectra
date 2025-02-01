@@ -5,6 +5,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $suppliers
  * @var \Cake\Collection\CollectionInterface|string[] $categories
  * @var \Cake\Collection\CollectionInterface|string[] $packagings
+ * @var iterable<\App\Model\Entity\Room> $rooms
  */
 $this->set('title_2', 'Articles');
 $emptyText = "Veuillez selectionner";
@@ -56,8 +57,28 @@ $emptyText = "Veuillez selectionner";
                 <div class="col-xl-6">
                     <?= $this->Form->control('stock_max', ['type' => 'number', 'min' => '0', 'step' => '0.1', 'class' => 'form-control', 'label' => 'Stock Maximum']); ?>
                 </div>
-                <div class="col-xl-12">
-                    <?= $this->Form->control('room_id', ['options' => $packagings, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Lieu de conservation']); ?>
+                <div class="col-xl-6">
+                    <?= $this->Form->control('expiry_date', ['type' => 'date', 'min' => date('Y-m-d'), 'step' => '0.1', 'class' => 'form-control', 'label' => 'Date Expiration']); ?>
+                </div>
+                <div class="col-xl-6 mb-4">
+                    <?= $this->Form->control('room_id', ['options' => $rooms, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Lieu de conservation']); ?>
+                </div>
+                <hr>
+                <h6>Information sur le Prix</h6>
+                <div class="col-xl-6">
+                    <?= $this->Form->control('purchase_price', ['type' => 'number', 'min' => '0', 'step' => '0.1', 'class' => 'form-control', 'label' => 'Prix d\'achat']); ?>
+                </div>
+                <div class="col-xl-6">
+                    <?= $this->Form->control('tax', ['type' => 'number', 'min' => '0', 'step' => '0.1', 'class' => 'form-control', 'label' => 'Taxes']); ?>
+                </div>
+                <div class="col-xl-4">
+                    <?= $this->Form->control('unit_price', ['type' => 'number', 'min' => '0', 'step' => '0.1', 'class' => 'form-control', 'label' => 'Prix Unitaire (Vente)']); ?>
+                </div>
+                <div class="col-xl-4">
+                    <?= $this->Form->control('wholesale_price', ['type' => 'number', 'min' => '0', 'step' => '0.1', 'class' => 'form-control', 'label' => 'Prix de Gros (Vente)']); ?>
+                </div>
+                <div class="col-xl-4">
+                    <?= $this->Form->control('special_price', ['type' => 'number', 'min' => '0', 'step' => '0.1', 'class' => 'form-control', 'label' => 'Prix Special (Vente)']); ?>
                 </div>
             </div>
         </div>

@@ -19,6 +19,10 @@
                     <td><?= $stockinsdetail->hasValue('stockin') ? $this->Html->link($stockinsdetail->stockin->id, ['controller' => 'Stockins', 'action' => 'view', $stockinsdetail->stockin->id]) : '' ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Room') ?></th>
+                    <td><?= $stockinsdetail->hasValue('room') ? $this->Html->link($stockinsdetail->room->name, ['controller' => 'Rooms', 'action' => 'view', $stockinsdetail->room->id]) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Barcode') ?></th>
                     <td><?= h($stockinsdetail->barcode) ?></td>
                 </tr>
@@ -35,16 +39,20 @@
                     <td><?= $this->Number->format($stockinsdetail->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Room Id') ?></th>
-                    <td><?= $stockinsdetail->room_id === null ? '' : $this->Number->format($stockinsdetail->room_id) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Purchase Price') ?></th>
                     <td><?= $stockinsdetail->purchase_price === null ? '' : $this->Number->format($stockinsdetail->purchase_price) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Tax') ?></th>
+                    <td><?= $stockinsdetail->tax === null ? '' : $this->Number->format($stockinsdetail->tax) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Qty') ?></th>
                     <td><?= $stockinsdetail->qty === null ? '' : $this->Number->format($stockinsdetail->qty) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Entry State') ?></th>
+                    <td><?= $stockinsdetail->entry_state === null ? '' : $this->Number->format($stockinsdetail->entry_state) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Expiry Date') ?></th>

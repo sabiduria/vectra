@@ -25,6 +25,7 @@ class StockinsTableTest extends TestCase
      */
     protected array $fixtures = [
         'app.Stockins',
+        'app.Entrytypes',
         'app.Shops',
         'app.Stockinsdetails',
     ];

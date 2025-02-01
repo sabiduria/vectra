@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Stockin Entity
  *
  * @property int $id
+ * @property int $entrytype_id
  * @property int $shop_id
  * @property string|null $reference
  * @property \Cake\I18n\DateTime|null $created
@@ -17,6 +18,7 @@ use Cake\ORM\Entity;
  * @property string|null $modifiedby
  * @property bool|null $deleted
  *
+ * @property \App\Model\Entity\Entrytype $entrytype
  * @property \App\Model\Entity\Shop $shop
  * @property \App\Model\Entity\Stockinsdetail[] $stockinsdetails
  */
@@ -32,6 +34,7 @@ class Stockin extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'entrytype_id' => true,
         'shop_id' => true,
         'reference' => true,
         'created' => true,
@@ -39,6 +42,7 @@ class Stockin extends Entity
         'createdby' => true,
         'modifiedby' => true,
         'deleted' => true,
+        'entrytype' => true,
         'shop' => true,
         'stockinsdetails' => true,
     ];

@@ -27,6 +27,7 @@ class StockinsdetailsTableTest extends TestCase
         'app.Stockinsdetails',
         'app.Products',
         'app.Stockins',
+        'app.Rooms',
     ];
 
     /**

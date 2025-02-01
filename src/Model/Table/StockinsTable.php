@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Stockins Model
  *
+ * @property \App\Model\Table\EntrytypesTable&\Cake\ORM\Association\BelongsTo $Entrytypes
  * @property \App\Model\Table\ShopsTable&\Cake\ORM\Association\BelongsTo $Shops
  * @property \App\Model\Table\StockinsdetailsTable&\Cake\ORM\Association\HasMany $Stockinsdetails
  *
@@ -48,6 +49,10 @@ class StockinsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Entrytypes', [
+            'foreignKey' => 'entrytype_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Shops', [
             'foreignKey' => 'shop_id',
             'joinType' => 'INNER',
@@ -65,6 +70,10 @@ class StockinsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
+        $validator
+            ->integer('entrytype_id')
+            ->notEmptyString('entrytype_id');
+
         $validator
             ->integer('shop_id')
             ->notEmptyString('shop_id');
@@ -100,6 +109,7 @@ class StockinsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['entrytype_id'], 'Entrytypes'), ['errorField' => 'entrytype_id']);
         $rules->add($rules->existsIn(['shop_id'], 'Shops'), ['errorField' => 'shop_id']);
 
         return $rules;

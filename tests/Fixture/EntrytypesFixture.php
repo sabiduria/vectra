@@ -21,8 +21,8 @@ class EntrytypesFixture extends TestFixture
             [
                 'id' => 1,
                 'name' => 'Lorem ipsum dolor sit amet',
-                'created' => '2025-02-01 19:10:05',
-                'modified' => '2025-02-01 19:10:05',
+                'created' => '2025-02-01 19:10:26',
+                'modified' => '2025-02-01 19:10:26',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

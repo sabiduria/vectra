@@ -20,7 +20,7 @@ class StockinsController extends AppController
     public function index()
     {
         $query = $this->Stockins->find()->where(['Stockins.deleted' => 0])
-            ->contain(['Shops']);
+            ->contain(['Entrytypes', 'Shops']);
         $stockins = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('stockins'));
@@ -35,7 +35,7 @@ class StockinsController extends AppController
      */
     public function view($id = null)
     {
-        $stockin = $this->Stockins->get($id, contain: ['Shops', 'Stockinsdetails']);
+        $stockin = $this->Stockins->get($id, contain: ['Entrytypes', 'Shops', 'Stockinsdetails']);
         $this->set(compact('stockin'));
     }
 
@@ -62,8 +62,9 @@ class StockinsController extends AppController
             }
             $this->Flash->error(__('The stockin could not be saved. Please, try again.'));
         }
+        $entrytypes = $this->Stockins->Entrytypes->find('list', limit: 200)->all();
         $shops = $this->Stockins->Shops->find('list', limit: 200)->all();
-        $this->set(compact('stockin', 'shops'));
+        $this->set(compact('stockin', 'entrytypes', 'shops'));
     }
 
     /**
@@ -89,8 +90,9 @@ class StockinsController extends AppController
             }
             $this->Flash->error(__('The stockin could not be saved. Please, try again.'));
         }
+        $entrytypes = $this->Stockins->Entrytypes->find('list', limit: 200)->all();
         $shops = $this->Stockins->Shops->find('list', limit: 200)->all();
-        $this->set(compact('stockin', 'shops'));
+        $this->set(compact('stockin', 'entrytypes', 'shops'));
     }
 
     /**

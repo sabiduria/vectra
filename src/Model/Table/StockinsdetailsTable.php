@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ProductsTable&\Cake\ORM\Association\BelongsTo $Products
  * @property \App\Model\Table\StockinsTable&\Cake\ORM\Association\BelongsTo $Stockins
+ * @property \App\Model\Table\RoomsTable&\Cake\ORM\Association\BelongsTo $Rooms
  *
  * @method \App\Model\Entity\Stockinsdetail newEmptyEntity()
  * @method \App\Model\Entity\Stockinsdetail newEntity(array $data, array $options = [])
@@ -86,6 +87,10 @@ class StockinsdetailsTable extends Table
             ->allowEmptyString('purchase_price');
 
         $validator
+            ->numeric('tax')
+            ->allowEmptyString('tax');
+
+        $validator
             ->scalar('barcode')
             ->maxLength('barcode', 45)
             ->allowEmptyString('barcode');
@@ -97,6 +102,10 @@ class StockinsdetailsTable extends Table
         $validator
             ->date('expiry_date')
             ->allowEmptyDate('expiry_date');
+
+        $validator
+            ->integer('entry_state')
+            ->allowEmptyString('entry_state');
 
         $validator
             ->scalar('createdby')

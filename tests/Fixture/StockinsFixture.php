@@ -20,10 +20,11 @@ class StockinsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'entrytype_id' => 1,
                 'shop_id' => 1,
                 'reference' => 'Lorem ipsum dolor sit amet',
-                'created' => '2025-01-17 14:10:52',
-                'modified' => '2025-01-17 14:10:52',
+                'created' => '2025-02-01 19:10:24',
+                'modified' => '2025-02-01 19:10:24',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

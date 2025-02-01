@@ -15,6 +15,7 @@ $Number = 1;
                 <tr>
                     <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('entrytype_id') ?></th>
                     <th><?= $this->Paginator->sort('shop_id') ?></th>
                     <th><?= $this->Paginator->sort('reference') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -30,6 +31,7 @@ $Number = 1;
                 <tr>
                     <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($stockin->id) ?></td>
+                    <td><?= $stockin->hasValue('entrytype') ? $this->Html->link($stockin->entrytype->name, ['controller' => 'Entrytypes', 'action' => 'view', $stockin->entrytype->id]) : '' ?></td>
                     <td><?= $stockin->hasValue('shop') ? $this->Html->link($stockin->shop->name, ['controller' => 'Shops', 'action' => 'view', $stockin->shop->id]) : '' ?></td>
                     <td><?= h($stockin->reference) ?></td>
                     <td><?= h($stockin->created) ?></td>
@@ -61,6 +63,9 @@ $Number = 1;
 <div class="mt-3">
     <?= $this->Form->create(null, ['id' => 'DataForm']);?>
         <div class="row gy-2">
+            <div class="col-xl-12">
+                <?= $this->Form->control('entrytype_id', ['options' => $entrytypes, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'entrytype_id']); ?>
+            </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('shop_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shop_id']); ?>
             </div>

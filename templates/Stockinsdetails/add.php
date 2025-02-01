@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Stockinsdetail $stockinsdetail
  * @var \Cake\Collection\CollectionInterface|string[] $products
  * @var \Cake\Collection\CollectionInterface|string[] $stockins
+ * @var \Cake\Collection\CollectionInterface|string[] $rooms
  */
 $this->set('title_2', 'Stockinsdetails');
 $emptyText = "Veuillez selectionner";
@@ -18,10 +19,13 @@ $emptyText = "Veuillez selectionner";
                 <?= $this->Form->control('stockin_id', ['options' => $stockins, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'stockin_id']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('room_id', ['class' => 'form-control', 'label' => 'room_id']); ?>
+                <?= $this->Form->control('room_id', ['options' => $rooms, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'room_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('purchase_price', ['class' => 'form-control', 'label' => 'purchase_price']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('tax', ['class' => 'form-control', 'label' => 'tax']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('barcode', ['class' => 'form-control', 'label' => 'barcode']); ?>
@@ -31,6 +35,9 @@ $emptyText = "Veuillez selectionner";
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('expiry_date', ['empty' => true, 'class' => 'form-control', 'label' => 'expiry_date']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('entry_state', ['class' => 'form-control', 'label' => 'entry_state']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">
