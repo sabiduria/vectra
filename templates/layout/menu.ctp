@@ -233,6 +233,31 @@
         <!-- End::slide -->
 
         <!-- Start::slide__category -->
+        <li class="slide__category"><span class="category-name">Lieux de ventes</span></li>
+        <!-- End::slide__category -->
+
+        <!-- Start::slide -->
+        <li class="slide has-sub">
+            <a href="javascript:void(0);" class="side-menu__item">
+                <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                <i class="fa-thin fa-warehouse w-6 h-6 side-menu__icon"></i>
+                <span class="side-menu__label">Warehouse</span>
+            </a>
+            <ul class="slide-menu child1">
+                <li class="slide">
+                    <?= $this->Html->link('Shops', ['controller' => 'shops', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Chambres froides', ['controller' => 'rooms', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Zones de ventes', ['controller' => 'areas', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+            </ul>
+        </li>
+        <!-- End::slide -->
+
+        <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Rapports & Paramètres</span></li>
         <!-- End::slide__category -->
 
@@ -282,9 +307,6 @@
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Gestion des accès', ['controller' => 'products', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Shops', ['controller' => 'shops', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Types dépenses', ['controller' => 'expensestypes', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>

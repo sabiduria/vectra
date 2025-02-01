@@ -48,8 +48,22 @@ class ProductsController extends AppController
     {
         $session = $this->request->getSession();
         $product = $this->Products->newEmptyEntity();
+        $filename = 'default_product.png';
+
         if ($this->request->is('post')) {
             $product = $this->Products->patchEntity($product, $this->request->getData());
+
+            /*8888888888888888888888888888888888888 -Image- 8888888888888888888888888888888888888888*/
+            if (!empty($this->request->getData('image')->getClientFilename())) {
+                $imageFile = $this->request->getData('image');
+                $filename = uniqid() . '.' . pathinfo($imageFile->getClientFilename(), PATHINFO_EXTENSION);
+                $uploadPath = WWW_ROOT . 'img' . DS;
+                // Move uploaded file
+                $imageFile->moveTo($uploadPath . $filename);
+                // Save filename to database
+                $product->image = $filename;
+            }
+            /*8888888888888888888888888888888888888 -Image- 8888888888888888888888888888888888888888*/
 
             $product->createdby = $session->read('Auth.Username');
             $product->modifiedby = $session->read('Auth.Username');
@@ -79,23 +93,46 @@ class ProductsController extends AppController
     {
         $session = $this->request->getSession();
         $product = $this->Products->get($id, contain: []);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $product = $this->Products->patchEntity($product, $this->request->getData());
+            $data = $this->request->getData();
+
+            // Handle Image Upload First
+            $imageFile = $this->request->getUploadedFile('image'); // Correctly get the uploaded file
+            if ($imageFile && $imageFile->getError() === UPLOAD_ERR_OK) {
+                $filename = uniqid() . '.' . pathinfo($imageFile->getClientFilename(), PATHINFO_EXTENSION);
+                $uploadPath = WWW_ROOT . 'img' . DS;
+                $imageFile->moveTo($uploadPath . $filename);
+
+                // Add filename to data array before patching entity
+                $data['image'] = $filename;
+            } else {
+                // Preserve existing image if no new file is uploaded
+                unset($data['image']);
+            }
+
+            // Remove file object from $data before patching entity
+            unset($data['image_file']);
+
+            // Patch entity
+            $product = $this->Products->patchEntity($product, $data);
 
             $product->modifiedby = $session->read('Auth.Username');
 
             if ($this->Products->save($product)) {
                 $this->Flash->success(__('The product has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
+
             $this->Flash->error(__('The product could not be saved. Please, try again.'));
         }
+
         $suppliers = $this->Products->Suppliers->find('list', limit: 200)->all();
         $categories = $this->Products->Categories->find('list', limit: 200)->all();
         $packagings = $this->Products->Packagings->find('list', limit: 200)->all();
         $this->set(compact('product', 'suppliers', 'categories', 'packagings'));
     }
+
 
     /**
      * Delete method
