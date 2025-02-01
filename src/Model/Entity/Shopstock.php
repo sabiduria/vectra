@@ -13,13 +13,13 @@ use Cake\ORM\Entity;
  * @property int $room_id
  * @property float|null $stock
  * @property float|null $stock_min
+ * @property float|null $stock_max
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
  * @property string|null $modifiedby
  * @property bool|null $deleted
  *
- * @property \App\Model\Entity\Shop $shop
  * @property \App\Model\Entity\Product $product
  * @property \App\Model\Entity\Room $room
  */
@@ -39,12 +39,12 @@ class Shopstock extends Entity
         'room_id' => true,
         'stock' => true,
         'stock_min' => true,
+        'stock_max' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,
         'modifiedby' => true,
         'deleted' => true,
-        'shop' => true,
         'product' => true,
         'room' => true,
     ];

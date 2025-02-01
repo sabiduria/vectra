@@ -35,6 +35,10 @@
                     <td><?= $this->Number->format($stockinsdetail->id) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Room Id') ?></th>
+                    <td><?= $stockinsdetail->room_id === null ? '' : $this->Number->format($stockinsdetail->room_id) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Purchase Price') ?></th>
                     <td><?= $stockinsdetail->purchase_price === null ? '' : $this->Number->format($stockinsdetail->purchase_price) ?></td>
                 </tr>

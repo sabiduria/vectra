@@ -19,6 +19,7 @@ $Number = 1;
                     <th><?= $this->Paginator->sort('room_id') ?></th>
                     <th><?= $this->Paginator->sort('stock') ?></th>
                     <th><?= $this->Paginator->sort('stock_min') ?></th>
+                    <th><?= $this->Paginator->sort('stock_max') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th><?= $this->Paginator->sort('createdby') ?></th>
@@ -36,6 +37,7 @@ $Number = 1;
                     <td><?= $shopstock->hasValue('room') ? $this->Html->link($shopstock->room->name, ['controller' => 'Rooms', 'action' => 'view', $shopstock->room->id]) : '' ?></td>
                     <td><?= $shopstock->stock === null ? '' : $this->Number->format($shopstock->stock) ?></td>
                     <td><?= $shopstock->stock_min === null ? '' : $this->Number->format($shopstock->stock_min) ?></td>
+                    <td><?= $shopstock->stock_max === null ? '' : $this->Number->format($shopstock->stock_max) ?></td>
                     <td><?= h($shopstock->created) ?></td>
                     <td><?= h($shopstock->modified) ?></td>
                     <td><?= h($shopstock->createdby) ?></td>
@@ -76,6 +78,9 @@ $Number = 1;
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('stock_min', ['class' => 'form-control', 'label' => 'stock_min']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('stock_max', ['class' => 'form-control', 'label' => 'stock_max']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

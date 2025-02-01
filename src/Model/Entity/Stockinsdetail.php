@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $product_id
  * @property int $stockin_id
+ * @property int|null $room_id
  * @property float|null $purchase_price
  * @property string|null $barcode
  * @property float|null $qty
@@ -38,6 +39,7 @@ class Stockinsdetail extends Entity
     protected array $_accessible = [
         'product_id' => true,
         'stockin_id' => true,
+        'room_id' => true,
         'purchase_price' => true,
         'barcode' => true,
         'qty' => true,

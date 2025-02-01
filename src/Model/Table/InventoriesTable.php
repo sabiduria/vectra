@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Inventories Model
  *
+ * @property \App\Model\Table\InvproductsTable&\Cake\ORM\Association\BelongsTo $Invproducts
  * @property \App\Model\Table\ProductsTable&\Cake\ORM\Association\BelongsTo $Products
  *
  * @method \App\Model\Entity\Inventory newEmptyEntity()
@@ -47,6 +48,10 @@ class InventoriesTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Invproducts', [
+            'foreignKey' => 'invproduct_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Products', [
             'foreignKey' => 'product_id',
             'joinType' => 'INNER',
@@ -62,17 +67,16 @@ class InventoriesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->integer('invproduct_id')
+            ->notEmptyString('invproduct_id');
+
+        $validator
             ->integer('product_id')
             ->notEmptyString('product_id');
 
         $validator
             ->numeric('qty')
             ->allowEmptyString('qty');
-
-        $validator
-            ->scalar('inventory_period')
-            ->maxLength('inventory_period', 45)
-            ->allowEmptyString('inventory_period');
 
         $validator
             ->scalar('createdby')
@@ -100,6 +104,7 @@ class InventoriesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['invproduct_id'], 'Invproducts'), ['errorField' => 'invproduct_id']);
         $rules->add($rules->existsIn(['product_id'], 'Products'), ['errorField' => 'product_id']);
 
         return $rules;

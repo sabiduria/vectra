@@ -39,6 +39,10 @@
                     <td><?= $shopstock->stock_min === null ? '' : $this->Number->format($shopstock->stock_min) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Stock Max') ?></th>
+                    <td><?= $shopstock->stock_max === null ? '' : $this->Number->format($shopstock->stock_max) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Created') ?></th>
                     <td><?= h($shopstock->created) ?></td>
                 </tr>

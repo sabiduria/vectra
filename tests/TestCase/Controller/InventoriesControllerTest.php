@@ -23,6 +23,7 @@ class InventoriesControllerTest extends TestCase
      */
     protected array $fixtures = [
         'app.Inventories',
+        'app.Invproducts',
         'app.Products',
     ];
 

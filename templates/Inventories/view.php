@@ -11,12 +11,12 @@
             <h3><?= h($inventory->id) ?></h3>
             <table class="table">
                 <tr>
-                    <th><?= __('Product') ?></th>
-                    <td><?= $inventory->hasValue('product') ? $this->Html->link($inventory->product->name, ['controller' => 'Products', 'action' => 'view', $inventory->product->id]) : '' ?></td>
+                    <th><?= __('Invproduct') ?></th>
+                    <td><?= $inventory->hasValue('invproduct') ? $this->Html->link($inventory->invproduct->id, ['controller' => 'Invproducts', 'action' => 'view', $inventory->invproduct->id]) : '' ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Inventory Period') ?></th>
-                    <td><?= h($inventory->inventory_period) ?></td>
+                    <th><?= __('Product') ?></th>
+                    <td><?= $inventory->hasValue('product') ? $this->Html->link($inventory->product->name, ['controller' => 'Products', 'action' => 'view', $inventory->product->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Createdby') ?></th>

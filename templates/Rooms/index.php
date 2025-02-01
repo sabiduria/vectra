@@ -2,42 +2,32 @@
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Room> $rooms
+ * @var \Cake\Collection\CollectionInterface|string[] $shops
  */
-$this->set('title_2', 'Rooms');
+$this->set('title_2', 'Locaux');
 $Number = 1;
+$emptyText = "Veuillez selectionner";
+
 ?>
 <div class="mt-3">
     <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>
-    <?= $this->Html->link(__('Nouveau Room'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('capacity') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('createdby') ?></th>
-                    <th><?= $this->Paginator->sort('modifiedby') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th><?= $this->Paginator->sort('shops_id') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+            <tr>
+                <th><?= $this->Paginator->sort('N°') ?></th>
+                <th><?= $this->Paginator->sort('Designation') ?></th>
+                <th><?= $this->Paginator->sort('Capacité') ?></th>
+                <th><?= $this->Paginator->sort('Shops') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($rooms as $room): ?>
+            <?php foreach ($rooms as $room): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
-                    <td><?= $this->Number->format($room->id) ?></td>
                     <td><?= h($room->name) ?></td>
                     <td><?= $room->capacity === null ? '' : $this->Number->format($room->capacity) ?></td>
-                    <td><?= h($room->created) ?></td>
-                    <td><?= h($room->modified) ?></td>
-                    <td><?= h($room->createdby) ?></td>
-                    <td><?= h($room->modifiedby) ?></td>
-                    <td><?= h($room->deleted) ?></td>
                     <td><?= $room->hasValue('shop') ? $this->Html->link($room->shop->name, ['controller' => 'Shops', 'action' => 'view', $room->shop->id]) : '' ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Details'), ['action' => 'view', $room->id], ['class' => 'btn btn-success btn-sm']) ?>
@@ -45,7 +35,7 @@ $Number = 1;
                         <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $room->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
@@ -54,30 +44,30 @@ $Number = 1;
 <div class="offcanvas offcanvas-end" tabindex="-1" id="NewItem"
      aria-labelledby="offcanvasRightLabel1">
     <div class="offcanvas-header border-bottom border-block-end-dashed">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Rooms</h5>
+        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Local</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-3">
         <div class="row">
             <div id="response"></div>
-<div class="mt-3">
-    <?= $this->Form->create(null, ['id' => 'DataForm']);?>
-        <div class="row gy-2">
-            <div class="col-xl-12">
-                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>
+            <div class="mt-3">
+                <?= $this->Form->create(null, ['id' => 'DataForm']);?>
+                <div class="row gy-2">
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('capacity', ['type' => 'number', 'class' => 'form-control', 'label' => 'Capacité']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('shops_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select', 'label' => 'Shops']); ?>
+                    </div>
+                </div>
+                <div class="mt-3 mb-3">
+                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                </div>
+                <?= $this->Form->end() ?>
             </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('capacity', ['class' => 'form-control', 'label' => 'capacity']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('shops_id', ['options' => $shops, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'shops_id']); ?>
-            </div>
-        </div>
-        <div class="mt-3 mb-3">
-            <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
-        </div>
-    <?= $this->Form->end() ?>
-</div>
 
         </div>
     </div>

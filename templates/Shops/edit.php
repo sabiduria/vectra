@@ -11,16 +11,16 @@ $emptyText = "Veuillez selectionner";
     <?= $this->Form->create($shop) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('area_id', ['options' => $areas, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'area_id']); ?>
+                <?= $this->Form->control('area_id', ['options' => $areas, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Zone de vente']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>
+                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('address', ['class' => 'form-control', 'label' => 'address']); ?>
+                <?= $this->Form->control('address', ['type' => 'textarea', 'class' => 'form-control', 'label' => 'Adresse']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('phone', ['class' => 'form-control', 'label' => 'phone']); ?>
+                <?= $this->Form->control('phone', ['class' => 'form-control', 'label' => 'Telephone']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

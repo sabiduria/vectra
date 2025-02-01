@@ -23,7 +23,9 @@ class RoomsController extends AppController
             ->contain(['Shops']);
         $rooms = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
-        $this->set(compact('rooms'));
+        $shops = $this->Rooms->Shops->find('list', limit: 200)->all();
+
+        $this->set(compact('rooms', 'shops'));
     }
 
     /**

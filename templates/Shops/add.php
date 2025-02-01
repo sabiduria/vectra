@@ -2,29 +2,29 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Shop $shop
- * @var \Cake\Collection\CollectionInterface|string[] $areas
+ * @var string[]|\Cake\Collection\CollectionInterface $areas
  */
 $this->set('title_2', 'Shops');
 $emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($shop) ?>
-        <div class="row gy-2">
-            <div class="col-xl-12">
-                <?= $this->Form->control('area_id', ['options' => $areas, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'area_id']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('address', ['class' => 'form-control', 'label' => 'address']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('phone', ['class' => 'form-control', 'label' => 'phone']); ?>
-            </div>
+    <div class="row gy-2">
+        <div class="col-xl-12">
+            <?= $this->Form->control('area_id', ['options' => $areas, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Zone de vente']); ?>
         </div>
-        <div class="mt-3 mb-3">
-            <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+        <div class="col-xl-12">
+            <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
         </div>
+        <div class="col-xl-12">
+            <?= $this->Form->control('address', ['type' => 'textarea', 'class' => 'form-control', 'label' => 'Adresse']); ?>
+        </div>
+        <div class="col-xl-12">
+            <?= $this->Form->control('phone', ['class' => 'form-control', 'label' => 'Telephone']); ?>
+        </div>
+    </div>
+    <div class="mt-3 mb-3">
+        <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+    </div>
     <?= $this->Form->end() ?>
 </div>

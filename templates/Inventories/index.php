@@ -15,9 +15,9 @@ $Number = 1;
                 <tr>
                     <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('invproduct_id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('qty') ?></th>
-                    <th><?= $this->Paginator->sort('inventory_period') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th><?= $this->Paginator->sort('createdby') ?></th>
@@ -31,9 +31,9 @@ $Number = 1;
                 <tr>
                     <td><?= $Number++ ?></td>
                     <td><?= $this->Number->format($inventory->id) ?></td>
+                    <td><?= $inventory->hasValue('invproduct') ? $this->Html->link($inventory->invproduct->id, ['controller' => 'Invproducts', 'action' => 'view', $inventory->invproduct->id]) : '' ?></td>
                     <td><?= $inventory->hasValue('product') ? $this->Html->link($inventory->product->name, ['controller' => 'Products', 'action' => 'view', $inventory->product->id]) : '' ?></td>
                     <td><?= $inventory->qty === null ? '' : $this->Number->format($inventory->qty) ?></td>
-                    <td><?= h($inventory->inventory_period) ?></td>
                     <td><?= h($inventory->created) ?></td>
                     <td><?= h($inventory->modified) ?></td>
                     <td><?= h($inventory->createdby) ?></td>
@@ -64,13 +64,13 @@ $Number = 1;
     <?= $this->Form->create(null, ['id' => 'DataForm']);?>
         <div class="row gy-2">
             <div class="col-xl-12">
+                <?= $this->Form->control('invproduct_id', ['options' => $invproducts, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'invproduct_id']); ?>
+            </div>
+            <div class="col-xl-12">
                 <?= $this->Form->control('product_id', ['options' => $products, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'product_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('inventory_period', ['class' => 'form-control', 'label' => 'inventory_period']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

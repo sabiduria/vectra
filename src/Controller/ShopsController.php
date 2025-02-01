@@ -23,7 +23,9 @@ class ShopsController extends AppController
             ->contain(['Areas']);
         $shops = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
-        $this->set(compact('shops'));
+        $areas = $this->Shops->Areas->find('list', limit: 200)->all();
+
+        $this->set(compact('shops', 'areas'));
     }
 
     /**

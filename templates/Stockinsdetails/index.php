@@ -17,6 +17,7 @@ $Number = 1;
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('stockin_id') ?></th>
+                    <th><?= $this->Paginator->sort('room_id') ?></th>
                     <th><?= $this->Paginator->sort('purchase_price') ?></th>
                     <th><?= $this->Paginator->sort('barcode') ?></th>
                     <th><?= $this->Paginator->sort('qty') ?></th>
@@ -36,6 +37,7 @@ $Number = 1;
                     <td><?= $this->Number->format($stockinsdetail->id) ?></td>
                     <td><?= $stockinsdetail->hasValue('product') ? $this->Html->link($stockinsdetail->product->name, ['controller' => 'Products', 'action' => 'view', $stockinsdetail->product->id]) : '' ?></td>
                     <td><?= $stockinsdetail->hasValue('stockin') ? $this->Html->link($stockinsdetail->stockin->id, ['controller' => 'Stockins', 'action' => 'view', $stockinsdetail->stockin->id]) : '' ?></td>
+                    <td><?= $stockinsdetail->room_id === null ? '' : $this->Number->format($stockinsdetail->room_id) ?></td>
                     <td><?= $stockinsdetail->purchase_price === null ? '' : $this->Number->format($stockinsdetail->purchase_price) ?></td>
                     <td><?= h($stockinsdetail->barcode) ?></td>
                     <td><?= $stockinsdetail->qty === null ? '' : $this->Number->format($stockinsdetail->qty) ?></td>
@@ -74,6 +76,9 @@ $Number = 1;
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('stockin_id', ['options' => $stockins, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'stockin_id']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('room_id', ['class' => 'form-control', 'label' => 'room_id']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('purchase_price', ['class' => 'form-control', 'label' => 'purchase_price']); ?>

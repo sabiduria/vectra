@@ -9,15 +9,16 @@ use Cake\ORM\Entity;
  * Inventory Entity
  *
  * @property int $id
+ * @property int $invproduct_id
  * @property int $product_id
  * @property float|null $qty
- * @property string|null $inventory_period
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
  * @property string|null $modifiedby
  * @property bool|null $deleted
  *
+ * @property \App\Model\Entity\Invproduct $invproduct
  * @property \App\Model\Entity\Product $product
  */
 class Inventory extends Entity
@@ -32,14 +33,15 @@ class Inventory extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'invproduct_id' => true,
         'product_id' => true,
         'qty' => true,
-        'inventory_period' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,
         'modifiedby' => true,
         'deleted' => true,
+        'invproduct' => true,
         'product' => true,
     ];
 }

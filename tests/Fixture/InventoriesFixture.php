@@ -20,11 +20,11 @@ class InventoriesFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'invproduct_id' => 1,
                 'product_id' => 1,
                 'qty' => 1,
-                'inventory_period' => 'Lorem ipsum dolor sit amet',
-                'created' => '2025-01-17 14:10:47',
-                'modified' => '2025-01-17 14:10:47',
+                'created' => '2025-02-01 18:55:42',
+                'modified' => '2025-02-01 18:55:42',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

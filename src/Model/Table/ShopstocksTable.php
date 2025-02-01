@@ -83,6 +83,10 @@ class ShopstocksTable extends Table
             ->allowEmptyString('stock_min');
 
         $validator
+            ->numeric('stock_max')
+            ->allowEmptyString('stock_max');
+
+        $validator
             ->scalar('createdby')
             ->maxLength('createdby', 45)
             ->allowEmptyString('createdby');

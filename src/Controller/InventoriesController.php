@@ -20,7 +20,7 @@ class InventoriesController extends AppController
     public function index()
     {
         $query = $this->Inventories->find()->where(['Inventories.deleted' => 0])
-            ->contain(['Products']);
+            ->contain(['Invproducts', 'Products']);
         $inventories = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('inventories'));
@@ -35,7 +35,7 @@ class InventoriesController extends AppController
      */
     public function view($id = null)
     {
-        $inventory = $this->Inventories->get($id, contain: ['Products']);
+        $inventory = $this->Inventories->get($id, contain: ['Invproducts', 'Products']);
         $this->set(compact('inventory'));
     }
 
@@ -62,8 +62,9 @@ class InventoriesController extends AppController
             }
             $this->Flash->error(__('The inventory could not be saved. Please, try again.'));
         }
+        $invproducts = $this->Inventories->Invproducts->find('list', limit: 200)->all();
         $products = $this->Inventories->Products->find('list', limit: 200)->all();
-        $this->set(compact('inventory', 'products'));
+        $this->set(compact('inventory', 'invproducts', 'products'));
     }
 
     /**
@@ -89,8 +90,9 @@ class InventoriesController extends AppController
             }
             $this->Flash->error(__('The inventory could not be saved. Please, try again.'));
         }
+        $invproducts = $this->Inventories->Invproducts->find('list', limit: 200)->all();
         $products = $this->Inventories->Products->find('list', limit: 200)->all();
-        $this->set(compact('inventory', 'products'));
+        $this->set(compact('inventory', 'invproducts', 'products'));
     }
 
     /**

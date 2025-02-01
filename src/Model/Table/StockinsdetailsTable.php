@@ -56,6 +56,9 @@ class StockinsdetailsTable extends Table
             'foreignKey' => 'stockin_id',
             'joinType' => 'INNER',
         ]);
+        $this->belongsTo('Rooms', [
+            'foreignKey' => 'room_id',
+        ]);
     }
 
     /**
@@ -73,6 +76,10 @@ class StockinsdetailsTable extends Table
         $validator
             ->integer('stockin_id')
             ->notEmptyString('stockin_id');
+
+        $validator
+            ->integer('room_id')
+            ->allowEmptyString('room_id');
 
         $validator
             ->numeric('purchase_price')
@@ -119,6 +126,7 @@ class StockinsdetailsTable extends Table
     {
         $rules->add($rules->existsIn(['product_id'], 'Products'), ['errorField' => 'product_id']);
         $rules->add($rules->existsIn(['stockin_id'], 'Stockins'), ['errorField' => 'stockin_id']);
+        $rules->add($rules->existsIn(['room_id'], 'Rooms'), ['errorField' => 'room_id']);
 
         return $rules;
     }

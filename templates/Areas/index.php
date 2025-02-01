@@ -3,45 +3,34 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Area> $areas
  */
-$this->set('title_2', 'Areas');
+$this->set('title_2', 'Zones de ventes');
 $Number = 1;
 ?>
 <div class="mt-3">
     <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>
-    <?= $this->Html->link(__('Nouveau Area'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('createdby') ?></th>
-                    <th><?= $this->Paginator->sort('modifiedby') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+            <tr>
+                <th><?= $this->Paginator->sort('N°') ?></th>
+                <th><?= $this->Paginator->sort('Designation') ?></th>
+                <th><?= $this->Paginator->sort('Description') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($areas as $area): ?>
+            <?php foreach ($areas as $area): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
-                    <td><?= $this->Number->format($area->id) ?></td>
                     <td><?= h($area->name) ?></td>
-                    <td><?= h($area->created) ?></td>
-                    <td><?= h($area->modified) ?></td>
-                    <td><?= h($area->createdby) ?></td>
-                    <td><?= h($area->modifiedby) ?></td>
-                    <td><?= h($area->deleted) ?></td>
+                    <td><?= h($area->description) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Details'), ['action' => 'view', $area->id], ['class' => 'btn btn-success btn-sm']) ?>
                         <?= $this->Html->link(__('Editer'), ['action' => 'edit', $area->id], ['class' => 'btn btn-primary btn-sm']) ?>
                         <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $area->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
@@ -50,27 +39,27 @@ $Number = 1;
 <div class="offcanvas offcanvas-end" tabindex="-1" id="NewItem"
      aria-labelledby="offcanvasRightLabel1">
     <div class="offcanvas-header border-bottom border-block-end-dashed">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Areas</h5>
+        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouvelle Zone</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-3">
         <div class="row">
             <div id="response"></div>
-<div class="mt-3">
-    <?= $this->Form->create(null, ['id' => 'DataForm']);?>
-        <div class="row gy-2">
-            <div class="col-xl-12">
-                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>
+            <div class="mt-3">
+                <?= $this->Form->create(null, ['id' => 'DataForm']);?>
+                <div class="row gy-2">
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('description', ['type' => 'textarea', 'class' => 'form-control', 'label' => 'Description ou Adresse']); ?>
+                    </div>
+                </div>
+                <div class="mt-3 mb-3">
+                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                </div>
+                <?= $this->Form->end() ?>
             </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('description', ['class' => 'form-control', 'label' => 'description']); ?>
-            </div>
-        </div>
-        <div class="mt-3 mb-3">
-            <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
-        </div>
-    <?= $this->Form->end() ?>
-</div>
 
         </div>
     </div>

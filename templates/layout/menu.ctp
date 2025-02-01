@@ -223,7 +223,7 @@
                     <?= $this->Html->link('Transferts', ['controller' => 'transfers', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
-                    <?= $this->Html->link('Inventaires', ['controller' => 'inventories', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    <?= $this->Html->link('Inventaires', ['controller' => 'invproducts', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Stock alertes', ['controller' => 'general', 'action' => 'stock'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
