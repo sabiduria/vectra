@@ -230,4 +230,14 @@ class ProductsController extends AppController
             return $this->response->withStringBody(json_encode($response));
         }
     }
+
+    public function stats()
+    {
+
+    }
+
+    public function import()
+    {
+
+    }
 }

@@ -8,34 +8,21 @@ $Number = 1;
 ?>
 <div class="mt-3">
     <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>
-    <?= $this->Html->link(__('Nouveau Category'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('createdby') ?></th>
-                    <th><?= $this->Paginator->sort('modifiedby') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th style="width: 3%"><?= $this->Paginator->sort('N°') ?></th>
+                    <th><?= $this->Paginator->sort('Designation') ?></th>
+                    <th class="text-end" style="width: 20%"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($categories as $category): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
-                    <td><?= $this->Number->format($category->id) ?></td>
                     <td><?= h($category->name) ?></td>
-                    <td><?= h($category->created) ?></td>
-                    <td><?= h($category->modified) ?></td>
-                    <td><?= h($category->createdby) ?></td>
-                    <td><?= h($category->modifiedby) ?></td>
-                    <td><?= h($category->deleted) ?></td>
-                    <td class="actions">
+                    <td class="text-end">
                         <?= $this->Html->link(__('Details'), ['action' => 'view', $category->id], ['class' => 'btn btn-success btn-sm']) ?>
                         <?= $this->Html->link(__('Editer'), ['action' => 'edit', $category->id], ['class' => 'btn btn-primary btn-sm']) ?>
                         <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $category->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
@@ -60,7 +47,7 @@ $Number = 1;
     <?= $this->Form->create(null, ['id' => 'DataForm']);?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>
+                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

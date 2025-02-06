@@ -78,6 +78,17 @@ class GeneralController extends AppController
         return $table ? $table->name : null;
     }
 
+    public static function getReferenceOf($id, $tableName): ?string
+    {
+        $table = TableRegistry::getTableLocator()->get($tableName)
+            ->find()
+            ->select(['reference'])
+            ->where(['id' => $id])
+            ->first();
+
+        return $table ? $table->reference : null;
+    }
+
     public static function getUserNameOf($id): ?string
     {
         $table = TableRegistry::getTableLocator()->get('Users');
