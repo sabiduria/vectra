@@ -1,19 +1,19 @@
 (function () {
     'use strict'
 
-    // Date issued 
+    // Date issued
     flatpickr("#invoice-date-issued", {
         disableMobile: true});
 
-    // Due date 
+    // Due date
     flatpickr("#invoice-date-due", {
         disableMobile: true});
 
-    // for nummber of products selected 
+    // for nummber of products selected
 
     var value = 1,
         minValue = 0,
-        maxValue = 30;
+        maxValue = 100;
 
     let productMinusBtn = document.querySelectorAll(".product-quantity-minus")
     let productPlusBtn = document.querySelectorAll(".product-quantity-plus")

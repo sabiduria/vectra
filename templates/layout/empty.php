@@ -71,7 +71,7 @@ $username = $session->read('Auth.Username');
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
+<body style="background-color: white !important;">
 <!-- Loader -->
 <div id="loader" >
     <?= $this->Html->image('loader.svg') ?>
@@ -79,51 +79,39 @@ $username = $session->read('Auth.Username');
 <!-- Loader -->
 
 <div class="page">
-    <!-- app-header -->
-    <?php include ('header.ctp') ?>
-    <!-- /app-header -->
-    <!-- Start::app-sidebar -->
-    <aside class="app-sidebar sticky" id="sidebar">
-
-        <!-- Start::main-sidebar-header -->
-        <div class="main-sidebar-header">
-            <?= $this->Html->link($this->Html->image('logo.png', ['class'=>'desktop-logo']), ['controller'=>'/'], ['class'=>'header-logo', 'escape'=>false]) ?>
-        </div>
-        <!-- End::main-sidebar-header -->
-
-        <!-- Start::main-sidebar -->
-        <div class="main-sidebar" id="sidebar-scroll">
-
-            <!-- Start::nav -->
-            <?php include ('menu.ctp') ?>
-            <!-- End::nav -->
-
-        </div>
-        <!-- End::main-sidebar -->
-
-    </aside>
-    <!-- End::app-sidebar -->
-
     <!-- Start::app-content -->
-    <div class="main-content app-content">
+    <div class="main-content">
         <div class="container-fluid">
             <!-- Start::page-header -->
-            <div class="d-flex align-items-center justify-content-between page-header-breadcrumb flex-wrap gap-2">
-                <div>
-                    <ol class="breadcrumb mb-1">
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">
-                                Dashboards
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page"><?= $this->fetch('title') ?></li>
-                    </ol>
-                    <h1 class="page-title fw-medium fs-18 mb-0"><?= ucfirst($title_2 ?? 'Default Layout Variable') ?></h1>
+            <div class="row">
+                <div class="col-sm-2 pt-3">
+                    <?= $this->Html->image('logo.png', ['style' => 'width : 80%']) ?>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="d-flex align-items-center justify-content-between page-header-breadcrumb flex-wrap gap-2">
+                        <div>
+                            <ol class="breadcrumb mb-1">
+                                <li class="breadcrumb-item">
+                                    <?= $this->Html->link('<i class="fa-thin fa-chart-waterfall w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Tableau de bord</span>', ['controller' => '/'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page"><?= $this->fetch('title') ?></li>
+                            </ol>
+                            <h1 class="page-title fw-medium fs-18 mb-0"><?= ucfirst($title_2 ?? 'Point de ventes') ?></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2 pt-3 text-end">
+                    Aujourd'hui
+                    <h6>
+                        <strong><?= date('Y-m-d') ?></strong>
+                    </h6>
                 </div>
             </div>
             <!-- End::page-header -->
 
-            <div class="card">
+            <div class="card rounded-0">
                 <div class="card-body">
                     <?= $this->Flash->render() ?>
                     <?= $this->fetch('content') ?>
@@ -171,7 +159,8 @@ $username = $session->read('Auth.Username');
     'libs/flatpickr/flatpickr.min.js',
     'libs/apexcharts/apexcharts.min.js',
     'datatables.js',
-    'select2.js'
+    'select2.js',
+    'create-invoice'
 ]) ?>
 <!-- Datatables Cdn -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

@@ -67,6 +67,12 @@ class PricingsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('barcode')
+            ->maxLength('barcode', 15)
+            ->allowEmptyString('barcode')
+            ->add('barcode', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
             ->integer('product_id')
             ->notEmptyString('product_id');
 
@@ -112,6 +118,7 @@ class PricingsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->isUnique(['barcode'], ['allowMultipleNulls' => true]), ['errorField' => 'barcode']);
         $rules->add($rules->existsIn(['product_id'], 'Products'), ['errorField' => 'product_id']);
         $rules->add($rules->existsIn(['packaging_id'], 'Packagings'), ['errorField' => 'packaging_id']);
 

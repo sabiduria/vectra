@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Pricing Entity
  *
  * @property int $id
+ * @property string|null $barcode
  * @property int $product_id
  * @property int $packaging_id
  * @property float|null $unit_price
@@ -35,6 +36,7 @@ class Pricing extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'barcode' => true,
         'product_id' => true,
         'packaging_id' => true,
         'unit_price' => true,

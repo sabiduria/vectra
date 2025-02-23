@@ -206,4 +206,115 @@ class GeneralController extends AppController
 
         return $table ? $table->shops_id : null;
     }
+
+    public static function getProductDetails($barcode): ?string
+    {
+        $table = TableRegistry::getTableLocator()->get('Products');
+
+        $data = $table->find()
+            ->select([
+                'details' => $table->query()->newExpr()->add([
+                    'CONCAT(id, "-", packaging_id)'
+                ])
+            ])
+            ->where(['barcode' => $barcode])
+            ->first();
+
+        return $data ? $data->details : null;
+    }
+
+    public static function getProductPrices($barcode): ?string
+    {
+        $table = TableRegistry::getTableLocator()->get('Pricings');
+
+        $data = $table->find()
+            ->select([
+                'details' => $table->query()->newExpr()->add([
+                    'CONCAT(unit_price, "-", wholesale_price, "-", special_price)'
+                ])
+            ])
+            ->where(['barcode' => $barcode])
+            ->first();
+
+        return $data ? $data->details : null;
+    }
+
+    public static function NewSalesItems($barcode, $username): void
+    {
+        $connection = ConnectionManager::get('default');
+
+        $product = explode('-', self::getProductDetails($barcode));
+        $pricings = explode('-', self::getProductPrices($barcode));
+        $salesId = GeneralController::getLastIdInsertedBy($username, 'Sales');
+        $addCheck = self::productAlreadyAdd($product[0], $salesId);
+        $currentQty = self::getCurrentQty($product[0], $salesId);
+
+        if ($addCheck){
+            $newQty = $currentQty+1;
+            $newPrice = $newQty * $pricings[0];
+            $connection->update('Salesitems', [
+                'qty' => $newQty,
+                'subtotal' => $newPrice
+            ], [
+                'sale_id' => $salesId
+            ]);
+        } else{
+            $connection->insert('Salesitems', [
+                'product_id' => $product[0],
+                'sale_id' => $salesId,
+                'qty' => 1,
+                'packaging_id' => $product[1],
+                'unit_price' => $pricings[0],
+                'subtotal' => $pricings[0],
+                'created' => new DateTime('now'),
+                'modified' => new DateTime('now'),
+                'createdby' => $username,
+                'modifiedby' => $username,
+                'deleted' => 0
+            ], ['created' => 'datetime', 'modified' => 'datetime']);
+        }
+    }
+
+    public static function getSalesDetails($salesId): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT si.id, p.name product, si.qty, si.unit_price, pkg.name packaging, si.subtotal FROM salesitems si INNER JOIN products p ON p.id = si.product_id INNER JOIN packagings pkg ON pkg.id = si.packaging_id WHERE sale_id=:sale_id;', ['sale_id' => $salesId]);
+        return $stmt->fetchAll('assoc');
+    }
+
+    public static function productAlreadyAdd($product_id, $sale_id): bool
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(*) as nber FROM salesitems WHERE product_id = :product_id AND sale_id = :sale_id', ['product_id' => $product_id, 'sale_id' => $sale_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row > 0;
+        }
+
+        return false;
+    }
+
+    public static function getCurrentQty($product_id, $sale_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT qty as nber FROM salesitems WHERE product_id = :product_id AND sale_id = :sale_id', ['product_id' => $product_id, 'sale_id' => $sale_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
+
+    public static function getSalesAmount($sale_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(subtotal) as nber FROM salesitems WHERE sale_id = :sale_id', ['sale_id' => $sale_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
+use Cake\I18n\DateTime;
 use Exception;
 
 /**
@@ -161,5 +163,71 @@ class SalesController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    public function pos()
+    {
+        $session = $this->request->getSession();
+        $this->viewBuilder()->setLayout('empty');
+
+        $username = $session->read('Auth.Username');
+        $user_id = $session->read('Auth.Id');
+        $reference = $session->read('SalesReference');
+        $salesId = $session->read('SalesId');
+
+        if ($this->request->is('post')){
+            if ($session->check('SalesId')) {
+                GeneralController::NewSalesItems($_POST['barcode'], 'sabiduria');
+            } else {
+                $this->NewSales(1, 'sabiduria');
+            }
+        }
+
+        if($salesId != null){
+            $salesDetails = GeneralController::getSalesDetails($salesId);
+            $salesAmount = GeneralController::getSalesAmount($salesId);
+            $vat = ($salesAmount*15)/100;
+            $discount = 0;
+            $total = ($salesAmount + $vat) - $discount;
+
+        } else{
+            $salesDetails = null;
+            $salesAmount = 0;
+            $vat = 0;
+            $discount = 0;
+            $total = 0;
+
+        }
+
+        $this->set(compact('reference', 'salesDetails', 'salesAmount', 'vat', 'total'));
+    }
+
+    public function NewSales($user_id, $username): void
+    {
+        $session = $this->request->getSession();
+        $connection = ConnectionManager::get('default');
+
+        $reference = GeneralController::generateReference('Sales', 'FCT');
+        $connection->insert('Sales', [
+            'user_id' => $user_id,
+            'customer_id' => null,
+            'reference' => $reference,
+            'total_amount' => 0,
+            'payment_method' => null,
+            'status_id' => 1,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+
+        // Get the last inserted ID
+        $salesId = GeneralController::getLastIdInsertedBy($username, 'Sales');
+
+        // Store both reference and sales ID in session
+        $session->write('SalesReference', $reference);
+        $session->write('SalesId', $salesId);
+        //return $this->redirect(['controller' => 'sales', 'action' => 'pos']);
     }
 }
