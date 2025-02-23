@@ -176,11 +176,11 @@ class SalesController extends AppController
         $salesId = $session->read('SalesId');
 
         if ($this->request->is('post')){
-            if ($session->check('SalesId')) {
-                GeneralController::NewSalesItems($_POST['barcode'], 'sabiduria');
-            } else {
+            if (!$session->check('SalesId')) {
                 $this->NewSales(1, 'sabiduria');
             }
+            GeneralController::NewSalesItems($_POST['barcode'], 'sabiduria');
+            return $this->redirect(['action' => 'pos']);
         }
 
         if($salesId != null){
@@ -229,5 +229,10 @@ class SalesController extends AppController
         $session->write('SalesReference', $reference);
         $session->write('SalesId', $salesId);
         //return $this->redirect(['controller' => 'sales', 'action' => 'pos']);
+    }
+
+    public function destroySession()
+    {
+        $this->request->getSession()->destroy();
     }
 }

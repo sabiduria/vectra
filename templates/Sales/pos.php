@@ -19,7 +19,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($salesDetails as $key=>$value) :?>
+                <?php if ($salesDetails != null): ?>
+                    <?php foreach ($salesDetails as $key=>$value) :?>
                     <tr>
                         <td>
                             <input value="<?= $value['product'] ?>" type="text" class="form-control form-control-light" placeholder="Enter Product Name">
@@ -38,7 +39,8 @@
                             <button class="btn btn-sm btn-icon btn-danger-light"><i class="ri-delete-bin-5-line"></i></button>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -46,7 +48,9 @@
     <div class="col-xl-3">
         <div class="col-sm-12">
             <div class="row">
-                <h4 class="text-end">Ref. <?= $reference ?></h4>
+                <?php if ($reference != null):?>
+                    <h4 class="text-end">Ref. <?= $reference ?></h4>
+                <?php endif ?>
             </div>
         </div>
         <div class="table-responsive">

@@ -299,11 +299,14 @@ class GeneralController extends AppController
         $conn = ConnectionManager::get('default');
         $stmt = $conn->execute('SELECT qty as nber FROM salesitems WHERE product_id = :product_id AND sale_id = :sale_id', ['product_id' => $product_id, 'sale_id' => $sale_id]);
         $result = $stmt->fetch('assoc');
-        foreach ($result as $row) {
-            return $row;
+
+        if ($result != null){
+            foreach ($result as $row) {
+                return $row;
+            }
         }
 
-        return null;
+        return 0;
     }
 
     public static function getSalesAmount($sale_id): mixed
@@ -312,7 +315,7 @@ class GeneralController extends AppController
         $stmt = $conn->execute('SELECT SUM(subtotal) as nber FROM salesitems WHERE sale_id = :sale_id', ['sale_id' => $sale_id]);
         $result = $stmt->fetch('assoc');
         foreach ($result as $row) {
-            return $row;
+            return $row != null ? $row : 0;
         }
 
         return null;
