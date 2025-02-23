@@ -2,7 +2,7 @@
 ?>
 
 <div class="row">
-    <div class="col-xl-9">
+    <div class="col-xl-8">
         <?= $this->Form->create(null, ['controller' => 'sales', 'action'=>'pos']);?>
             <?= $this->Form->control('barcode', ['class' => 'form-control form-control-lg rounded-0', 'placeholder' => 'Code Barre', 'label' => false, 'required' => 'required']); ?>
         <?= $this->Form->end() ?>
@@ -23,7 +23,7 @@
                     <?php foreach ($salesDetails as $key=>$value) :?>
                     <tr data-product-id="<?= $value['product_id'] ?>">
                         <td>
-                            <input value="<?= $value['product'] ?>" type="text" class="form-control form-control-light" placeholder="Enter Product Name">
+                            <input value="<?= $value['product'] ?>" type="text" class="form-control form-control-light" placeholder="Enter Product Name" readonly>
                         </td>
                         <td class="invoice-quantity-container">
                             <div class="input-group border rounded flex-nowrap">
@@ -45,7 +45,7 @@
             </table>
         </div>
     </div>
-    <div class="col-xl-3">
+    <div class="col-xl-4 p-3" style="border: 1px solid #e0e0e0">
         <div class="col-sm-12">
             <div class="row">
                 <?php if ($reference != null):?>
@@ -91,6 +91,31 @@
                 </tbody>
             </table>
         </div>
+
+        <hr>
+        <div class="row gy-3">
+            <div class="col-sm-12">
+                <label for="client_code">Code du client / Telephone</label>
+                <input id="client_code" type="text" class="form-control form-control-light" >
+            </div>
+            <div class="col-sm-12">
+                Argent perçu
+            </div>
+            <div class="col-sm-6">
+                <label for="client_code">USD</label>
+                <input id="client_code" type="number" min="0" class="form-control form-control-light" >
+            </div>
+            <div class="col-sm-6">
+                <label for="client_code">CDF</label>
+                <input id="client_code" type="number" min="0" class="form-control form-control-light" >
+            </div>
+
+            <div class="offset-3 col-sm-6">
+                <div class="row">
+                    <input type="submit" value="Valider la facture" class="btn btn-success">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -126,7 +151,7 @@
                     console.log(response);
                     try {
                         // Manually parse the response if necessary
-                        var parsedResponse = JSON.parse(response);  // Ensure it's parsed as JSON
+                        let parsedResponse = JSON.parse(response);  // Ensure it's parsed as JSON
 
                         console.log(parsedResponse); // Log the parsed response
 
