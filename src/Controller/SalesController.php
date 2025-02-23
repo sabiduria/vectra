@@ -14,6 +14,16 @@ use Exception;
  */
 class SalesController extends AppController
 {
+
+    // Load the SalesItems model
+    private \Cake\ORM\Table $SalesItems;
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->SalesItems = $this->fetchTable('Salesitems');  // Load the SalesItems model here
+    }
+
     /**
      * Index method
      *
@@ -234,5 +244,41 @@ class SalesController extends AppController
     public function destroySession()
     {
         $this->request->getSession()->destroy();
+    }
+
+    public function updateItem()
+    {
+        $this->autoRender = false; // We don't need a view for this request
+        $this->request->allowMethod(['post']); // Only allow POST requests
+
+        // Get the posted data
+        $productId = $this->request->getData('product_id');
+        $qty = $this->request->getData('qty');
+        $subtotal = $this->request->getData('subtotal');
+
+        // Find the sales item by product_id and sale_id
+        $salesItem = $this->SalesItems->find()
+            ->where(['product_id' => $productId])
+            ->first();
+
+        if ($salesItem) {
+            // Update the sales item with new qty and subtotal
+            $salesItem->qty = $qty;
+            $salesItem->subtotal = $subtotal;
+
+            if ($this->SalesItems->save($salesItem)) {
+                // Update the sales table if needed
+                //$sale = $this->Sales->get($salesItem->sale_id);
+                //$sale->total_amount = $this->SalesItems->find()->where(['sale_id' => $sale->id])->sumOf('subtotal');
+                //$this->Sales->save($sale);
+
+                // Return success response
+                echo json_encode(['success' => true, 'message' => 'Item updated successfully']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to update item']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Item not found']);
+        }
     }
 }

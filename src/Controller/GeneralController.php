@@ -278,7 +278,7 @@ class GeneralController extends AppController
     public static function getSalesDetails($salesId): mixed
     {
         $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('SELECT si.id, p.name product, si.qty, si.unit_price, pkg.name packaging, si.subtotal FROM salesitems si INNER JOIN products p ON p.id = si.product_id INNER JOIN packagings pkg ON pkg.id = si.packaging_id WHERE sale_id=:sale_id;', ['sale_id' => $salesId]);
+        $stmt = $conn->execute('SELECT si.id, p.name product, p.id product_id, si.qty, si.unit_price, pkg.name packaging, si.subtotal FROM salesitems si INNER JOIN products p ON p.id = si.product_id INNER JOIN packagings pkg ON pkg.id = si.packaging_id WHERE sale_id=:sale_id;', ['sale_id' => $salesId]);
         return $stmt->fetchAll('assoc');
     }
 
