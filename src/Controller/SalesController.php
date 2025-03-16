@@ -189,7 +189,9 @@ class SalesController extends AppController
             if (!$session->check('SalesId')) {
                 $this->NewSales(1, 'sabiduria');
             }
-            GeneralController::NewSalesItems($_POST['barcode'], 'sabiduria');
+            $packaging_id = $_POST['packaging_id'] ?? null;
+
+            GeneralController::NewSalesItems($_POST['barcode'], $packaging_id,'sabiduria');
             return $this->redirect(['action' => 'pos']);
         }
 
@@ -248,8 +250,10 @@ class SalesController extends AppController
 
     public function updateItem()
     {
+        $session = $this->request->getSession();
         $this->autoRender = false; // We don't need a view for this request
         $this->request->allowMethod(['post']); // Only allow POST requests
+        $salesId = $session->read('SalesId');
 
         // Get the posted data
         $productId = $this->request->getData('product_id');
@@ -258,7 +262,7 @@ class SalesController extends AppController
 
         // Find the sales item by product_id and sale_id
         $salesItem = $this->SalesItems->find()
-            ->where(['product_id' => $productId])
+            ->where(['product_id' => $productId, 'sale_id' => $salesId])
             ->first();
 
         if ($salesItem) {
@@ -267,13 +271,14 @@ class SalesController extends AppController
             $salesItem->subtotal = $subtotal;
 
             if ($this->SalesItems->save($salesItem)) {
-                // Update the sales table if needed
-                //$sale = $this->Sales->get($salesItem->sale_id);
-                //$sale->total_amount = $this->SalesItems->find()->where(['sale_id' => $sale->id])->sumOf('subtotal');
-                //$this->Sales->save($sale);
+                $salesAmount = GeneralController::getSalesAmount($salesId);
+                $vat = ($salesAmount*15)/100;
+                $discount = 0;
+                $total = ($salesAmount + $vat) - $discount;
 
-                // Return success response
-                echo json_encode(['success' => true, 'message' => 'Item updated successfully']);
+                echo json_encode(['success' => true, 'message' => 'Item updated successfully', 'subtotal' => $salesAmount,
+                    'vat' => $vat,
+                    'total' => $total]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to update item']);
             }

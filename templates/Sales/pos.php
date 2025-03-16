@@ -1,174 +1,263 @@
 <?php
+
+use App\Controller\GeneralController;
+
+$categories = GeneralController::getAllCategories();
+$itemsCount = GeneralController::getItemCount();
+$posProduct = GeneralController::getPOSProduct();
 ?>
 
+<!-- Start Row-1 -->
 <div class="row">
-    <div class="col-xl-8">
+    <div class="col-xxl-8">
         <?= $this->Form->create(null, ['controller' => 'sales', 'action'=>'pos']);?>
             <?= $this->Form->control('barcode', ['class' => 'form-control form-control-lg rounded-0', 'placeholder' => 'Code Barre', 'label' => false, 'required' => 'required']); ?>
         <?= $this->Form->end() ?>
-        <div class="table-responsive">
-            <table class="table nowrap text-nowrap border mt-3">
-                <thead>
-                <tr>
-                    <th>ARTICLE</th>
-                    <th>QUANTITE</th>
-                    <th>PRIX UNITAIRE</th>
-                    <th>UNITE</th>
-                    <th>TOTAL</th>
-                    <th>ACTION</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php if ($salesDetails != null): ?>
-                    <?php foreach ($salesDetails as $key=>$value) :?>
-                    <tr data-product-id="<?= $value['product_id'] ?>">
-                        <td>
-                            <input value="<?= $value['product'] ?>" type="text" class="form-control form-control-light" placeholder="Enter Product Name" readonly>
-                        </td>
-                        <td class="invoice-quantity-container">
-                            <div class="input-group border rounded flex-nowrap">
-                                <!--button class="btn btn-icon btn-primary input-group-text flex-fill product-quantity-minus"><i class="ri-subtract-line"></i></button-->
-                                <input type="text" class="form-control form-control-sm border-0 text-center w-100" aria-label="quantity" id="product-quantity" value="<?= $value['qty'] ?>">
-                                <!--button class="btn btn-icon btn-primary input-group-text flex-fill product-quantity-plus"><i class="ri-add-line"></i></button-->
+        <hr>
+        <div class="d-flex align-Items-center justify-content-between mb-3">
+            <h6 class="fw-medium mb-0">Categories</h6>
+            <div class="d-flex gap-2 align-items-center">
+                <a class="categories-arrow left">
+                    <i class="ri-arrow-left-s-line"></i>
+                </a>
+                <a class="categories-arrow right">
+                    <i class="ri-arrow-right-s-line"></i>
+                </a>
+            </div>
+        </div>
+        <div class="row pos-category" id="filter">
+            <div class="col-xl-3 col-md-6">
+                <div class="card custom-card active">
+                    <div class="card-body p-3">
+                        <a href="javascript:void(0);" class="stretched-link categories" data-filter="*">
+                            <div class="d-flex gap-2 categories-content">
+                                <span class="avatar avatar-md">
+                                    <?= $this->Html->image('menu.png') ?>
+                                </span>
+                                <div>
+                                    <span class="fw-medium">Tous les produits</span>
+                                    <span class="d-block op-7 fs-12"><?= $itemsCount ?> Items</span>
+                                </div>
                             </div>
-                        </td>
-                        <td><input class="form-control form-control-light" placeholder="" type="text" value="<?= $value['unit_price'] ?>" readonly></td>
-                        <td><input class="form-control form-control-light" placeholder="" type="text" value="<?= $value['packaging'] ?>"></td>
-                        <td><input class="form-control form-control-light" placeholder="" type="text" value="<?= $value['subtotal'] ?>" readonly></td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-icon btn-danger-light"><i class="ri-delete-bin-5-line"></i></button>
-                        </td>
-                    </tr>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <?php foreach ($categories as $key=>$value): ?>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body p-3">
+                            <a href="javascript:void(0);" class="stretched-link categories" data-filter=".<?= str_replace(' ', '', $value['name']) ?>">
+                                <div class="d-flex gap-2 categories-content">
+                                <span class="avatar avatar-md menu-icon">
+                                    <?= $this->Html->image('category.png') ?>
+                                </span>
+                                    <div>
+                                        <span class="fw-medium"><?= $value['name'] ?></span>
+                                        <span class="d-block op-7 fs-12"><?= $value['product_count'] ?> Items</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="fw-medium mb-0">Listes</h6>
+                </div>
+                <div class="row list-wrapper">
+                    <?php foreach ($posProduct as $key=>$value): ?>
+                            <div class="col-xxl-4 col-xl-4 col-md-6 card-item <?= str_replace(' ', '', $value['category_name']) ?>" data-category="<?= str_replace(' ', '', $value['category_name']) ?>">
+                                <div class="card custom-card p-3 p-3">
+                                    <div class="card-body bg-secondary-transparent rounded-bottom">
+                                        <div class="mb-3">
+                                            <a href="javascript:void(0);" class="fw-medium fs-16"><?= $value['product_name'] ?></a>
+                                            <span class="fs-12 text-muted d-block">Unité : <?= $value['packaging'] ?></span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2 justify-content-between flex-wrap">
+                                            <h5 class="fw-medium mb-0"><?= $value['unit_price'] ?></h5>
+                                            <div>
+                                                <?= $this->Form->create(null, ['controller' => 'sales', 'action'=>'pos']);?>
+                                                <?= $this->Form->control('barcode', ['class' => 'form-control form-control-sm rounded-0', 'placeholder' => 'Code Barre', 'label' => false, 'type'=>'hidden', 'value' => $value['barcode']]); ?>
+                                                <?= $this->Form->control('packaging_id', ['class' => 'form-control form-control-sm rounded-0', 'placeholder' => 'Code Barre', 'label' => false, 'type'=>'hidden', 'value' => $value['packaging_id']]); ?>
+                                                <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#viewcart"><i class="ri-add-fill me-1"></i>Ajouter</button>
+                                                <?= $this->Form->end() ?>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                     <?php endforeach; ?>
-                <?php endif; ?>
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-xl-4 p-3" style="border: 1px solid #e0e0e0">
-        <div class="col-sm-12">
-            <div class="row">
-                <?php if ($reference != null):?>
-                    <h4 class="text-end">Ref. <?= $reference ?></h4>
-                <?php endif ?>
-            </div>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-sm text-nowrap mt-3 table-borderless">
-                <tbody>
-                <tr>
-                    <th scope="row">
-                        <div class="fw-medium">Sous Total :</div>
-                    </th>
-                    <td>
-                        <input id="subtotal" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $this->Number->format($salesAmount) ?>" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="fw-medium">Remise :</div>
-                    </th>
-                    <td>
-                        <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="0" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="fw-medium">TVA <span class="text-danger">(15%)</span> :</div>
-                    </th>
-                    <td>
-                        <input id="vat" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $vat ?>" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="fs-14 fw-medium">Total :</div>
-                    </th>
-                    <td>
-                        <input id="total" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $total ?>" readonly>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="col-xxl-4">
+        <div class="card custom-card active">
+            <div class="card-body p-0">
+                <div class="">
+                    <div class="p-3 border-bottom border-block-end-dashed">
+                        <div class="row">
+                            <?php if ($reference != null):?>
+                                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                    <div class="fs-12 fw-medium bg-primary-transparent p-1 px-2 rounded">Ref. Facture</div>
+                                    <div class="text-success"><?= $reference ?></div>
+                                </div>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                    <ul class="list-group mb-0 border-0 rounded-0">
+                        <?php if ($salesDetails != null): ?>
+                            <?php foreach ($salesDetails as $key=>$value) :?>
+                                <li class="list-group-item border-top-0 border-start-0 border-end-0">
+                                    <div class="d-flex align-items-start flex-wrap">
+                                        <div class="me-2 lh-1">
+                                        <span class="avatar avatar-xl bg-light">
+                                            <?= $this->Html->image($value['image']) ?>
+                                        </span>
+                                        </div>
+                                        <div class="flex-fill pt-3">
+                                            <div class="d-flex align-items-center justify-content-between mb-3" data-product-id="<?= $value['product_id'] ?>">
+                                                <div class="fw-medium fs-14"><?= $value['product'] ?></div>
+                                                <div class="fw-medium fs-14 unit-price"><?= $value['unit_price'] ?></div>
+                                                <div class="fw-medium fs-14" id="item-subtotal"><?= $value['subtotal'] ?></div>
+                                                <div class="product-quantity-container order-summ">
+                                                    <div class="input-group flex-nowrap gap-1 border rounded-pill p-1">
+                                                        <button type="button" aria-label="button" class="btn btn-icon btn-sm border btn-wave rounded-pill btn-primary-light border product-quantity-minus border-end-0"><i class="ri-subtract-line"></i></button>
+                                                        <input type="text" class="form-control form-control-sm border-0 text-center p-0 product-quantity" min="1" aria-label="quantity" value="<?= $value['qty'] ?>">
+                                                        <button type="button" aria-label="button" class="btn btn-icon btn-sm border btn-wave rounded-pill btn-primary-light border product-quantity-plus border-start-0"><i class="ri-add-line"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
 
-        <hr>
-        <div class="row gy-3">
-            <div class="col-sm-12">
-                <label for="client_code">Code du client / Telephone</label>
-                <input id="client_code" type="text" class="form-control form-control-light" >
-            </div>
-            <div class="col-sm-12">
-                Argent perçu
-            </div>
-            <div class="col-sm-6">
-                <label for="client_code">USD</label>
-                <input id="client_code" type="number" min="0" class="form-control form-control-light" >
-            </div>
-            <div class="col-sm-6">
-                <label for="client_code">CDF</label>
-                <input id="client_code" type="number" min="0" class="form-control form-control-light" >
-            </div>
-
-            <div class="offset-3 col-sm-6">
-                <div class="row">
-                    <input type="submit" value="Valider la facture" class="btn btn-success">
+                    <div class="p-3 border-bottom border-block-end-dashed">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="text-muted">Sous Total</div>
+                            <div class="fw-medium fs-14">
+                                <input id="subtotal" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $salesAmount ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="text-muted">Remise</div>
+                            <div class="fw-medium fs-14">
+                                <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="0" readonly>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="text-muted">TVA (15%)</div>
+                            <div class="fw-medium fs-14">
+                                <input id="vat" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $vat ?>" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="fs-15">Total :</div>
+                            <div class="fw-semibold fs-16 text-dark">
+                                <input id="total" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $total ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3 mt-4">
+                            <a href="javascript:void(0);" class="btn btn-primary1-light btn-wave flex-fill waves-effect waves-light">Annuler la facture</a>
+                            <a href="checkout.html" class="btn btn-primary btn-wave flex-fill waves-effect waves-light">Valider la facture</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- End::Row-1 -->
 
 <script>
     $(document).ready(function() {
-        $(".invoice-quantity-container input").on("change", function() {
-            let qty = $(this).val(); // Get the updated quantity value
-            let productId = $(this).closest("tr").data("product-id"); // Get the product ID from the row data (add a custom data attribute to the row)
-            let row = $(this).closest("tr");
-            let unitPrice = parseFloat(row.find("td:eq(2) input").val()); // Get the unit price from the table
-            let subtotal = qty * unitPrice; // Calculate the new subtotal
+        "use strict";
 
-            // Update the subtotal input field
-            row.find("td:eq(4) input").val(subtotal);
-            document.getElementById("subtotal").value = subtotal;
+// Number of products selected
+        let minValue = 0,
+            maxValue = 300;
 
-            let vat = (subtotal*15)/100;
-
-            document.getElementById("vat").value = vat;
-            document.getElementById("total").value = subtotal + vat;
-
-            // Send AJAX request to update the quantity and subtotal
-            $.ajax({
-                url: '<?= $this->Url->build(["controller" => 'Sales', 'action' => 'updateItem']) ?>',
-                type: "POST",
-                data: {
-                    product_id: productId,
-                    qty: qty,
-                    subtotal: subtotal,
-                    _csrfToken: $("input[name='_csrfToken']").val()  // CSRF token from the hidden field
-                },
-                success: function(response) {
-                    console.log(response);
-                    try {
-                        // Manually parse the response if necessary
-                        let parsedResponse = JSON.parse(response);  // Ensure it's parsed as JSON
-
-                        console.log(parsedResponse); // Log the parsed response
-
-                        /*if (parsedResponse.success) {
-                            alert(parsedResponse.message);  // Show success message
-                        } else {
-                            alert(parsedResponse.message);  // Show failure message
-                        }*/
-                    } catch (e) {
-                        console.error('Error parsing JSON response:', e);
-                        alert("Error parsing response");
-                    }
-                },
-                error: function() {
-                    alert("Error in updating item");
+        document.querySelectorAll(".product-quantity-minus").forEach((element) => {
+            element.onclick = () => {
+                let input = element.nextElementSibling; // Selects the input field
+                let value = Number(input.value);
+                if (value > minValue) {
+                    input.value = value - 1;
+                    input.dispatchEvent(new Event("change")); // Triggers change event
                 }
+            };
+        });
+
+        document.querySelectorAll(".product-quantity-plus").forEach((element) => {
+            element.onclick = () => {
+                let input = element.previousElementSibling; // Selects the input field
+                let value = Number(input.value);
+                if (value < maxValue) {
+                    input.value = value + 1;
+                    input.dispatchEvent(new Event("change")); // Triggers change event
+                }
+            };
+        });
+
+        // Listen for the change event on quantity inputs
+        document.querySelectorAll(".product-quantity").forEach((input) => {
+            input.addEventListener("change", function () {
+                let row = $(this).closest(".d-flex"); // Get the product row
+                let qty = parseInt($(this).val()) || 1; // Get the updated quantity (ensure it's a valid number)
+                let productId = row.data("product-id"); // Get the product ID
+                let unitPrice = parseFloat(row.find(".unit-price").text()) || 0; // Get the unit price
+                let subtotal = qty * unitPrice; // Calculate new subtotal
+
+                // Update the subtotal
+                row.find("#item-subtotal").text(subtotal);
+
+                let vat = (subtotal * 15) / 100;
+                let total = subtotal + vat;
+
+                // Send AJAX request to update the quantity and subtotal
+                $.ajax({
+                    url: '<?= $this->Url->build(["controller" => 'Sales', 'action' => 'updateItem']) ?>',
+                    type: "POST",
+                    data: {
+                        product_id: productId,
+                        qty: qty,
+                        subtotal: subtotal,
+                        _csrfToken: $("input[name='_csrfToken']").val()  // CSRF token from the hidden field
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        try {
+                            // Manually parse the response if necessary
+                            let parsedResponse = JSON.parse(response);  // Ensure it's parsed as JSON
+
+                            console.log(parsedResponse); // Log the parsed response
+
+                            $("#subtotal").val(parsedResponse.subtotal);
+                            $("#vat").val(parsedResponse.vat);
+                            $("#total").val(parsedResponse.total);
+                        } catch (e) {
+                            console.error('Error parsing JSON response:', e);
+                            alert("Error parsing response");
+                        }
+                    },
+                    error: function() {
+                        alert("Error in updating item");
+                    }
+                });
             });
         });
+
     });
+
+
 </script>

@@ -149,18 +149,17 @@ $username = $session->read('Auth.Username');
 <?= $this->Html->script([
     'libs/@popperjs/core/umd/popper.min.js',
     'libs/bootstrap/js/bootstrap.bundle.min.js',
-    'defaultmenu.min.js',
     'libs/node-waves/waves.min.js',
-    'sticky.js',
     'libs/simplebar/simplebar.min.js',
-    'simplebar.js',
     'libs/@tarekraafat/autocomplete.js/autoComplete.min.js',
     'libs/@simonwep/pickr/pickr.es5.min.js',
     'libs/flatpickr/flatpickr.min.js',
     'libs/apexcharts/apexcharts.min.js',
     'datatables.js',
     'select2.js',
-    'create-invoice'
+    'create-invoice',
+    'libs/isotope-layout/isotope.pkgd.min.js',
+    'pos-dashboard.js',
 ]) ?>
 <!-- Datatables Cdn -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

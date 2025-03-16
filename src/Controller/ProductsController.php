@@ -88,7 +88,7 @@ class ProductsController extends AppController
 
                 $shop_id = GeneralController::getShopIdFromRoom($room_id);
                 GeneralController::NewStockIns($shop_id, $username);
-                GeneralController::NewPricings($product->id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username);
+                GeneralController::NewPricings($barcode, $product->id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username);
                 GeneralController::NewShopStocks($product->id, $room_id, $stock, $stock_min, $stock_max, $username);
                 GeneralController::NewStockInsDetails($product->id, $room_id, $purchase_price, $tax, $barcode, $qty, $expiry_date, $username);
 

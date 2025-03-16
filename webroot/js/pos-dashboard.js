@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* For Card Active */
 
 /* Isotope Layout Js */
-// document.addEventListener("DOMContentLoaded", function (e) { 
+// document.addEventListener("DOMContentLoaded", function (e) {
     var listWrapper = document.querySelector(".list-wrapper");
     var isotope;
     console.log("listWrapper",listWrapper);
@@ -55,10 +55,10 @@ document.querySelectorAll("#switcher-boxed , #switcher-full-width, #reset-all").
 (function () {
     "use strict"
 
-    // for nummber of products selected 
+    // for nummber of products selected
     var value = 1,
         minValue = 0,
-        maxValue = 30;
+        maxValue = 300;
 
     let productMinusBtn = document.querySelectorAll(".product-quantity-minus")
     let productPlusBtn = document.querySelectorAll(".product-quantity-plus")

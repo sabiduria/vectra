@@ -111,10 +111,11 @@ class GeneralController extends AppController
         return abs(round($diff / 86400));
     }
 
-    public static function NewPricings($product_id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username){
+    public static function NewPricings($barcode, $product_id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username){
         $connection = ConnectionManager::get('default');
 
         $connection->insert('pricings', [
+            'barcode' => $barcode,
             'product_id' => $product_id,
             'packaging_id' => $packaging_id,
             'unit_price' => $unit_price,
@@ -223,7 +224,7 @@ class GeneralController extends AppController
         return $data ? $data->details : null;
     }
 
-    public static function getProductPrices($barcode): ?string
+    public static function getProductPrices($barcode, $packaging_id): ?string
     {
         $table = TableRegistry::getTableLocator()->get('Pricings');
 
@@ -233,18 +234,21 @@ class GeneralController extends AppController
                     'CONCAT(unit_price, "-", wholesale_price, "-", special_price)'
                 ])
             ])
-            ->where(['barcode' => $barcode])
+            ->where(['barcode' => $barcode, 'packaging_id' => $packaging_id])
             ->first();
 
         return $data ? $data->details : null;
     }
 
-    public static function NewSalesItems($barcode, $username): void
+    public static function NewSalesItems($barcode, $packaging_id, $username): void
     {
         $connection = ConnectionManager::get('default');
 
         $product = explode('-', self::getProductDetails($barcode));
-        $pricings = explode('-', self::getProductPrices($barcode));
+        if ($packaging_id != null)
+            $pricings = explode('-', self::getProductPrices($barcode, $packaging_id));
+        else
+            $pricings = explode('-', self::getProductPrices($barcode, $product[1]));
         $salesId = GeneralController::getLastIdInsertedBy($username, 'Sales');
         $addCheck = self::productAlreadyAdd($product[0], $salesId);
         $currentQty = self::getCurrentQty($product[0], $salesId);
@@ -253,17 +257,18 @@ class GeneralController extends AppController
             $newQty = $currentQty+1;
             $newPrice = $newQty * $pricings[0];
             $connection->update('Salesitems', [
+                'unit_price' => $pricings[0],
                 'qty' => $newQty,
                 'subtotal' => $newPrice
             ], [
-                'sale_id' => $salesId
+                'sale_id' => $salesId, 'product_id' => $product[0]
             ]);
         } else{
             $connection->insert('Salesitems', [
                 'product_id' => $product[0],
                 'sale_id' => $salesId,
                 'qty' => 1,
-                'packaging_id' => $product[1],
+                'packaging_id' => $packaging_id != null ? $packaging_id : $product[1],
                 'unit_price' => $pricings[0],
                 'subtotal' => $pricings[0],
                 'created' => new DateTime('now'),
@@ -278,8 +283,34 @@ class GeneralController extends AppController
     public static function getSalesDetails($salesId): mixed
     {
         $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('SELECT si.id, p.name product, p.id product_id, si.qty, si.unit_price, pkg.name packaging, si.subtotal FROM salesitems si INNER JOIN products p ON p.id = si.product_id INNER JOIN packagings pkg ON pkg.id = si.packaging_id WHERE sale_id=:sale_id;', ['sale_id' => $salesId]);
+        $stmt = $conn->execute('SELECT si.id, p.name product, p.image, p.id product_id, si.qty, si.unit_price, pkg.name packaging, si.subtotal FROM salesitems si INNER JOIN products p ON p.id = si.product_id INNER JOIN packagings pkg ON pkg.id = si.packaging_id WHERE sale_id=:sale_id;', ['sale_id' => $salesId]);
         return $stmt->fetchAll('assoc');
+    }
+
+    public static function getAllCategories(): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT C.id, C.name, COUNT(P.id) AS product_count FROM categories C LEFT JOIN products P ON P.category_id = C.id GROUP BY C.id, C.name;');
+        return $stmt->fetchAll('assoc');
+    }
+
+    public static function getPOSProduct(): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT P.category_id, C.name category_name, P.barcode, P.id product_id, P.name product_name, PC.packaging_id, PG.name packaging, PC.unit_price FROM products P INNER JOIN pricings PC ON PC.product_id = P.id INNER JOIN packagings PG ON PG.id = PC.packaging_id INNER JOIN categories C ON C.id = P.category_id;');
+        return $stmt->fetchAll('assoc');
+    }
+
+    public static function getItemCount(): int
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(*) as nber FROM products');
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
     }
 
     public static function productAlreadyAdd($product_id, $sale_id): bool

@@ -65,8 +65,8 @@ $this->set('title_2', 'Articles');
 
             <hr>
 
-            <div class="related">
-                <h6><?= __('Inventaires') ?></h6>
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+                <h6><?= __('Inventaires Manuels') ?></h6>
                 <?php if (!empty($product->inventories)) : ?>
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -94,9 +94,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Commandes') ?></h6>
                 <?php if (!empty($product->ordersitems)) : ?>
                 <div class="table-responsive">
@@ -129,9 +132,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Pricings') ?></h6>
                 <?php if (!empty($product->pricings)) : ?>
                 <div class="table-responsive">
@@ -164,9 +170,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Promotions') ?></h6>
                 <?php if (!empty($product->promotionsproducts)) : ?>
                 <div class="table-responsive">
@@ -197,9 +206,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Achats') ?></h6>
                 <?php if (!empty($product->purchasesitems)) : ?>
                 <div class="table-responsive">
@@ -228,9 +240,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Ventes') ?></h6>
                 <?php if (!empty($product->salesitems)) : ?>
                 <div class="table-responsive">
@@ -265,9 +280,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Stocks') ?></h6>
                 <?php if (!empty($product->shopstocks)) : ?>
                 <div class="table-responsive">
@@ -302,9 +320,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Déclassés') ?></h6>
                 <?php if (!empty($product->spoilages)) : ?>
                 <div class="table-responsive">
@@ -333,9 +354,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Entrées') ?></h6>
                 <?php if (!empty($product->stockinsdetails)) : ?>
                 <div class="table-responsive">
@@ -374,9 +398,12 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
-            <div class="related">
+
+            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Transferts') ?></h6>
                 <?php if (!empty($product->transfersdetails)) : ?>
                 <div class="table-responsive">
@@ -405,6 +432,8 @@ $this->set('title_2', 'Articles');
                         <?php endforeach; ?>
                     </table>
                 </div>
+                <?php else: ?>
+                    Aucune donnée disponible
                 <?php endif; ?>
             </div>
         </div>
