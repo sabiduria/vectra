@@ -169,7 +169,7 @@ $posProduct = GeneralController::getPOSProduct();
                         </div>
                         <div class="d-flex gap-3 mt-4">
                             <a href="javascript:void(0);" class="btn btn-primary1-light btn-wave flex-fill waves-effect waves-light">Annuler la facture</a>
-                            <a href="checkout.html" class="btn btn-primary btn-wave flex-fill waves-effect waves-light">Valider la facture</a>
+                            <button class="btn btn-primary btn-wave flex-fill waves-effect waves-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem">Valider la facture</button>
                         </div>
                     </div>
                 </div>
@@ -179,12 +179,86 @@ $posProduct = GeneralController::getPOSProduct();
 </div>
 <!-- End::Row-1 -->
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="NewItem"
+     aria-labelledby="offcanvasRightLabel1">
+    <div class="offcanvas-header border-bottom border-block-end-dashed">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Validation Facture</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-3">
+        <div class="row">
+            <div id="response"></div>
+            <div class="mt-3">
+                <?= $this->Form->create(null, ['id' => 'DataForm']);?>
+                <div class="row gy-2">
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('client_code', ['class' => 'form-control', 'label' => 'Code du Client']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('client_name', ['class' => 'form-control', 'label' => 'Nom du Client', 'readonly']); ?>
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="amount_cdf">Montant en FC</label>
+                        <div class="input-group mb-3">
+                            <input type="number" name="amount_cdf" class="form-control" id="amount_cdf">
+                            <span class="input-group-text">FC</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="amount_usd">Montant en $</label>
+                        <div class="input-group mb-3">
+                            <input type="number" name="amount_usd" class="form-control" id="amount_usd">
+                            <span class="input-group-text">$</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('amount_difference', ['class' => 'form-control', 'label' => 'Difference', 'readonly']); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="p-3 border-bottom border-block-end-dashed">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="text-muted">Sous Total</div>
+                            <div class="fw-medium fs-14">
+                                <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $salesAmount ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="text-muted">Remise</div>
+                            <div class="fw-medium fs-14">
+                                <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="0" readonly>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="text-muted">TVA (15%)</div>
+                            <div class="fw-medium fs-14">
+                                <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $vat ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="fs-15">Total :</div>
+                            <div class="fw-semibold fs-16 text-dark">
+                                <input id="TotalBill" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $total ?>" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 mb-3">
+                    <?= $this->Form->button(__('Valider'), ['class'=>'btn btn-success']) ?>
+                </div>
+                <?= $this->Form->end() ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         "use strict";
 
-// Number of products selected
-        let minValue = 0,
+    // Number of products selected
+        let minValue = 1,
             maxValue = 300;
 
         document.querySelectorAll(".product-quantity-minus").forEach((element) => {
@@ -255,6 +329,43 @@ $posProduct = GeneralController::getPOSProduct();
                     }
                 });
             });
+        });
+
+    });
+
+    $(document).ready(function () {
+        $("#client-code").on("change", function () {
+            var clientCode = $(this).val();
+
+            if (clientCode !== "") {
+                $.ajax({
+                    url: "<?= $this->Url->build(["controller" => 'Customers', 'action' => 'getClientInfo']) ?>",
+                    type: "GET",
+                    data: { client_code: clientCode },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            $("#client-name").val(response.client_name);
+                        } else {
+                            //alert("Client not found!");
+                            $("#client-name").val("");
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while fetching client details.");
+                    }
+                });
+            }
+        });
+
+        $("#amount_usd, #amount_cdf").on("change", function () {
+            var amountUSD = parseFloat($("#amount_usd").val()) || 0;
+            var amountCDF = parseFloat($("#amount_cdf").val()) || 0;
+            var TotalBill = parseFloat($("#TotalBill").val()) || 0;
+            var cumulated = amountCDF + (amountUSD * 2820);
+            var difference = cumulated - TotalBill;
+            //$("#amount_cumulated").val(cumulated.toFixed(2)); // Format to 2 decimal places
+            $("#amount-difference").val(difference.toFixed(2)); // Format to 2 decimal places
         });
 
     });

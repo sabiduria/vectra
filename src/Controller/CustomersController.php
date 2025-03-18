@@ -155,4 +155,26 @@ class CustomersController extends AppController
             return $this->response->withStringBody(json_encode($response));
         }
     }
+
+    public function getClientInfo()
+    {
+        $this->request->allowMethod(['get']);
+        $clientCode = $this->request->getQuery('client_code');
+
+        $client = $this->Customers->find()
+            ->where(['phone' => $clientCode])
+            ->first();
+
+        if ($client) {
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode([
+                    'success' => true,
+                    'client_name' => $client->name
+                ]));
+        }
+
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode(['success' => false]));
+    }
+
 }
