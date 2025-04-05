@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int|null $product_id
  * @property int|null $supplier_id
  * @property int|null $packaging_id
+ * @property float|null $price
  * @property string|null $comments
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
@@ -38,6 +39,7 @@ class Prospection extends Entity
         'product_id' => true,
         'supplier_id' => true,
         'packaging_id' => true,
+        'price' => true,
         'comments' => true,
         'created' => true,
         'modified' => true,

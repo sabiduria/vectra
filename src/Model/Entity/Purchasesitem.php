@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int $purchase_id
  * @property int $product_id
  * @property float|null $qty
+ * @property float|null $price
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -36,6 +37,7 @@ class Purchasesitem extends Entity
         'purchase_id' => true,
         'product_id' => true,
         'qty' => true,
+        'price' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,

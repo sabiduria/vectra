@@ -86,13 +86,30 @@ class PurchasesController extends AppController
             if ($this->Purchases->save($purchase)) {
                 $this->Flash->success(__('The purchase has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'purchasegroups', 'action' => 'view', $purchase->purchase_group_reference]);
             }
             $this->Flash->error(__('The purchase could not be saved. Please, try again.'));
         }
         $statuses = $this->Purchases->Statuses->find('list', limit: 200)->all();
         $suppliers = $this->Purchases->Suppliers->find('list', limit: 200)->all();
         $this->set(compact('purchase', 'statuses', 'suppliers'));
+    }
+
+    public function reception($id = null)
+    {
+        $session = $this->request->getSession();
+        $purchase = $this->Purchases->get($id, contain: []);
+        $purchase = $this->Purchases->patchEntity($purchase, $this->request->getData());
+
+        $purchase->modifiedby = $session->read('Auth.Username');
+        $purchase->receipt_date = date('Y-m-d');
+
+        if ($this->Purchases->save($purchase)) {
+            $this->Flash->success(__('The purchase has been saved.'));
+
+            return $this->redirect(['controller' => 'purchasegroups', 'action' => 'view', $purchase->purchase_group_reference]);
+        }
+        $this->Flash->error(__('The purchase could not be saved. Please, try again.'));
     }
 
     /**
@@ -159,5 +176,37 @@ class PurchasesController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    public function purchase($product_id = null)
+    {
+        $this->viewBuilder()->setLayout('empty');
+        $session = $this->request->getSession();
+
+        $PGReference = $session->read('PGReference');
+        $prospections = GeneralController::getProspectionsPrices($product_id);
+
+        if($PGReference != null)
+            $reference = $PGReference;
+        else{
+            $reference = GeneralController::NewPurchaseGroup(1, "Sabiduria");
+            $session->write('PGReference', $reference);
+        }
+
+        if ($this->request->is('post')){
+            $purchaseCheck = GeneralController::POForSupplierAlreadyAdd($reference, $_POST['SupplierId']);
+            if (!$purchaseCheck){
+                $PO = GeneralController::NewPurchaseOrder($_POST['SupplierId'], $reference, "Sabiduria");
+                $PO_ID = GeneralController::getIDFromReference($PO, "Purchases");
+            } else {
+                $PO_ID = GeneralController::getPurchaseId($reference, $_POST['SupplierId']);
+            }
+            GeneralController::NewPurchaseOrderDetails($PO_ID, $_POST['ProductId'], $_POST['Qty'],  $_POST['Price'],"Sabiduria");
+            return $this->redirect(['action' => 'purchase', $_POST['ProductId']]);
+        }
+
+        $PODetails = GeneralController::getPODetails($reference);
+
+        $this->set(compact('prospections', 'reference', 'PODetails'));
     }
 }

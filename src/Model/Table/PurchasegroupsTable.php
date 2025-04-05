@@ -44,6 +44,10 @@ class PurchasegroupsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Shops', [
+            'foreignKey' => 'shop_id',
+        ]);
     }
 
     /**
@@ -54,6 +58,10 @@ class PurchasegroupsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
+        $validator
+            ->integer('shop_id')
+            ->allowEmptyString('shop_id');
+
         $validator
             ->scalar('reference')
             ->maxLength('reference', 15)
@@ -74,5 +82,19 @@ class PurchasegroupsTable extends Table
             ->allowEmptyString('deleted');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['shop_id'], 'Shops'), ['errorField' => 'shop_id']);
+
+        return $rules;
     }
 }

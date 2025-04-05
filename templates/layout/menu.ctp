@@ -143,10 +143,10 @@
             </a>
             <ul class="slide-menu child1">
                 <li class="slide">
-                    <?= $this->Html->link('Liste', ['controller' => 'purchases', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    <?= $this->Html->link('Liste', ['controller' => 'purchasegroups', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
-                    <?= $this->Html->link('Ajouter', ['controller' => 'purchases', 'action' => 'add'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    <?= $this->Html->link('Nouveau', ['controller' => 'purchases', 'action' => 'purchase'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('En attente', ['controller' => 'purchases', 'action' => 'index', 'waiting'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
@@ -255,6 +255,11 @@
                 </li>
             </ul>
         </li>
+        <!-- Start::slide -->
+        <li class="slide">
+            <?= $this->Html->link('<i class="ri-line-chart-line w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Prospections</span>', ['controller' => 'prospections', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+        </li>
+        <!-- End::slide -->
         <!-- End::slide -->
 
         <!-- Start::slide__category -->

@@ -19,6 +19,7 @@ class ProspectionsController extends AppController
      */
     public function index()
     {
+        $this->add();
         $query = $this->Prospections->find()->where(['Prospections.deleted' => 0])
             ->contain(['Products', 'Suppliers', 'Packagings']);
         $prospections = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);

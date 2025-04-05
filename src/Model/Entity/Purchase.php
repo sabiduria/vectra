@@ -12,8 +12,9 @@ use Cake\ORM\Entity;
  * @property int|null $status_id
  * @property int $supplier_id
  * @property string|null $reference
- * @property int|null $qty
+ * @property \Cake\I18n\Date|null $due_date
  * @property \Cake\I18n\DateTime|null $receipt_date
+ * @property string|null $purchase_group_reference
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -40,8 +41,9 @@ class Purchase extends Entity
         'status_id' => true,
         'supplier_id' => true,
         'reference' => true,
-        'qty' => true,
+        'due_date' => true,
         'receipt_date' => true,
+        'purchase_group_reference' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,

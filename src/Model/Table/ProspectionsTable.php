@@ -81,6 +81,10 @@ class ProspectionsTable extends Table
             ->allowEmptyString('packaging_id');
 
         $validator
+            ->numeric('price')
+            ->allowEmptyString('price');
+
+        $validator
             ->scalar('comments')
             ->allowEmptyString('comments');
 

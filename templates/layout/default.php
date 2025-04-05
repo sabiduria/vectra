@@ -171,7 +171,9 @@ $username = $session->read('Auth.Username');
     'libs/flatpickr/flatpickr.min.js',
     'libs/apexcharts/apexcharts.min.js',
     'datatables.js',
-    'select2.js'
+    'select2.js',
+    'custom-switcher.min.js',
+    'custom.js',
 ]) ?>
 <!-- Datatables Cdn -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

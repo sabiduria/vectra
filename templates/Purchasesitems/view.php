@@ -35,6 +35,10 @@
                     <td><?= $purchasesitem->qty === null ? '' : $this->Number->format($purchasesitem->qty) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Price') ?></th>
+                    <td><?= $purchasesitem->price === null ? '' : $this->Number->format($purchasesitem->price) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Created') ?></th>
                     <td><?= h($purchasesitem->created) ?></td>
                 </tr>

@@ -21,10 +21,13 @@ $emptyText = "Veuillez selectionner";
                 <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>
+                <?= $this->Form->control('due_date', ['empty' => true, 'class' => 'form-control', 'label' => 'due_date']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('receipt_date', ['empty' => true, 'class' => 'form-control', 'label' => 'receipt_date']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('purchase_group_reference', ['class' => 'form-control', 'label' => 'purchase_group_reference']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

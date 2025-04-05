@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Purchasegroup Entity
  *
  * @property int $id
+ * @property int|null $shop_id
  * @property string|null $reference
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
@@ -28,6 +29,7 @@ class Purchasegroup extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'shop_id' => true,
         'reference' => true,
         'created' => true,
         'modified' => true,

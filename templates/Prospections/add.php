@@ -22,6 +22,9 @@ $emptyText = "Veuillez selectionner";
                 <?= $this->Form->control('packaging_id', ['options' => $packagings, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'packaging_id']); ?>
             </div>
             <div class="col-xl-12">
+                <?= $this->Form->control('price', ['class' => 'form-control', 'label' => 'price']); ?>
+            </div>
+            <div class="col-xl-12">
                 <?= $this->Form->control('comments', ['class' => 'form-control', 'label' => 'comments']); ?>
             </div>
         </div>

@@ -3,42 +3,63 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Purchasegroup $purchasegroup
  */
- $this->set('title_2', 'Purchasegroups');
+
+use App\Controller\GeneralController;
+
+$this->set('title_2', 'Bons d\'achats');
 ?>
 <div class="row">
-    <div class="column column-80">
-        <div class="purchasegroups view content">
-            <h3><?= h($purchasegroup->id) ?></h3>
-            <table class="table">
-                <tr>
-                    <th><?= __('Reference') ?></th>
-                    <td><?= h($purchasegroup->reference) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Createdby') ?></th>
-                    <td><?= h($purchasegroup->createdby) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modifiedby') ?></th>
-                    <td><?= h($purchasegroup->modifiedby) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($purchasegroup->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($purchasegroup->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($purchasegroup->modified) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Deleted') ?></th>
-                    <td><?= $purchasegroup->deleted ? __('Yes') : __('No'); ?></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
+        <thead>
+        <tr>
+            <th>Reference</th>
+            <th>Fournisseur</th>
+            <th>Deadline</th>
+            <th>Date reception</th>
+            <th>Articles</th>
+            <th>Qte</th>
+            <th>Statut</th>
+            <th>Etat de livraison</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($POData as $key=>$value): ?>
+            <tr>
+                <td><?= $value['reference'] ?></td>
+                <td><?= $value['supplier'] ?></td>
+                <td><?= $value['due_date'] != null ? date('Y-m-d', strtotime($value['due_date'])) : "<span class=\"badge bg-primary1\">Non indiqué</span>"  ?></td>
+                <td><?= $value['receipt_date'] != null ? date('Y-m-d', strtotime($value['receipt_date'])) : "<span class=\"badge bg-secondary\">En attente</span>"  ?></td>
+                <td class="text-center">
+                    <span class="avatar avatar-sm avatar-rounded bg-primary">
+                        <?= GeneralController::getPurchasedItems($value['id']) ?>
+                    </span>
+                </td>
+                <td class="text-center">
+                    <span class="avatar avatar-sm avatar-rounded bg-success">
+                        <?= GeneralController::getPurchasedItemsQuantity($value['id']) ?>
+                    </span>
+                </td>
+                <td class="text-center">
+                    <span class="badge bg-primary-transparent"><?= $value['status'] ?></span>
+                </td>
+                <td>
+                    <?= GeneralController::getPurchasesStatus($value['id']) ?>
+                </td>
+                <td>
+                    <?= GeneralController::getPOAmount($value['id']) ?>
+                </td>
+                <td class="text-end">
+                    <?php if ($value['receipt_date'] == null): ?>
+                        <?= $this->Html->link(__('<i class="ri-check-double-fill"></i>'), ['controller' => 'purchases', 'action' => 'reception', $value['id']], ['class' => 'btn btn-info btn-sm', 'escape' => false]) ?>
+                    <?php endif; ?>
+                    <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['controller' => 'purchases', 'action' => 'view', $value['id']], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                    <?= $this->Html->link(__('<i class="ri-calendar-check-line"></i>'), ['controller' => 'purchases', 'action' => 'edit', $value['id']], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                    <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'purchases', 'action' => 'delete', $value['id']], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>

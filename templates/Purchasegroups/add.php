@@ -10,6 +10,9 @@ $emptyText = "Veuillez selectionner";
     <?= $this->Form->create($purchasegroup) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
+                <?= $this->Form->control('shop_id', ['class' => 'form-control', 'label' => 'shop_id']); ?>
+            </div>
+            <div class="col-xl-12">
                 <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>
             </div>
         </div>

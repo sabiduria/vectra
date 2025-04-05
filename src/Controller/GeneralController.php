@@ -67,6 +67,18 @@ class GeneralController extends AppController
         return null;
     }
 
+    public static function getSupplierData($data, $supplier_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT '.$data.' FROM suppliers WHERE id = :supplier_id', ['supplier_id' => $supplier_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
+
     public static function getNameOf($id, $tableName): ?string
     {
         $table = TableRegistry::getTableLocator()->get($tableName)
@@ -197,6 +209,30 @@ class GeneralController extends AppController
         return $table ? $table->id : null;
     }
 
+    public static function getIDFromReference($reference, $tableName): ?int
+    {
+        $table = TableRegistry::getTableLocator()->get($tableName)
+            ->find()
+            ->select(['id'])
+            ->where(['reference' => $reference])
+            ->orderByDesc('id')
+            ->first();
+
+        return $table ? $table->id : null;
+    }
+
+    public static function getPurchaseId($PGReference, $supplier_id): ?int
+    {
+        $table = TableRegistry::getTableLocator()->get("Purchases")
+            ->find()
+            ->select(['id'])
+            ->where(['purchase_group_reference' => $PGReference, 'supplier_id' => $supplier_id])
+            ->orderByDesc('id')
+            ->first();
+
+        return $table ? $table->id : null;
+    }
+
     public static function getShopIdFromRoom($room_id): ?int
     {
         $table = TableRegistry::getTableLocator()->get('Rooms')
@@ -294,6 +330,25 @@ class GeneralController extends AppController
         return $stmt->fetchAll('assoc');
     }
 
+    public static function getAllProducts($shop_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT P.id, C.name, P.image, P.reference, P.name, SUM(SS.stock) stock, SS.stock_min, SS.stock_max FROM products P
+        INNER JOIN shopstocks SS ON SS.product_id=P.id
+        INNER JOIN rooms R ON R.id = SS.room_id
+        INNER JOIN categories C ON C.id = P.category_id
+        WHERE R.shops_id = :shop_id
+        GROUP BY P.id;', ['shop_id' => $shop_id]);
+        return $stmt->fetchAll('assoc');
+    }
+
+    public static function getProspectionsPrices($product_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT P.id, P.product_id, P.supplier_id, S.name supplier, PK.name packaging, P.price, P.created FROM prospections P INNER JOIN suppliers S ON S.id = P.supplier_id INNER JOIN packagings PK ON PK.id = P.packaging_id WHERE product_id = :product_id', ['product_id' => $product_id]);
+        return $stmt->fetchAll('assoc');
+    }
+
     public static function getPOSProduct(): mixed
     {
         $conn = ConnectionManager::get('default');
@@ -301,10 +356,157 @@ class GeneralController extends AppController
         return $stmt->fetchAll('assoc');
     }
 
+    public static function getPOData($PGReference): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT P.id, P.status_id, SS.name as status, P.supplier_id, S.name supplier, P.reference, P.due_date, P.receipt_date, P.purchase_group_reference, P.created, P.modified, P.createdby, P.modifiedby, P.deleted FROM purchases P INNER JOIN suppliers S ON S.id = P.supplier_id INNER JOIN statuses SS ON SS.id = P.status_id WHERE P.purchase_group_reference = :PGReference;', ['PGReference' => $PGReference]);
+        return $stmt->fetchAll('assoc');
+    }
+
     public static function getItemCount(): int
     {
         $conn = ConnectionManager::get('default');
         $stmt = $conn->execute('SELECT COUNT(*) as nber FROM products');
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getPurchasedItems($purchase_id): int
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(product_id) nber FROM purchasesitems WHERE purchase_id=:purchase_id', ['purchase_id' => $purchase_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getPurchasedItemsQuantity($purchase_id): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(qty) nber FROM purchasesitems WHERE purchase_id=:purchase_id', ['purchase_id' => $purchase_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getSalesItemsQuantity($sale_id): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(qty) nber FROM salesitems WHERE sale_id=:sale_id', ['sale_id' => $sale_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getSalesItemsNumber($sale_id): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(product_id) nber FROM salesitems WHERE sale_id=:sale_id', ['sale_id' => $sale_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getPurchasesNumber($purchase_group): int
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(*) nber FROM purchases WHERE purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getPurchasesItemsNumber($purchase_group): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(PI.qty) nber FROM purchases P INNER JOIN purchasesitems PI ON P.id = PI.purchase_id WHERE P.purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getPurchasesItemsAmount($purchase_group): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(PI.qty*PI.price) nber FROM purchases P INNER JOIN purchasesitems PI ON P.id = PI.purchase_id WHERE P.purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getPurchasesGroupStatus($purchase_group): string
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute("SELECT CASE
+         WHEN COUNT(*) = 0 THEN '<span class=\"badge bg-warning\">En attente de livraison</span>'
+         WHEN COUNT(receipt_date) = 0 AND MAX(due_date) < NOW() THEN '<span class=\"badge bg-danger\">En retard de livraison</span>'
+         WHEN COUNT(receipt_date) = 0 THEN '<span class=\"badge bg-warning\">En attente de livraison</span>'
+         WHEN COUNT(receipt_date) = COUNT(*) THEN '<span class=\"badge bg-success\">Achat réceptionné</span>'
+         WHEN COUNT(*) > COUNT(receipt_date) AND MAX(due_date) < NOW() THEN '<span class=\"badge bg-danger\">En retard de livraison</span>'
+         ELSE '<span class=\"badge bg-info\">Partiellement Réçu</span>'
+       END AS receipt_status
+FROM purchases
+WHERE purchase_group_reference = :purchase_group",
+            ['purchase_group' => $purchase_group]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return "";
+    }
+
+    public static function getPurchasesStatus($purchase_id): string
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute("SELECT CASE
+         WHEN COUNT(*) = 0 THEN '<span class=\"badge bg-warning\">En attente de livraison</span>'
+         WHEN COUNT(receipt_date) = 0 AND MAX(due_date) < NOW() THEN '<span class=\"badge bg-danger\">En retard de livraison</span>'
+         WHEN COUNT(receipt_date) = 0 THEN '<span class=\"badge bg-warning\">En attente de livraison</span>'
+         WHEN COUNT(receipt_date) = COUNT(*) THEN '<span class=\"badge bg-success\">Achat réceptionné</span>'
+         WHEN COUNT(*) > COUNT(receipt_date) AND MAX(due_date) < NOW() THEN '<span class=\"badge bg-danger\">En retard de livraison</span>'
+         ELSE '<span class=\"badge bg-info\">Partiellement Réçu</span>'
+       END AS receipt_status
+FROM purchases
+WHERE id = :purchase_id",
+            ['purchase_id' => $purchase_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return "";
+    }
+
+    public static function getPOAmount($purchase_id): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(qty*price) total FROM purchasesitems WHERE purchase_id=:purchase_id', ['purchase_id' => $purchase_id]);
         $result = $stmt->fetch('assoc');
         foreach ($result as $row) {
             return $row;
@@ -350,5 +552,80 @@ class GeneralController extends AppController
         }
 
         return null;
+    }
+
+    public static function NewPurchaseGroup($shop_id, $username): string
+    {
+        $connection = ConnectionManager::get('default');
+        $reference = self::generateReference('Purchasegroups', 'PG');
+
+        $connection->insert('purchasegroups', [
+            'shop_id' => $shop_id,
+            'reference' => $reference,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+
+        return $reference;
+    }
+
+    public static function POForSupplierAlreadyAdd($purchase_group_reference, $supplier_id): bool
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(*) as nber FROM purchases WHERE purchase_group_reference = :purchase_group_reference AND supplier_id = :supplier_id', ['purchase_group_reference' => $purchase_group_reference, 'supplier_id' => $supplier_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row > 0;
+        }
+
+        return false;
+    }
+
+    public static function NewPurchaseOrder($supplier_id, $purchase_group_reference, $username): string
+    {
+        $connection = ConnectionManager::get('default');
+        $reference = self::generateReference('Purchases', 'PO');
+
+        $connection->insert('purchases', [
+            'status_id' => 1,
+            'supplier_id' => $supplier_id,
+            'purchase_group_reference' => $purchase_group_reference,
+            'reference' => $reference,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+
+        return $reference;
+    }
+
+    public static function NewPurchaseOrderDetails($purchase_id, $product_id, $qty, $price, $username): void
+    {
+        $connection = ConnectionManager::get('default');
+
+        $connection->insert('purchasesitems', [
+            'purchase_id' => $purchase_id,
+            'product_id' => $product_id,
+            'qty' => $qty,
+            'price' => $price,
+            'created' => new DateTime('now'),
+            'modified' => new DateTime('now'),
+            'createdby' => $username,
+            'modifiedby' => $username,
+            'deleted' => 0
+        ], ['created' => 'datetime', 'modified' => 'datetime']);
+
+    }
+
+    public static function getPODetails($PGReference): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT PI.id, PI.purchase_id, S.name supplier, PI.product_id, PD.name product, PD.image, PI.qty, PI.price, PI.qty*PI.price total, PI.created FROM purchasesitems PI INNER JOIN purchases P ON P.id = PI.purchase_id INNER JOIN suppliers S ON S.id = P.supplier_id INNER JOIN products PD ON PD.id = PI.product_id WHERE P.purchase_group_reference=:purchase_group_reference;', ['purchase_group_reference' => $PGReference]);
+        return $stmt->fetchAll('assoc');
     }
 }

@@ -3,24 +3,26 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Purchasegroup> $purchasegroups
  */
-$this->set('title_2', 'Purchasegroups');
+
+use App\Controller\GeneralController;
+
+$this->set('title_2', 'Bon d\'Achats');
 $Number = 1;
 ?>
 <div class="mt-3">
-    <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>
-    <?= $this->Html->link(__('Nouveau Purchasegroup'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('reference') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('createdby') ?></th>
-                    <th><?= $this->Paginator->sort('modifiedby') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
+                    <th><?= $this->Paginator->sort('shop_id') ?></th>
+                    <th><?= $this->Paginator->sort('Bon d\'achats') ?></th>
+                    <th><?= $this->Paginator->sort('Articles') ?></th>
+                    <th><?= $this->Paginator->sort('Montant') ?></th>
+                    <th><?= $this->Paginator->sort('Statut') ?></th>
+                    <th><?= $this->Paginator->sort('Date') ?></th>
+                    <th><?= $this->Paginator->sort('Par') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -28,17 +30,20 @@ $Number = 1;
                 <?php foreach ($purchasegroups as $purchasegroup): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
-                    <td><?= $this->Number->format($purchasegroup->id) ?></td>
                     <td><?= h($purchasegroup->reference) ?></td>
+                    <td><?= GeneralController::getNameOf($purchasegroup->shop_id, 'Shops') ?></td>
+                    <td><?= GeneralController::getPurchasesNumber($purchasegroup->reference) ?> bon(s)</td>
+                    <td class="text-center">
+                        <span class="avatar avatar-sm avatar-rounded bg-success">
+                            <?= GeneralController::getPurchasesItemsNumber($purchasegroup->reference) ?>
+                        </span>
+                    </td>
+                    <td><?= GeneralController::getPurchasesItemsAmount($purchasegroup->reference) ?></td>
+                    <td><?= GeneralController::getPurchasesGroupStatus($purchasegroup->reference) ?></td>
                     <td><?= h($purchasegroup->created) ?></td>
-                    <td><?= h($purchasegroup->modified) ?></td>
                     <td><?= h($purchasegroup->createdby) ?></td>
-                    <td><?= h($purchasegroup->modifiedby) ?></td>
-                    <td><?= h($purchasegroup->deleted) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('Details'), ['action' => 'view', $purchasegroup->id], ['class' => 'btn btn-success btn-sm']) ?>
-                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $purchasegroup->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $purchasegroup->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $purchasegroup->reference], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -46,62 +51,3 @@ $Number = 1;
         </table>
     </div>
 </div>
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="NewItem"
-     aria-labelledby="offcanvasRightLabel1">
-    <div class="offcanvas-header border-bottom border-block-end-dashed">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Purchasegroups</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body p-3">
-        <div class="row">
-            <div id="response"></div>
-<div class="mt-3">
-    <?= $this->Form->create(null, ['id' => 'DataForm']);?>
-        <div class="row gy-2">
-            <div class="col-xl-12">
-                <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>
-            </div>
-        </div>
-        <div class="mt-3 mb-3">
-            <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
-        </div>
-    <?= $this->Form->end() ?>
-</div>
-
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function() {
-        $('#DataForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            // Get form data
-            var formData = $(this).serialize();
-
-            // Perform AJAX request
-            $.ajax({
-                url: '<?= $this->Url->build(["controller" => 'Purchasegroups', 'action' => 'insert']) ?>',
-                method: 'POST',
-                data: formData,
-                dataType: 'json', // Expecting JSON in the response
-                success: function(response) {
-                    console.log(response.data); // Log the JSON response
-                    $('#response').html('<div class="alert alert-success rounded-pill alert-dismissible fade show mb-1 mt-2">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button> </div>'); // Show success message
-                    var newRow = '<tr>';
-                    newRow += '<td>'+''+'</td>'; // Add your actions
-                    newRow += '</tr>';
-
-                    // Append the new row to the table
-                    $('.TableData tbody').append(newRow);
-                    $('#DataForm')[0].reset();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error); // Log any error
-                    $('#response').html('<p>An error occurred. Please try again.</p>');
-                }
-            });
-        });
-    });
-</script>

@@ -18,6 +18,7 @@ $Number = 1;
                     <th><?= $this->Paginator->sort('purchase_id') ?></th>
                     <th><?= $this->Paginator->sort('product_id') ?></th>
                     <th><?= $this->Paginator->sort('qty') ?></th>
+                    <th><?= $this->Paginator->sort('price') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th><?= $this->Paginator->sort('createdby') ?></th>
@@ -34,6 +35,7 @@ $Number = 1;
                     <td><?= $purchasesitem->hasValue('purchase') ? $this->Html->link($purchasesitem->purchase->id, ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase->id]) : '' ?></td>
                     <td><?= $purchasesitem->hasValue('product') ? $this->Html->link($purchasesitem->product->name, ['controller' => 'Products', 'action' => 'view', $purchasesitem->product->id]) : '' ?></td>
                     <td><?= $purchasesitem->qty === null ? '' : $this->Number->format($purchasesitem->qty) ?></td>
+                    <td><?= $purchasesitem->price === null ? '' : $this->Number->format($purchasesitem->price) ?></td>
                     <td><?= h($purchasesitem->created) ?></td>
                     <td><?= h($purchasesitem->modified) ?></td>
                     <td><?= h($purchasesitem->createdby) ?></td>
@@ -71,6 +73,9 @@ $Number = 1;
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('price', ['class' => 'form-control', 'label' => 'price']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

@@ -79,6 +79,10 @@ class PurchasesitemsTable extends Table
             ->allowEmptyString('qty');
 
         $validator
+            ->numeric('price')
+            ->allowEmptyString('price');
+
+        $validator
             ->scalar('createdby')
             ->maxLength('createdby', 45)
             ->allowEmptyString('createdby');

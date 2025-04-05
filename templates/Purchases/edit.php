@@ -10,21 +10,15 @@ $emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($purchase) ?>
-        <div class="row gy-2">
+        <div class="row gy-3">
             <div class="col-xl-12">
-                <?= $this->Form->control('status_id', ['options' => $statuses, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'status_id']); ?>
+                <?= $this->Form->control('supplier_id', ['options' => $suppliers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Fournisseur']); ?>
             </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('supplier_id', ['options' => $suppliers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'supplier_id']); ?>
+            <div class="col-xl-6">
+                <?= $this->Form->control('due_date', ['empty' => true, 'class' => 'form-control', 'label' => 'Deadline']); ?>
             </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>
-            </div>
-            <div class="col-xl-12">
-                <?= $this->Form->control('receipt_date', ['empty' => true, 'class' => 'form-control', 'label' => 'receipt_date']); ?>
+            <div class="col-xl-6">
+                <?= $this->Form->control('receipt_date', ['empty' => true, 'class' => 'form-control', 'label' => 'Date de Reception']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

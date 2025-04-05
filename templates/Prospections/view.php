@@ -35,6 +35,10 @@
                     <td><?= $this->Number->format($prospection->id) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Price') ?></th>
+                    <td><?= $prospection->price === null ? '' : $this->Number->format($prospection->price) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Created') ?></th>
                     <td><?= h($prospection->created) ?></td>
                 </tr>

@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Sale> $sales
  */
+
+use App\Controller\GeneralController;
+
 $this->set('title_2', 'Sales');
 $Number = 1;
 ?>
@@ -14,18 +17,14 @@ $Number = 1;
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('user_id') ?></th>
-                    <th><?= $this->Paginator->sort('customer_id') ?></th>
-                    <th><?= $this->Paginator->sort('reference') ?></th>
-                    <th><?= $this->Paginator->sort('total_amount') ?></th>
-                    <th><?= $this->Paginator->sort('payment_method') ?></th>
-                    <th><?= $this->Paginator->sort('status_id') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('createdby') ?></th>
-                    <th><?= $this->Paginator->sort('modifiedby') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
+                    <th><?= $this->Paginator->sort('Ref.') ?></th>
+                    <th><?= $this->Paginator->sort('Client') ?></th>
+                    <th><?= $this->Paginator->sort('Articles') ?></th>
+                    <th><?= $this->Paginator->sort('Quantité') ?></th>
+                    <th><?= $this->Paginator->sort('Total') ?></th>
+                    <th><?= $this->Paginator->sort('Status') ?></th>
+                    <th><?= $this->Paginator->sort('Caissier') ?></th>
+                    <th><?= $this->Paginator->sort('Date') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -33,22 +32,18 @@ $Number = 1;
                 <?php foreach ($sales as $sale): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
-                    <td><?= $this->Number->format($sale->id) ?></td>
-                    <td><?= $sale->hasValue('user') ? $this->Html->link($sale->user->id, ['controller' => 'Users', 'action' => 'view', $sale->user->id]) : '' ?></td>
-                    <td><?= $sale->hasValue('customer') ? $this->Html->link($sale->customer->name, ['controller' => 'Customers', 'action' => 'view', $sale->customer->id]) : '' ?></td>
                     <td><?= h($sale->reference) ?></td>
+                    <td><?= $sale->hasValue('customer') ? $this->Html->link($sale->customer->name, ['controller' => 'Customers', 'action' => 'view', $sale->customer->id]) : '<span class="badge bg-primary3-transparent">Ordinaire</span>' ?></td>
+                    <td><?= GeneralController::getSalesItemsNumber($sale->id) ?></td>
+                    <td><?= GeneralController::getSalesItemsQuantity($sale->id) ?></td>
                     <td><?= $sale->total_amount === null ? '' : $this->Number->format($sale->total_amount) ?></td>
-                    <td><?= h($sale->payment_method) ?></td>
-                    <td><?= $sale->hasValue('status') ? $this->Html->link($sale->status->name, ['controller' => 'Statuses', 'action' => 'view', $sale->status->id]) : '' ?></td>
+                    <td><?= $sale->status->name ?></td>
+                    <td><?= $sale->hasValue('user') ? $this->Html->link($sale->user->username, ['controller' => 'Users', 'action' => 'view', $sale->user->id]) : '' ?></td>
                     <td><?= h($sale->created) ?></td>
-                    <td><?= h($sale->modified) ?></td>
-                    <td><?= h($sale->createdby) ?></td>
-                    <td><?= h($sale->modifiedby) ?></td>
-                    <td><?= h($sale->deleted) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('Details'), ['action' => 'view', $sale->id], ['class' => 'btn btn-success btn-sm']) ?>
-                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $sale->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $sale->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $sale->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $sale->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $sale->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

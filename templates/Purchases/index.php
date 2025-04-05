@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Purchase> $purchases
  */
+
+use App\Controller\GeneralController;
+
 $this->set('title_2', 'Purchases');
 $Number = 1;
 ?>
@@ -14,17 +17,14 @@ $Number = 1;
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('N°') ?></th>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('status_id') ?></th>
-                    <th><?= $this->Paginator->sort('supplier_id') ?></th>
-                    <th><?= $this->Paginator->sort('reference') ?></th>
-                    <th><?= $this->Paginator->sort('qty') ?></th>
-                    <th><?= $this->Paginator->sort('receipt_date') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('createdby') ?></th>
-                    <th><?= $this->Paginator->sort('modifiedby') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
+                    <th><?= $this->Paginator->sort('Reference') ?></th>
+                    <th><?= $this->Paginator->sort('Status') ?></th>
+                    <th><?= $this->Paginator->sort('Fournisseur') ?></th>
+                    <th><?= $this->Paginator->sort('Deadline') ?></th>
+                    <th><?= $this->Paginator->sort('Date de reception') ?></th>
+                    <th><?= $this->Paginator->sort('Articles') ?></th>
+                    <th><?= $this->Paginator->sort('Total') ?></th>
+                    <th><?= $this->Paginator->sort('Date') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -32,17 +32,20 @@ $Number = 1;
                 <?php foreach ($purchases as $purchase): ?>
                 <tr>
                     <td><?= $Number++ ?></td>
-                    <td><?= $this->Number->format($purchase->id) ?></td>
-                    <td><?= $purchase->hasValue('status') ? $this->Html->link($purchase->status->name, ['controller' => 'Statuses', 'action' => 'view', $purchase->status->id]) : '' ?></td>
-                    <td><?= $purchase->hasValue('supplier') ? $this->Html->link($purchase->supplier->name, ['controller' => 'Suppliers', 'action' => 'view', $purchase->supplier->id]) : '' ?></td>
                     <td><?= h($purchase->reference) ?></td>
-                    <td><?= $purchase->qty === null ? '' : $this->Number->format($purchase->qty) ?></td>
+                    <th class="text-center">
+                        <span class="badge bg-primary-transparent"><?= $purchase->status->name ?></span>
+                    </th>
+                    <td><?= $purchase->supplier->name ?></td>
+                    <td><?= h($purchase->due_date) ?></td>
                     <td><?= h($purchase->receipt_date) ?></td>
+                    <td class="text-center">
+                    <span class="avatar avatar-sm avatar-rounded bg-primary">
+                        <?= GeneralController::getPurchasedItems($purchase->id) ?>
+                    </span>
+                    </td>
+                    <td><?= GeneralController::getPOAmount($purchase->id) ?></td>
                     <td><?= h($purchase->created) ?></td>
-                    <td><?= h($purchase->modified) ?></td>
-                    <td><?= h($purchase->createdby) ?></td>
-                    <td><?= h($purchase->modifiedby) ?></td>
-                    <td><?= h($purchase->deleted) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Details'), ['action' => 'view', $purchase->id], ['class' => 'btn btn-success btn-sm']) ?>
                         <?= $this->Html->link(__('Editer'), ['action' => 'edit', $purchase->id], ['class' => 'btn btn-primary btn-sm']) ?>
@@ -77,10 +80,13 @@ $Number = 1;
                 <?= $this->Form->control('reference', ['class' => 'form-control', 'label' => 'reference']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>
+                <?= $this->Form->control('due_date', ['empty' => true, 'class' => 'form-control', 'label' => 'due_date']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('receipt_date', ['empty' => true, 'class' => 'form-control', 'label' => 'receipt_date']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('purchase_group_reference', ['class' => 'form-control', 'label' => 'purchase_group_reference']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

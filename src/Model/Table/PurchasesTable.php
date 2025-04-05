@@ -87,12 +87,17 @@ class PurchasesTable extends Table
             ->allowEmptyString('reference');
 
         $validator
-            ->integer('qty')
-            ->allowEmptyString('qty');
+            ->date('due_date')
+            ->allowEmptyDate('due_date');
 
         $validator
             ->dateTime('receipt_date')
             ->allowEmptyDateTime('receipt_date');
+
+        $validator
+            ->scalar('purchase_group_reference')
+            ->maxLength('purchase_group_reference', 15)
+            ->allowEmptyString('purchase_group_reference');
 
         $validator
             ->scalar('createdby')

@@ -20,6 +20,9 @@ $emptyText = "Veuillez selectionner";
             <div class="col-xl-12">
                 <?= $this->Form->control('qty', ['class' => 'form-control', 'label' => 'qty']); ?>
             </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('price', ['class' => 'form-control', 'label' => 'price']); ?>
+            </div>
         </div>
         <div class="mt-3 mb-3">
             <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>

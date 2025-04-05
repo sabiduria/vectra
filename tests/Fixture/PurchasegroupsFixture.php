@@ -20,9 +20,10 @@ class PurchasegroupsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'shop_id' => 1,
                 'reference' => 'Lorem ipsum d',
-                'created' => '2025-03-25 19:17:01',
-                'modified' => '2025-03-25 19:17:01',
+                'created' => '2025-03-25 19:35:56',
+                'modified' => '2025-03-25 19:35:56',
                 'createdby' => 'Lorem ipsum dolor sit amet',
                 'modifiedby' => 'Lorem ipsum dolor sit amet',
                 'deleted' => 1,

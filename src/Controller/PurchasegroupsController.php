@@ -28,14 +28,19 @@ class PurchasegroupsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Purchasegroup id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($reference = null)
     {
-        $purchasegroup = $this->Purchasegroups->get($id, contain: []);
-        $this->set(compact('purchasegroup'));
+        $this->request->getSession()->delete('PGReference');
+        $purchasegroup = $this->Purchasegroups->find()
+            ->where(['reference' => $reference])
+            ->firstOrFail();
+
+        $POData = GeneralController::getPOData($reference);
+
+        $this->set(compact('purchasegroup', 'POData'));
     }
 
     /**
