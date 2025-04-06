@@ -12,6 +12,13 @@ use Exception;
  */
 class ExchangeratesController extends AppController
 {
+    private \Cake\ORM\Table $Currencies;
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Currencies = $this->fetchTable('Currencies');  // Load the SalesItems model here
+    }
     /**
      * Index method
      *
@@ -22,7 +29,9 @@ class ExchangeratesController extends AppController
         $query = $this->Exchangerates->find()->where(['Exchangerates.deleted' => 0]);
         $exchangerates = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
-        $this->set(compact('exchangerates'));
+        $currencies = $this->Currencies->find('list', limit: 200)->all();
+
+        $this->set(compact('exchangerates', 'currencies'));
     }
 
     /**
@@ -52,6 +61,7 @@ class ExchangeratesController extends AppController
 
             $exchangerate->createdby = $session->read('Auth.Username');
             $exchangerate->modifiedby = $session->read('Auth.Username');
+            $exchangerate->isactived = 1;
             $exchangerate->deleted = 0;
 
             if ($this->Exchangerates->save($exchangerate)) {

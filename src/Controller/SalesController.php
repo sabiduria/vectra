@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
+use Cake\Http\Exception\InternalErrorException;
 use Cake\I18n\DateTime;
+use Cake\ORM\Table;
 use Exception;
 
 /**
@@ -14,14 +16,15 @@ use Exception;
  */
 class SalesController extends AppController
 {
-
     // Load the SalesItems model
-    private \Cake\ORM\Table $SalesItems;
+    private Table $SalesItems;
+    protected PrinterService $printer;
 
     public function initialize(): void
     {
         parent::initialize();
-        $this->SalesItems = $this->fetchTable('Salesitems');  // Load the SalesItems model here
+        $this->printer = new PrinterService();
+        $this->SalesItems = $this->fetchTable('Salesitems');
     }
 
     /**
@@ -45,7 +48,7 @@ class SalesController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $sale = $this->Sales->get($id, contain: ['Users', 'Customers', 'Statuses', 'Salesitems']);
         $this->set(compact('sale'));
@@ -87,7 +90,7 @@ class SalesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $session = $this->request->getSession();
         $sale = $this->Sales->get($id, contain: []);
@@ -116,7 +119,7 @@ class SalesController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $session = $this->request->getSession();
         $this->request->allowMethod(['post', 'delete']);
@@ -149,18 +152,17 @@ class SalesController extends AppController
             $sale->modifiedby = $session->read('Auth.Username');
             $sale->deleted = 0;
 
-            try{
+            try {
                 if ($this->Sales->save($sale)) {
                     $response = [
                         'message' => 'Data saved successfully!',
-                        'data' => $sale->toArray()
+                        'data' => $sale->toArray(),
                     ];
-                }else {
+                } else {
                     $errors = $sale->getErrors();
                     $response = ['message' => 'Failed to save data.', 'errors' => $errors];
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $response = ['message' => 'An error occurred: ' . $e->getMessage()];
             }
             // Set the response type to JSON
@@ -185,30 +187,29 @@ class SalesController extends AppController
         $reference = $session->read('SalesReference');
         $salesId = $session->read('SalesId');
 
-        if ($this->request->is('post')){
+        if ($this->request->is('post')) {
             if (!$session->check('SalesId')) {
                 $this->NewSales(1, 'sabiduria');
             }
             $packaging_id = $_POST['packaging_id'] ?? null;
 
-            GeneralController::NewSalesItems($_POST['barcode'], $packaging_id,'sabiduria');
+            GeneralController::NewSalesItems($_POST['barcode'], $packaging_id, 'sabiduria');
+
             return $this->redirect(['action' => 'pos']);
         }
 
-        if($salesId != null){
+        if ($salesId != null) {
             $salesDetails = GeneralController::getSalesDetails($salesId);
             $salesAmount = GeneralController::getSalesAmount($salesId);
-            $vat = ($salesAmount*15)/100;
+            $vat = $salesAmount * 15 / 100;
             $discount = 0;
-            $total = ($salesAmount + $vat) - $discount;
-
-        } else{
+            $total = $salesAmount - $discount;
+        } else {
             $salesDetails = null;
             $salesAmount = 0;
             $vat = 0;
             $discount = 0;
             $total = 0;
-
         }
 
         $this->set(compact('reference', 'salesDetails', 'salesAmount', 'vat', 'total'));
@@ -231,7 +232,7 @@ class SalesController extends AppController
             'modified' => new DateTime('now'),
             'createdby' => $username,
             'modifiedby' => $username,
-            'deleted' => 0
+            'deleted' => 0,
         ], ['created' => 'datetime', 'modified' => 'datetime']);
 
         // Get the last inserted ID
@@ -272,9 +273,9 @@ class SalesController extends AppController
 
             if ($this->SalesItems->save($salesItem)) {
                 $salesAmount = GeneralController::getSalesAmount($salesId);
-                $vat = ($salesAmount*15)/100;
+                $vat = $salesAmount * 15 / 100;
                 $discount = 0;
-                $total = ($salesAmount + $vat) - $discount;
+                $total = $salesAmount + $vat - $discount;
 
                 echo json_encode(['success' => true, 'message' => 'Item updated successfully', 'subtotal' => $salesAmount,
                     'vat' => $vat,
@@ -285,5 +286,35 @@ class SalesController extends AppController
         } else {
             echo json_encode(['success' => false, 'message' => 'Item not found']);
         }
+    }
+
+    public function updateBill()
+    {
+        $session = $this->request->getSession();
+        $this->autoRender = false; // We don't need a view for this request
+        $this->request->allowMethod(['post']); // Only allow POST requests
+        $salesId = $session->read('SalesId');
+
+        $client_phone = $this->request->getData('client_code');
+        $customer_id = GeneralController::getClientIDFromPhone($client_phone);
+        $total_amount = GeneralController::getSalesAmount($salesId);
+
+        $sale = $this->Sales->get($salesId, contain: []);
+
+        $sale->customer_id = $customer_id;
+        $sale->total_amount = $total_amount;
+
+        if ($this->Sales->save($sale)) {
+            try {
+                $receiptText = "CakePHP 5 Receipt\nItem 1 - $10\nTotal: $10\n";
+                $this->printer->printReceipt($receiptText);
+                $this->Flash->success('Printed successfully!');
+            } catch (Exception $e) {
+                throw new InternalErrorException('Print failed: ' . $e->getMessage());
+            }
+
+            return $this->redirect(['action' => 'index']);
+        }
+        $this->Flash->error(__('The sale could not be saved. Please, try again.'));
     }
 }

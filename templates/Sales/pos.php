@@ -5,6 +5,7 @@ use App\Controller\GeneralController;
 $categories = GeneralController::getAllCategories();
 $itemsCount = GeneralController::getItemCount();
 $posProduct = GeneralController::getPOSProduct();
+$exchangesRates = GeneralController::getLatestExchangeRate();
 ?>
 
 <!-- Start Row-1 -->
@@ -189,7 +190,7 @@ $posProduct = GeneralController::getPOSProduct();
         <div class="row">
             <div id="response"></div>
             <div class="mt-3">
-                <?= $this->Form->create(null, ['id' => 'DataForm']);?>
+                <?= $this->Form->create(null, ['id' => 'DataForm', 'action' => 'updateBill']);?>
                 <div class="row gy-2">
                     <div class="col-xl-12">
                         <?= $this->Form->control('client_code', ['class' => 'form-control', 'label' => 'Code du Client']); ?>
@@ -212,7 +213,12 @@ $posProduct = GeneralController::getPOSProduct();
                         </div>
                     </div>
                     <div class="col-xl-12">
-                        <?= $this->Form->control('amount_difference', ['class' => 'form-control', 'label' => 'Difference', 'readonly']); ?>
+                        <label for="">Difference</label>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" id="amount-difference" readonly>
+                            <span class="input-group-text">OU</span>
+                            <input type="number" class="form-control" id="amount-difference-usd" readonly>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -362,10 +368,12 @@ $posProduct = GeneralController::getPOSProduct();
             var amountUSD = parseFloat($("#amount_usd").val()) || 0;
             var amountCDF = parseFloat($("#amount_cdf").val()) || 0;
             var TotalBill = parseFloat($("#TotalBill").val()) || 0;
-            var cumulated = amountCDF + (amountUSD * 2820);
+            var cumulated = amountCDF + (amountUSD * <?= $exchangesRates ?>);
             var difference = cumulated - TotalBill;
+            var difference_usd = difference / <?= $exchangesRates ?>;
             //$("#amount_cumulated").val(cumulated.toFixed(2)); // Format to 2 decimal places
             $("#amount-difference").val(difference.toFixed(2)); // Format to 2 decimal places
+            $("#amount-difference-usd").val(difference_usd.toFixed(2)); // Format to 2 decimal places
         });
 
     });

@@ -628,4 +628,28 @@ WHERE id = :purchase_id",
         $stmt = $conn->execute('SELECT PI.id, PI.purchase_id, S.name supplier, PI.product_id, PD.name product, PD.image, PI.qty, PI.price, PI.qty*PI.price total, PI.created FROM purchasesitems PI INNER JOIN purchases P ON P.id = PI.purchase_id INNER JOIN suppliers S ON S.id = P.supplier_id INNER JOIN products PD ON PD.id = PI.product_id WHERE P.purchase_group_reference=:purchase_group_reference;', ['purchase_group_reference' => $PGReference]);
         return $stmt->fetchAll('assoc');
     }
+
+    public static function getLatestExchangeRate(): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT rates FROM exchangerates ORDER BY id DESC LIMIT 1');
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
+    public static function getClientIDFromPhone($phone): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT id FROM customers WHERE phone=:phone', ['phone' => $phone]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
 }
