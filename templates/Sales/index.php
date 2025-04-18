@@ -10,8 +10,7 @@ $this->set('title_2', 'Sales');
 $Number = 1;
 ?>
 <div class="mt-3">
-    <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>
-    <?= $this->Html->link(__('Nouveau Sale'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
+    <?= $this->Html->link(__('<i class="fa-thin fa-plus"></i> Ajouter'), ['action' => 'pos'], ['class' => 'btn btn-sm btn-primary-light mb-3', 'escape' => false]) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>

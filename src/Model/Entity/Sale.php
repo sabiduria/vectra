@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Sale Entity
  *
  * @property int $id
+ * @property int $shop_id
  * @property int $user_id
  * @property int|null $customer_id
  * @property string|null $reference
@@ -38,6 +39,7 @@ class Sale extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'shop_id' => true,
         'user_id' => true,
         'customer_id' => true,
         'reference' => true,

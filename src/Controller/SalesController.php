@@ -35,8 +35,8 @@ class SalesController extends AppController
     public function index()
     {
         $query = $this->Sales->find()->where(['Sales.deleted' => 0])
-            ->contain(['Users', 'Customers', 'Statuses']);
-        $sales = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
+            ->contain(['Users', 'Customers', 'Statuses'])->orderByDesc('Sales.id');
+        $sales = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000,]);
 
         $this->set(compact('sales'));
     }
@@ -303,17 +303,19 @@ class SalesController extends AppController
 
         $sale->customer_id = $customer_id;
         $sale->total_amount = $total_amount;
+        $sale->status_id = 4;
 
         if ($this->Sales->save($sale)) {
             try {
-                $receiptText = "CakePHP 5 Receipt\nItem 1 - $10\nTotal: $10\n";
-                $this->printer->printReceipt($receiptText);
-                $this->Flash->success('Printed successfully!');
+                //$receiptText = "CakePHP 5 Receipt\nItem 1 - $10\nTotal: $10\n";
+                //$this->printer->printReceipt($receiptText);
+                //$this->Flash->success('Printed successfully!');
+                $this->request->getSession()->delete('SalesId');
             } catch (Exception $e) {
                 throw new InternalErrorException('Print failed: ' . $e->getMessage());
             }
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'pos']);
         }
         $this->Flash->error(__('The sale could not be saved. Please, try again.'));
     }

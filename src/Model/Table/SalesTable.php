@@ -50,6 +50,10 @@ class SalesTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Shops', [
+            'foreignKey' => 'shop_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
@@ -73,6 +77,10 @@ class SalesTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
+        $validator
+            ->integer('shop_id')
+            ->notEmptyString('shop_id');
+
         $validator
             ->integer('user_id')
             ->notEmptyString('user_id');
@@ -125,6 +133,7 @@ class SalesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['shop_id'], 'Shops'), ['errorField' => 'shop_id']);
         $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
         $rules->add($rules->existsIn(['customer_id'], 'Customers'), ['errorField' => 'customer_id']);
         $rules->add($rules->existsIn(['status_id'], 'Statuses'), ['errorField' => 'status_id']);
