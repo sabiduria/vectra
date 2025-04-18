@@ -10,8 +10,6 @@ $this->set('title_2', 'Purchases');
 $Number = 1;
 ?>
 <div class="mt-3">
-    <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>
-    <?= $this->Html->link(__('Nouveau Purchase'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>
     <div class="table-responsive">
         <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
             <thead>
@@ -46,10 +44,10 @@ $Number = 1;
                     </td>
                     <td><?= GeneralController::getPOAmount($purchase->id) ?></td>
                     <td><?= h($purchase->created) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('Details'), ['action' => 'view', $purchase->id], ['class' => 'btn btn-success btn-sm']) ?>
-                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $purchase->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $purchase->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                    <td class="text-end">
+                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $purchase->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $purchase->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $purchase->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

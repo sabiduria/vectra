@@ -33,9 +33,9 @@ $Number = 1;
                     <td><?= h($product->name) ?></td>
                     <td><?= $product->hasValue('packaging') ? $this->Html->link($product->packaging->name, ['controller' => 'Packagings', 'action' => 'view', $product->packaging->id]) : '' ?></td>
                     <td class="text-end">
-                        <?= $this->Html->link(__('Details'), ['action' => 'view', $product->id], ['class' => 'btn btn-success btn-sm']) ?>
-                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $product->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $product->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $product->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $product->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $product->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

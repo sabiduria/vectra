@@ -39,7 +39,7 @@ $Number = 1;
                     <td><?= $sale->status->name ?></td>
                     <td><?= $sale->hasValue('user') ? $this->Html->link($sale->user->username, ['controller' => 'Users', 'action' => 'view', $sale->user->id]) : '' ?></td>
                     <td><?= h($sale->created) ?></td>
-                    <td class="actions">
+                    <td class="text-end">
                         <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $sale->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
                         <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $sale->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
                         <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $sale->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>

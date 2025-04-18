@@ -42,7 +42,7 @@ $Number = 1;
                     <td><?= GeneralController::getPurchasesGroupStatus($purchasegroup->reference) ?></td>
                     <td><?= h($purchasegroup->created) ?></td>
                     <td><?= h($purchasegroup->createdby) ?></td>
-                    <td class="actions">
+                    <td class="text-end">
                         <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $purchasegroup->reference], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
                     </td>
                 </tr>

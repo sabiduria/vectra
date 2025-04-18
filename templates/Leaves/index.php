@@ -47,10 +47,10 @@ $Number = 1;
                     <td><?= h($leave->createdby) ?></td>
                     <td><?= h($leave->modifiedby) ?></td>
                     <td><?= h($leave->deleted) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('Details'), ['action' => 'view', $leave->id], ['class' => 'btn btn-success btn-sm']) ?>
-                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $leave->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $leave->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                    <td class="text-end">
+                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $leave->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $leave->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $leave->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

@@ -438,7 +438,7 @@ class GeneralController extends AppController
     public static function getPurchasesItemsNumber($purchase_group): float
     {
         $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('SELECT SUM(PI.qty) nber FROM purchases P INNER JOIN purchasesitems PI ON P.id = PI.purchase_id WHERE P.purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
+        $stmt = $conn->execute('SELECT COALESCE(SUM(PI.qty), 0) nber FROM purchases P INNER JOIN purchasesitems PI ON P.id = PI.purchase_id WHERE P.purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
         $result = $stmt->fetch('assoc');
         foreach ($result as $row) {
             return $row;
@@ -450,7 +450,7 @@ class GeneralController extends AppController
     public static function getPurchasesItemsAmount($purchase_group): float
     {
         $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('SELECT SUM(PI.qty*PI.price) nber FROM purchases P INNER JOIN purchasesitems PI ON P.id = PI.purchase_id WHERE P.purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
+        $stmt = $conn->execute('SELECT COALESCE(SUM(PI.qty * PI.price), 0) nber FROM purchases P INNER JOIN purchasesitems PI ON P.id = PI.purchase_id WHERE P.purchase_group_reference=:purchase_group', ['purchase_group' => $purchase_group]);
         $result = $stmt->fetch('assoc');
         foreach ($result as $row) {
             return $row;
