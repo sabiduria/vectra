@@ -53,9 +53,9 @@ $this->set('title_2', 'Bons d\'achats');
                 <td class="text-end">
                     <?php if ($value['receipt_date'] == null): ?>
                         <?= $this->Html->link(__('<i class="ri-check-double-fill"></i>'), ['controller' => 'purchases', 'action' => 'reception', $value['id']], ['class' => 'btn btn-info btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-calendar-check-line"></i>'), ['controller' => 'purchases', 'action' => 'edit', $value['id']], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
                     <?php endif; ?>
                     <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['controller' => 'purchases', 'action' => 'view', $value['id']], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                    <?= $this->Html->link(__('<i class="ri-calendar-check-line"></i>'), ['controller' => 'purchases', 'action' => 'edit', $value['id']], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
                     <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'purchases', 'action' => 'delete', $value['id']], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                 </td>
             </tr>

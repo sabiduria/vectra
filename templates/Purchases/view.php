@@ -20,7 +20,7 @@ $this->set('title_2', 'Bon d\'Achats');
                     </div>
                 </div>
                 <div class="ms-auto mt-md-0 mt-2">
-                    <button class="btn btn-sm btn-primary1 me-1" onclick="javascript:window.print();">Print<i class="ri-printer-line ms-1 align-middle d-inline-block"></i></button>
+                    <button class="btn btn-sm btn-primary1 me-1">Ajouter les dépenses<i class="ri-wallet-2-line ms-1 align-middle d-inline-block"></i></button>
                 </div>
             </div>
             <div class="card-body">
@@ -61,7 +61,7 @@ $this->set('title_2', 'Bon d\'Achats');
                     </div>
                     <div class="col-xl-3">
                         <p class="fw-medium text-muted mb-1">Somme Totale :</p>
-                        <p class="fs-16 mb-1 fw-medium">$4,877.11</p>
+                        <p class="fs-16 mb-1 fw-medium"><?= GeneralController::getPOAmount($purchase->id) ?></p>
                     </div>
                     <div class="col-xl-12">
                         <div class="table-responsive">
