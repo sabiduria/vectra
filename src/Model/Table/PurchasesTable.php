@@ -63,6 +63,9 @@ class PurchasesTable extends Table
         $this->hasMany('Purchasesitems', [
             'foreignKey' => 'purchase_id',
         ]);
+        $this->hasMany('Spents', [
+            'foreignKey' => 'purchase_id',
+        ]);
     }
 
     /**
@@ -98,6 +101,10 @@ class PurchasesTable extends Table
             ->scalar('purchase_group_reference')
             ->maxLength('purchase_group_reference', 15)
             ->allowEmptyString('purchase_group_reference');
+
+        $validator
+            ->numeric('total_amount')
+            ->allowEmptyString('total_amount');
 
         $validator
             ->scalar('createdby')

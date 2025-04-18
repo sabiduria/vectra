@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Date|null $due_date
  * @property \Cake\I18n\DateTime|null $receipt_date
  * @property string|null $purchase_group_reference
+ * @property float|null $total_amount
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -44,6 +45,7 @@ class Purchase extends Entity
         'due_date' => true,
         'receipt_date' => true,
         'purchase_group_reference' => true,
+        'total_amount' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,
