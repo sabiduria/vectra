@@ -15,6 +15,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\SuppliersTable&\Cake\ORM\Association\BelongsTo $Suppliers
  * @property \App\Model\Table\PaymentstosuppliersTable&\Cake\ORM\Association\HasMany $Paymentstosuppliers
  * @property \App\Model\Table\PurchasesitemsTable&\Cake\ORM\Association\HasMany $Purchasesitems
+ * @property \App\Model\Table\SpentsTable&\Cake\ORM\Association\HasMany $Spents
  *
  * @method \App\Model\Entity\Purchase newEmptyEntity()
  * @method \App\Model\Entity\Purchase newEntity(array $data, array $options = [])

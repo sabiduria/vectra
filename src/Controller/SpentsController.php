@@ -123,7 +123,7 @@ class SpentsController extends AppController
     /**
      * Insert method
      */
-    public function insert()
+    public function insert($purchase_id)
     {
         $this->request->allowMethod(['ajax', 'post']);
         $session = $this->request->getSession();
@@ -131,6 +131,7 @@ class SpentsController extends AppController
         if ($this->request->is('post')) {
             $spent = $this->Spents->patchEntity($spent, $this->request->getData());
 
+            $spent->purchase_id = $purchase_id;
             $spent->createdby = $session->read('Auth.Username');
             $spent->modifiedby = $session->read('Auth.Username');
             $spent->deleted = 0;

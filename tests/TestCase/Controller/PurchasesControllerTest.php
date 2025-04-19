@@ -27,6 +27,7 @@ class PurchasesControllerTest extends TestCase
         'app.Suppliers',
         'app.Paymentstosuppliers',
         'app.Purchasesitems',
+        'app.Spents',
     ];
 
     /**

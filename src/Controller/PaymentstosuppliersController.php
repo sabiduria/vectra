@@ -121,7 +121,7 @@ class PaymentstosuppliersController extends AppController
     /**
      * Insert method
      */
-    public function insert()
+    public function insert($purchase_id)
     {
         $this->request->allowMethod(['ajax', 'post']);
         $session = $this->request->getSession();
@@ -129,6 +129,7 @@ class PaymentstosuppliersController extends AppController
         if ($this->request->is('post')) {
             $paymentstosupplier = $this->Paymentstosuppliers->patchEntity($paymentstosupplier, $this->request->getData());
 
+            $paymentstosupplier->purchase_id = $purchase_id;
             $paymentstosupplier->createdby = $session->read('Auth.Username');
             $paymentstosupplier->modifiedby = $session->read('Auth.Username');
             $paymentstosupplier->deleted = 0;

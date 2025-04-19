@@ -515,6 +515,18 @@ WHERE id = :purchase_id",
         return 0;
     }
 
+    public static function getPOSpentAmount($purchase_id): float
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COALESCE(SUM(amount), 0) total FROM spents WHERE purchase_id=:purchase_id', ['purchase_id' => $purchase_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return 0;
+    }
+
     public static function productAlreadyAdd($product_id, $sale_id): bool
     {
         $conn = ConnectionManager::get('default');

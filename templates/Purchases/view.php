@@ -7,8 +7,12 @@
 use App\Controller\GeneralController;
 
 $this->set('title_2', 'Bon d\'Achats');
- $number = 1;
- $number1 = 1;
+$number = 1;
+$number1 = 1;
+$number2 = 1;
+$payment_number = 1;
+$emptyText = "Veuillez selectionner";
+
 ?>
 <div class="row">
     <div class="col-xl-12">
@@ -20,7 +24,12 @@ $this->set('title_2', 'Bon d\'Achats');
                     </div>
                 </div>
                 <div class="ms-auto mt-md-0 mt-2">
-                    <button class="btn btn-sm btn-primary1 me-1">Ajouter les dépenses<i class="ri-wallet-2-line ms-1 align-middle d-inline-block"></i></button>
+                    <button class="btn btn-sm btn-primary1 me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem">
+                        Ajouter les dépenses<i class="ri-wallet-2-line ms-1 align-middle d-inline-block"></i>
+                    </button>
+                    <button class="btn btn-sm btn-success me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewPayment" aria-controls="NewPayment">
+                        Nouveau paiement<i class="ri-wallet-2-line ms-1 align-middle d-inline-block"></i>
+                    </button>
                 </div>
             </div>
             <div class="card-body">
@@ -108,34 +117,193 @@ $this->set('title_2', 'Bon d\'Achats');
     <div class="column column-80">
         <div class="purchases view content">
             <div class="related">
-                <h4><?= __('Paiements') ?></h4>
+                <h6><?= __('Paiements') ?></h6>
                 <?php if (!empty($purchase->paymentstosuppliers)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Montant') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($purchase->paymentstosuppliers as $paymentstosupplier) : ?>
-                        <tr>
-                            <td><?= $number1++ ?></td>
-                            <td><?= h($paymentstosupplier->amount) ?></td>
-                            <td><?= h($paymentstosupplier->created) ?></td>
-                            <td><?= h($paymentstosupplier->createdby) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Paymentstosuppliers', 'action' => 'view', $paymentstosupplier->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Paymentstosuppliers', 'action' => 'edit', $paymentstosupplier->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Paymentstosuppliers', 'action' => 'delete', $paymentstosupplier->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th><?= __('N°') ?></th>
+                                <th><?= __('Description') ?></th>
+                                <th><?= __('Montant') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                            <?php foreach ($purchase->paymentstosuppliers as $paymentstosupplier) : ?>
+                                <tr>
+                                    <td><?= $number1++ ?></td>
+                                    <td><?= h($paymentstosupplier->description) ?></td>
+                                    <td><?= h($paymentstosupplier->amount) ?></td>
+                                    <td><?= h($paymentstosupplier->created) ?></td>
+                                    <td><?= h($paymentstosupplier->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['controller' => 'Paymentstosuppliers', 'action' => 'view', $paymentstosupplier->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Paymentstosuppliers', 'action' => 'edit', $paymentstosupplier->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Paymentstosuppliers', 'action' => 'delete', $paymentstosupplier->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <br>
+
+            <div class="related">
+                <h6><?= __('Depenses') ?></h6>
+                <?php if (!empty($purchase->spents)) : ?>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Type') ?></th>
+                                <th><?= __('Description') ?></th>
+                                <th><?= __('Montant') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                            <?php foreach ($purchase->spents as $spent) : ?>
+                                <tr>
+                                    <td><?= $number2++ ?></td>
+                                    <td><?= GeneralController::getNameOf($spent->spenttype_id, 'Spenttypes') ?></td>
+                                    <td><?= h($spent->description) ?></td>
+                                    <td><?= h($spent->amount) ?></td>
+                                    <td><?= h($spent->created) ?></td>
+                                    <td><?= h($spent->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['controller' => 'Spents', 'action' => 'view', $spent->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Spents', 'action' => 'edit', $spent->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Spents', 'action' => 'delete', $spent->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="NewItem"
+     aria-labelledby="offcanvasRightLabel1">
+    <div class="offcanvas-header border-bottom border-block-end-dashed">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Dépenses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-3">
+        <div class="row">
+            <div id="response"></div>
+            <div class="mt-3">
+                <?= $this->Form->create(null, ['id' => 'DataForm']);?>
+                <div class="row gy-2">
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('spenttype_id', ['options' => $spenttypes, 'empty' => $emptyText, 'class' => 'form-select', 'label' => 'Type depense']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('description', ['type' => 'textarea', 'class' => 'form-control', 'label' => 'Description']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('amount', ['min' => 0, 'type' => 'number', 'class' => 'form-control', 'label' => 'Montant']); ?>
+                    </div>
+                </div>
+                <div class="mt-3 mb-3">
+                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                </div>
+                <?= $this->Form->end() ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#DataForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+            // Get form data
+            var formData = $(this).serialize();
+
+            // Perform AJAX request
+            $.ajax({
+                url: '<?= $this->Url->build(["controller" => 'Spents', 'action' => 'insert', $purchase->id]) ?>',
+                method: 'POST',
+                data: formData,
+                dataType: 'json', // Expecting JSON in the response
+                success: function(response) {
+                    console.log(response.data); // Log the JSON response
+                    $('#response').html('<div class="alert alert-success rounded-pill alert-dismissible fade show mb-1 mt-2">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button> </div>'); // Show success message
+                    var newRow = '<tr>';
+                    newRow += '<td>'+''+'</td>'; // Add your actions
+                    newRow += '</tr>';
+
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Log any error
+                    $('#response').html('<p>An error occurred. Please try again.</p>');
+                }
+            });
+        });
+    });
+</script>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="NewPayment"
+     aria-labelledby="offcanvasRightLabel1">
+    <div class="offcanvas-header border-bottom border-block-end-dashed">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel1">Nouveau Paymentstosuppliers</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-3">
+        <div class="row">
+            <div id="response"></div>
+            <div class="mt-3">
+                <?= $this->Form->create(null, ['id' => 'DataForm2']);?>
+                <div class="row gy-2">
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('description', ['type' => 'textarea', 'class' => 'form-control', 'label' => 'Description']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('amount', ['class' => 'form-control', 'label' => 'Montant']); ?>
+                    </div>
+                </div>
+                <div class="mt-3 mb-3">
+                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                </div>
+                <?= $this->Form->end() ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#DataForm2').on('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+            // Get form data
+            var formData = $(this).serialize();
+
+            // Perform AJAX request
+            $.ajax({
+                url: '<?= $this->Url->build(["controller" => 'Paymentstosuppliers', 'action' => 'insert', $purchase->id]) ?>',
+                method: 'POST',
+                data: formData,
+                dataType: 'json', // Expecting JSON in the response
+                success: function(response) {
+                    console.log(response.data); // Log the JSON response
+                    $('#response').html('<div class="alert alert-success rounded-pill alert-dismissible fade show mb-1 mt-2">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button> </div>'); // Show success message
+                    location.reload();
+                    $('#DataForm2')[0].reset();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Log any error
+                    $('#response').html('<p>An error occurred. Please try again.</p>');
+                }
+            });
+        });
+    });
+</script>
+

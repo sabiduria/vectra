@@ -21,6 +21,7 @@ $this->set('title_2', 'Bons d\'achats');
             <th>Statut</th>
             <th>Etat de livraison</th>
             <th>Total</th>
+            <th>Depenses</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -49,6 +50,9 @@ $this->set('title_2', 'Bons d\'achats');
                 </td>
                 <td>
                     <?= GeneralController::getPOAmount($value['id']) ?>
+                </td>
+                <td>
+                    <?= GeneralController::getPOSpentAmount($value['id']) ?>
                 </td>
                 <td class="text-end">
                     <?php if ($value['receipt_date'] == null): ?>

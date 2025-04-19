@@ -26,6 +26,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Supplier $supplier
  * @property \App\Model\Entity\Paymentstosupplier[] $paymentstosuppliers
  * @property \App\Model\Entity\Purchasesitem[] $purchasesitems
+ * @property \App\Model\Entity\Spent[] $spents
  */
 class Purchase extends Entity
 {
@@ -55,5 +56,6 @@ class Purchase extends Entity
         'supplier' => true,
         'paymentstosuppliers' => true,
         'purchasesitems' => true,
+        'spents' => true,
     ];
 }

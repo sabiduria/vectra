@@ -35,8 +35,9 @@ class PurchasesController extends AppController
      */
     public function view($id = null)
     {
-        $purchase = $this->Purchases->get($id, contain: ['Statuses', 'Suppliers', 'Paymentstosuppliers', 'Purchasesitems']);
-        $this->set(compact('purchase'));
+        $purchase = $this->Purchases->get($id, contain: ['Statuses', 'Suppliers', 'Paymentstosuppliers', 'Purchasesitems', 'Spents']);
+        $spenttypes = $this->fetchTable('Spenttypes')->find('list')->all();
+        $this->set(compact('purchase', 'spenttypes'));
     }
 
     /**

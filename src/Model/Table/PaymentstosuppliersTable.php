@@ -66,6 +66,10 @@ class PaymentstosuppliersTable extends Table
             ->notEmptyString('purchase_id');
 
         $validator
+            ->scalar('description')
+            ->allowEmptyString('description');
+
+        $validator
             ->numeric('amount')
             ->allowEmptyString('amount');
 

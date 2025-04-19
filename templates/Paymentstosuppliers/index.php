@@ -37,10 +37,10 @@ $Number = 1;
                     <td><?= h($paymentstosupplier->createdby) ?></td>
                     <td><?= h($paymentstosupplier->modifiedby) ?></td>
                     <td><?= h($paymentstosupplier->deleted) ?></td>
-                    <td class="text-end">
-                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $paymentstosupplier->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $paymentstosupplier->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $paymentstosupplier->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
+                    <td class="actions">
+                        <?= $this->Html->link(__('Details'), ['action' => 'view', $paymentstosupplier->id], ['class' => 'btn btn-success btn-sm']) ?>
+                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $paymentstosupplier->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $paymentstosupplier->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -63,6 +63,9 @@ $Number = 1;
         <div class="row gy-2">
             <div class="col-xl-12">
                 <?= $this->Form->control('purchase_id', ['options' => $purchases, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'purchase_id']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('description', ['class' => 'form-control', 'label' => 'description']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('amount', ['class' => 'form-control', 'label' => 'amount']); ?>

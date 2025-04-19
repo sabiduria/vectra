@@ -43,6 +43,12 @@
                     <td><?= $paymentstosupplier->deleted ? __('Yes') : __('No'); ?></td>
                 </tr>
             </table>
+            <div class="text">
+                <strong><?= __('Description') ?></strong>
+                <blockquote>
+                    <?= $this->Text->autoParagraph(h($paymentstosupplier->description)); ?>
+                </blockquote>
+            </div>
         </div>
     </div>
 </div>

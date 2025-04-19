@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $purchase_id
+ * @property string|null $description
  * @property float|null $amount
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
@@ -32,6 +33,7 @@ class Paymentstosupplier extends Entity
      */
     protected array $_accessible = [
         'purchase_id' => true,
+        'description' => true,
         'amount' => true,
         'created' => true,
         'modified' => true,
