@@ -3,106 +3,78 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Sale $sale
  */
- $this->set('title_2', 'Sales');
+
+use App\Controller\GeneralController;
+
+$this->set('title_2', 'Sales');
+ $number = 1;
 ?>
 <div class="row">
-    <div class="column column-80">
-        <div class="sales view content">
-            <h3><?= h($sale->id) ?></h3>
-            <table class="table">
-                <tr>
-                    <th><?= __('User') ?></th>
-                    <td><?= $sale->hasValue('user') ? $this->Html->link($sale->user->id, ['controller' => 'Users', 'action' => 'view', $sale->user->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Customer') ?></th>
-                    <td><?= $sale->hasValue('customer') ? $this->Html->link($sale->customer->name, ['controller' => 'Customers', 'action' => 'view', $sale->customer->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Reference') ?></th>
-                    <td><?= h($sale->reference) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Payment Method') ?></th>
-                    <td><?= h($sale->payment_method) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Status') ?></th>
-                    <td><?= $sale->hasValue('status') ? $this->Html->link($sale->status->name, ['controller' => 'Statuses', 'action' => 'view', $sale->status->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Createdby') ?></th>
-                    <td><?= h($sale->createdby) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modifiedby') ?></th>
-                    <td><?= h($sale->modifiedby) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($sale->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Total Amount') ?></th>
-                    <td><?= $sale->total_amount === null ? '' : $this->Number->format($sale->total_amount) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($sale->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($sale->modified) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Deleted') ?></th>
-                    <td><?= $sale->deleted ? __('Yes') : __('No'); ?></td>
-                </tr>
-            </table>
-            <div class="related">
-                <h4><?= __('Related Salesitems') ?></h4>
-                <?php if (!empty($sale->salesitems)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Product Id') ?></th>
-                            <th><?= __('Sale Id') ?></th>
-                            <th><?= __('Qty') ?></th>
-                            <th><?= __('Packaging Id') ?></th>
-                            <th><?= __('Unit Price') ?></th>
-                            <th><?= __('Subtotal') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th><?= __('Createdby') ?></th>
-                            <th><?= __('Modifiedby') ?></th>
-                            <th><?= __('Deleted') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($sale->salesitems as $salesitem) : ?>
-                        <tr>
-                            <td><?= h($salesitem->id) ?></td>
-                            <td><?= h($salesitem->product_id) ?></td>
-                            <td><?= h($salesitem->sale_id) ?></td>
-                            <td><?= h($salesitem->qty) ?></td>
-                            <td><?= h($salesitem->packaging_id) ?></td>
-                            <td><?= h($salesitem->unit_price) ?></td>
-                            <td><?= h($salesitem->subtotal) ?></td>
-                            <td><?= h($salesitem->created) ?></td>
-                            <td><?= h($salesitem->modified) ?></td>
-                            <td><?= h($salesitem->createdby) ?></td>
-                            <td><?= h($salesitem->modifiedby) ?></td>
-                            <td><?= h($salesitem->deleted) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Salesitems', 'action' => 'view', $salesitem->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header d-md-flex d-block">
+                <div class="h5 mb-0 d-sm-flex d-block align-items-center">
+                    <div class="">
+                        <div class="h6 fw-medium mb-0">FACTURE N° : <span class="text-primary">#<?= h($sale->reference) ?></span></div>
+                    </div>
                 </div>
-                <?php endif; ?>
+            </div>
+            <div class="card-body">
+                <div class="row gy-3">
+
+                    <div class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                                <p class="text-muted mb-2"> Facturée par : </p>
+                                <p class="fw-bold mb-1"> SPRUKO TECHNOLOGIES </p>
+                                <p class="mb-1 text-muted"> WNN-A1-1323,Robsons street </p>
+                                <p class="mb-1 text-muted"> Ottawa,Canada,100072 </p>
+                                <p class="mb-1 text-muted"> sprukotrust.Xintra@gmail.com </p>
+                                <p class="mb-1 text-muted"> (222) 142-1245 </p>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
+                                <p class="text-muted mb-2"> Facturée à : </p>
+                                <p class="fw-bold mb-1">
+                                    <?= strtoupper($sale->customer !=null ? $sale->customer->name : "Client Ordinaire") ?>
+                                </p>
+                                <p class="mb-1 text-muted">
+                                    Telephone : <?= $sale->customer !=null ? '(243)'.$sale->customer->phone : "Non Applicable" ?>
+                                </p>
+                                <p class="mb-1 text-muted"> Date : <?= date('d-m-y', strtotime($sale->created)) ?> </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="table-responsive">
+                            <table class="table nowrap text-nowrap border mt-4">
+                                <tr>
+                                    <th><?= __('N°') ?></th>
+                                    <th><?= __('Article') ?></th>
+                                    <th><?= __('Qte') ?></th>
+                                    <th><?= __('Packaging') ?></th>
+                                    <th><?= __('Prix Unitaire') ?></th>
+                                    <th><?= __('Sous-Total') ?></th>
+                                    <th class="text-end"><?= __('Actions') ?></th>
+                                </tr>
+                                <?php foreach ($sale->salesitems as $salesitem) : ?>
+                                    <tr>
+                                        <td><?= $number++ ?></td>
+                                        <td><?= GeneralController::getNameOf($salesitem->product_id, 'Products') ?></td>
+                                        <td><?= h($salesitem->qty) ?></td>
+                                        <td><?= GeneralController::getNameOf($salesitem->packaging_id, 'Packagings') ?></td>
+                                        <td><?= h($salesitem->unit_price) ?></td>
+                                        <td><?= h($salesitem->subtotal) ?></td>
+                                        <td class="text-end">
+                                            <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                            <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
