@@ -13,11 +13,13 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\SuppliersTable&\Cake\ORM\Association\BelongsTo $Suppliers
  * @property \App\Model\Table\CategoriesTable&\Cake\ORM\Association\BelongsTo $Categories
+ * @property \App\Model\Table\BrandsTable&\Cake\ORM\Association\BelongsTo $Brands
  * @property \App\Model\Table\PackagingsTable&\Cake\ORM\Association\BelongsTo $Packagings
  * @property \App\Model\Table\InventoriesTable&\Cake\ORM\Association\HasMany $Inventories
  * @property \App\Model\Table\OrdersitemsTable&\Cake\ORM\Association\HasMany $Ordersitems
  * @property \App\Model\Table\PricingsTable&\Cake\ORM\Association\HasMany $Pricings
  * @property \App\Model\Table\PromotionsproductsTable&\Cake\ORM\Association\HasMany $Promotionsproducts
+ * @property \App\Model\Table\ProspectionsTable&\Cake\ORM\Association\HasMany $Prospections
  * @property \App\Model\Table\PurchasesitemsTable&\Cake\ORM\Association\HasMany $Purchasesitems
  * @property \App\Model\Table\SalesitemsTable&\Cake\ORM\Association\HasMany $Salesitems
  * @property \App\Model\Table\ShopstocksTable&\Cake\ORM\Association\HasMany $Shopstocks
@@ -67,6 +69,10 @@ class ProductsTable extends Table
             'foreignKey' => 'category_id',
             'joinType' => 'INNER',
         ]);
+        $this->belongsTo('Brands', [
+            'foreignKey' => 'brand_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Packagings', [
             'foreignKey' => 'packaging_id',
         ]);
@@ -80,6 +86,9 @@ class ProductsTable extends Table
             'foreignKey' => 'product_id',
         ]);
         $this->hasMany('Promotionsproducts', [
+            'foreignKey' => 'product_id',
+        ]);
+        $this->hasMany('Prospections', [
             'foreignKey' => 'product_id',
         ]);
         $this->hasMany('Purchasesitems', [
@@ -124,6 +133,10 @@ class ProductsTable extends Table
             ->notEmptyString('category_id');
 
         $validator
+            ->integer('brand_id')
+            ->notEmptyString('brand_id');
+
+        $validator
             ->scalar('reference')
             ->maxLength('reference', 45)
             ->allowEmptyString('reference');
@@ -149,6 +162,22 @@ class ProductsTable extends Table
         $validator
             ->integer('packaging_id')
             ->allowEmptyString('packaging_id');
+
+        $validator
+            ->integer('annual_demand')
+            ->allowEmptyString('annual_demand');
+
+        $validator
+            ->numeric('ordering_cost')
+            ->allowEmptyString('ordering_cost');
+
+        $validator
+            ->integer('holding_cost')
+            ->allowEmptyString('holding_cost');
+
+        $validator
+            ->integer('lead_time_days')
+            ->allowEmptyString('lead_time_days');
 
         $validator
             ->scalar('createdby')
@@ -178,6 +207,7 @@ class ProductsTable extends Table
     {
         $rules->add($rules->existsIn(['supplier_id'], 'Suppliers'), ['errorField' => 'supplier_id']);
         $rules->add($rules->existsIn(['category_id'], 'Categories'), ['errorField' => 'category_id']);
+        $rules->add($rules->existsIn(['brand_id'], 'Brands'), ['errorField' => 'brand_id']);
         $rules->add($rules->existsIn(['packaging_id'], 'Packagings'), ['errorField' => 'packaging_id']);
 
         return $rules;

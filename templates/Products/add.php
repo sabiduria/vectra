@@ -5,6 +5,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $suppliers
  * @var \Cake\Collection\CollectionInterface|string[] $categories
  * @var \Cake\Collection\CollectionInterface|string[] $packagings
+ * @var \Cake\Collection\CollectionInterface|string[] $brands
  * @var iterable<\App\Model\Entity\Room> $rooms
  */
 $this->set('title_2', 'Articles');
@@ -19,8 +20,11 @@ $emptyText = "Veuillez selectionner";
                 <div class="col-xl-12">
                     <?= $this->Form->control('image', ['type' => 'file', 'class' => 'form-control', 'label' => 'Image']); ?>
                 </div>
-                <div class="col-xl-12">
+                <div class="col-xl-6">
                     <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
+                </div>
+                <div class="col-xl-6">
+                    <?= $this->Form->control('brand_id', ['options' => $brands, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Modèle']); ?>
                 </div>
                 <div class="col-xl-4">
                     <?= $this->Form->control('supplier_id', ['options' => $suppliers, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Fournisseur Preféré']); ?>

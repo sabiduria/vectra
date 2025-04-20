@@ -12,12 +12,17 @@ use Cake\ORM\Entity;
  * @property string|null $image
  * @property int $supplier_id
  * @property int $category_id
+ * @property int $brand_id
  * @property string|null $reference
  * @property string|null $barcode
  * @property string|null $name
  * @property string|null $specifications
  * @property string|null $notes
  * @property int|null $packaging_id
+ * @property int|null $annual_demand
+ * @property float|null $ordering_cost
+ * @property int|null $holding_cost
+ * @property int|null $lead_time_days
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -26,11 +31,13 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Supplier $supplier
  * @property \App\Model\Entity\Category $category
+ * @property \App\Model\Entity\Brand $brand
  * @property \App\Model\Entity\Packaging $packaging
  * @property \App\Model\Entity\Inventory[] $inventories
  * @property \App\Model\Entity\Ordersitem[] $ordersitems
  * @property \App\Model\Entity\Pricing[] $pricings
  * @property \App\Model\Entity\Promotionsproduct[] $promotionsproducts
+ * @property \App\Model\Entity\Prospection[] $prospections
  * @property \App\Model\Entity\Purchasesitem[] $purchasesitems
  * @property \App\Model\Entity\Salesitem[] $salesitems
  * @property \App\Model\Entity\Shopstock[] $shopstocks
@@ -53,12 +60,17 @@ class Product extends Entity
         'image' => true,
         'supplier_id' => true,
         'category_id' => true,
+        'brand_id' => true,
         'reference' => true,
         'barcode' => true,
         'name' => true,
         'specifications' => true,
         'notes' => true,
         'packaging_id' => true,
+        'annual_demand' => true,
+        'ordering_cost' => true,
+        'holding_cost' => true,
+        'lead_time_days' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,
@@ -66,11 +78,13 @@ class Product extends Entity
         'deleted' => true,
         'supplier' => true,
         'category' => true,
+        'brand' => true,
         'packaging' => true,
         'inventories' => true,
         'ordersitems' => true,
         'pricings' => true,
         'promotionsproducts' => true,
+        'prospections' => true,
         'purchasesitems' => true,
         'salesitems' => true,
         'shopstocks' => true,

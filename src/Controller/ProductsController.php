@@ -20,7 +20,7 @@ class ProductsController extends AppController
     public function index()
     {
         $query = $this->Products->find()->where(['Products.deleted' => 0])
-            ->contain(['Suppliers', 'Categories', 'Packagings']);
+            ->contain(['Suppliers', 'Categories', 'Packagings', 'Brands']);
         $products = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
         $this->set(compact('products'));
@@ -35,7 +35,7 @@ class ProductsController extends AppController
      */
     public function view($id = null)
     {
-        $product = $this->Products->get($id, contain: ['Suppliers', 'Categories', 'Packagings', 'Inventories', 'Ordersitems', 'Pricings', 'Promotionsproducts', 'Purchasesitems', 'Salesitems', 'Shopstocks', 'Spoilages', 'Stockinsdetails', 'Transfersdetails']);
+        $product = $this->Products->get($id, contain: ['Suppliers', 'Categories', 'Packagings', 'Inventories', 'Ordersitems', 'Pricings', 'Promotionsproducts', 'Purchasesitems', 'Salesitems', 'Shopstocks', 'Spoilages', 'Stockinsdetails', 'Transfersdetails', 'Brands']);
         $this->set(compact('product'));
     }
 
@@ -101,6 +101,7 @@ class ProductsController extends AppController
         $suppliers = $this->Products->Suppliers->find('list', limit: 200)->all();
         $categories = $this->Products->Categories->find('list', limit: 200)->all();
         $packagings = $this->Products->Packagings->find('list', limit: 200)->all();
+        $brands = $this->Products->Brands->find('list', limit: 200)->all();
         $rooms = $this->fetchTable('Rooms')
             ->find('list', [
                 'keyField' => 'id',
@@ -110,7 +111,7 @@ class ProductsController extends AppController
             ])
             ->contain(['Shops'])
             ->all();
-        $this->set(compact('product', 'suppliers', 'categories', 'packagings', 'rooms'));
+        $this->set(compact('product', 'suppliers', 'categories', 'packagings', 'rooms', 'brands'));
     }
 
     /**
@@ -161,7 +162,8 @@ class ProductsController extends AppController
         $suppliers = $this->Products->Suppliers->find('list', limit: 200)->all();
         $categories = $this->Products->Categories->find('list', limit: 200)->all();
         $packagings = $this->Products->Packagings->find('list', limit: 200)->all();
-        $this->set(compact('product', 'suppliers', 'categories', 'packagings'));
+        $brands = $this->Products->Brands->find('list', limit: 200)->all();
+        $this->set(compact('product', 'suppliers', 'categories', 'packagings', 'brands'));
     }
 
 

@@ -48,6 +48,9 @@
                     <?= $this->Html->link('Catégories', ['controller' => 'categories', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
+                    <?= $this->Html->link('Modèles', ['controller' => 'brands', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
                     <?= $this->Html->link('Statistiques', ['controller' => 'products', 'action' => 'stats'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
             </ul>
