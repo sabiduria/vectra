@@ -281,7 +281,10 @@
                     <?= $this->Html->link('Ventes', ['controller' => 'general', 'action' => 'sales'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
-                    <?= $this->Html->link('Dépenses', ['controller' => 'general', 'action' => 'expenses'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    <?= $this->Html->link('Dépenses', ['controller' => 'general', 'action' => 'report-expense'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Analyse ABC', ['controller' => 'general', 'action' => 'abc'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Bénéfices', ['controller' => 'general', 'action' => 'profits'], ['escape'=>false, 'class' => 'side-menu__item']) ?>

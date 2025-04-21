@@ -15,16 +15,15 @@ $endDate = date('Y-m-t');
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0"></script>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4">Spending Analytics Dashboard</h2>
-    
+<div class="mt-5">
+
     <!-- 1. Spending Overview Cards -->
     <div class="row mb-4">
         <?php
         // Total Spending
         $totalSpent = $pdo->query("
-            SELECT SUM(amount) AS total 
-            FROM expenses 
+            SELECT SUM(amount) AS total
+            FROM expenses
             WHERE deleted = 0
             AND created BETWEEN '$startDate' AND '$endDate'
         ")->fetchColumn();
@@ -39,17 +38,17 @@ $endDate = date('Y-m-t');
             ORDER BY total DESC
         ")->fetchAll(PDO::FETCH_ASSOC);
         ?>
-        
-        <div class="col-md-4">
+
+        <div class="col-md-8">
             <div class="card bg-danger text-white">
                 <div class="card-body">
                     <h5>Total Spent</h5>
-                    <h2><?= number_format($totalSpent, 2) ?> USD</h2>
+                    <h2><?= number_format($totalSpent, 2) ?></h2>
                     <small>Current Month</small>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <canvas id="spendingByTypeChart"></canvas>
         </div>
@@ -61,7 +60,7 @@ $endDate = date('Y-m-t');
             <h3>Supplier Expenditure</h3>
             <?php
             $supplierSpending = $pdo->query("
-                SELECT 
+                SELECT
                     s.name AS supplier,
                     SUM(pi.price * pi.qty) AS total_spent,
                     COUNT(DISTINCT p.id) AS purchase_orders
@@ -103,7 +102,7 @@ $endDate = date('Y-m-t');
             <h3>Budget Compliance</h3>
             <?php
             $budgetAnalysis = $pdo->query("
-                SELECT 
+                SELECT
                     et.name,
                     et.monthy_amount AS budget,
                     SUM(e.amount) AS actual,

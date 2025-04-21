@@ -664,4 +664,14 @@ WHERE id = :purchase_id",
 
         return 0;
     }
+
+    public function reportExpense()
+    {
+
+    }
+
+    public function abc()
+    {
+
+    }
 }
