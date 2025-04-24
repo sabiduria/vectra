@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\I18n\DateTime;
+use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -50,6 +52,46 @@ class CategoriesTable extends Table
         $this->hasMany('Products', [
             'foreignKey' => 'category_id',
         ]);
+    }
+
+    public function findSalesStatistics(Query $query, array $options)
+    {
+        return $query
+            ->select([
+                'Categories.id',
+                'Categories.name',
+                'total_sales' => 'SUM(Salesitems.subtotal)',
+                'total_quantity' => 'SUM(Salesitems.qty)',
+                'avg_price' => 'AVG(Salesitems.unit_price)',
+                'product_count' => 'COUNT(DISTINCT Products.id)',
+                'order_count' => 'COUNT(DISTINCT Sales.id)'
+            ])
+            ->leftJoinWith('Products.Salesitems.Sales')
+            ->group('Categories.id')
+            ->where([
+                'Sales.created >=' => $options['start_date'] ?? new DateTime('-1 month'),
+                'Sales.created <=' => $options['end_date'] ?? new DateTime('now'),
+                'Sales.deleted' => 0
+            ]);
+    }
+
+    public function findMonthlyTrend(Query $query, array $options)
+    {
+        return $query
+            ->select([
+                'category_name' => 'Categories.name',
+                'year_months' => 'DATE_FORMAT(Sales.created, "%Y-%m")',
+                'monthly_sales' => 'SUM(Salesitems.subtotal)',
+                'monthly_quantity' => 'SUM(Salesitems.qty)'
+            ])
+            ->leftJoinWith('Products.Salesitems.Sales')
+            ->group(['Categories.id', 'year_months'])
+            ->where([
+                'Sales.created >=' => $options['start_date'] ?? new DateTime('-12 months'),
+                'Sales.created <=' => $options['end_date'] ?? new DateTime('now'),
+                'Sales.deleted' => 0
+            ])
+            ->order(['year_months' => 'ASC', 'monthly_sales' => 'DESC']);
     }
 
     /**

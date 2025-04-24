@@ -5,6 +5,9 @@
 
 use App\Controller\GeneralController;
 
+$totalSales = array_sum(array_column($salesStats, 'total_sales'));
+$totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
+
 ?>
 
 <div class="row">
@@ -12,29 +15,19 @@ use App\Controller\GeneralController;
         <div class="d-sm-flex align-items-end  p-3 bg-light gap-5 flex-wrap pb-5">
             <div class="min-w-fit-content me-3">
                 <p class="mb-1">Total Ventes</p>
-                <h4 class="fw-medium mb-0">$15,874.50<span class="badge bg-success ms-2 fs-9"><i class="ti ti-trending-up me-1"></i>0.32%</span></h4>
+                <h4 class="fw-medium mb-0"><?= $totalSales ?></h4>
             </div>
             <div class="min-w-fit-content">
-                <p class="mb-1">Total Commandes</p>
-                <h4 class="fw-medium mb-0">$124,784.23<span class="badge bg-danger ms-2 fs-9"><i class="ti ti-trending-down me-1"></i>0.12%</span></h4>
+                <p class="mb-1">Quantité Produits Vendus</p>
+                <h4 class="fw-medium mb-0"><?= $totalQuantity ?></h4>
+            </div>
+            <div class="min-w-fit-content">
+                <p class="mb-1">Catégories Actives</p>
+                <h4 class="fw-medium mb-0"><?= count($salesStats) ?></h4>
             </div>
             <div class="min-w-fit-content">
                 <p class="mb-1">Taux d'échanges</p>
                 <h4 class="fw-medium mb-0">$124,784.23<span class="badge bg-danger ms-2 fs-9"><i class="ti ti-trending-down me-1"></i>0.12%</span></h4>
-            </div>
-            <div class="min-w-fit-content">
-                <p class="mb-1 fs-12 text-muted">
-                    <span class="text-success">+124.25</span>
-                    <i class="mdi mdi-circle-small"></i>
-                    <span>Hier</span>
-                </p>
-                <p class="mb-0 fs-11 text-muted">
-                    <span>Jun 16, 2022</span>
-                    <i class="mdi mdi-circle-small"></i>
-                    <span>10:45 AM</span>
-                    <i class="mdi mdi-circle-small"></i>
-                    <span>UTC +5:30</span>
-                </p>
             </div>
             <div class="flex-1 text-sm-end mt-2 mt-sm-0 ms-auto">
                 <a href="javascript:void(0);" class="btn btn-w-lg btn-primary1-light"><i class="ti ti-plus me-1"></i>Details</a>
@@ -114,272 +107,270 @@ use App\Controller\GeneralController;
             </div>
         </div>
     </div>
-
-    <div class="col-xxl-8 col-xl-6">
-        <div class="card custom-card">
-            <div class="card-header justify-content-between">
-                <div class="card-title">
-                    Aperçu des ventes
-                </div>
-            </div>
-            <div class="card-body">
-                <div id="sales-overview"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xxl-4 col-xl-6">
-        <div class="card custom-card overflow-hidden">
-            <div class="card-header pb-0 justify-content-between">
-                <div class="card-title">
-                    Statistiques de commande
-                </div>
-                <div class="dropdown">
-                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-light btn-icons btn-sm text-muted" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fe fe-more-vertical"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="card-body py-4 px-3">
-                <div class="d-flex gap-3 mb-3 flex-wrap">
-                    <div class="avatar avatar-md bg-primary-transparent">
-                        <i class="ti ti-trending-up fs-5"></i>
-                    </div>
-                    <div class="flex-fill d-flex align-items-start justify-content-between flex-wrap">
-                        <div>
-                            <span class="fs-11 mb-1 d-block fw-medium">TOTAL COMMANDES</span>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 d-flex align-items-center flex-wrap">3,736<span class="text-success fs-12 ms-2 op-1"><i class="ti ti-trending-up align-middle me-1"></i>0.57%</span></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="orders" class="my-2"></div>
-            </div>
-            <div class="card-footer border-top border-block-start-dashed">
-                <div class="d-grid">
-                    <button class="btn btn-primary-ghost btn-wave fw-medium waves-effect waves-light table-icon">Complete Statistics<i class="ti ti-arrow-narrow-right ms-2 fs-16 d-inline-block"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="row">
-    <div class="col-xxl-4 col-xl-6">
-        <div class="card custom-card">
-            <div class="card-header justify-content-between">
-                <div class="card-title">
-                    Statistiques de vente
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="d-flex flex-wrap gap-2 justify-content-between flex-fill pb-3">
-                    <div class="py-3 px-4 rounded border border-dashed bg-light">
-                        <span>Ventes</span>
-                        <p class="fw-medium fs-14 mb-0">$3.478B</p>
-                    </div>
-                    <div class="py-3 px-4 rounded border border-dashed bg-light">
-                        <span>This Year</span>
-                        <p class="text-success fw-medium fs-14 mb-0">4,25,349</p>
-                    </div>
-                    <div class="py-3 px-4 rounded border border-dashed bg-light">
-                        <span>Last Year</span>
-                        <p class="text-danger fw-medium fs-14 mb-0">3,41,622</p>
-                    </div>
-                </div>
-                <div id="sales-statistics"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xxl-4 col-xl-6">
-        <div class="card custom-card overflow-hidden">
-            <div class="card-header pb-0 justify-content-between">
-                <div class="card-title">
-                    Statistiques globales
-                </div>
-            </div>
-            <div class="card-body">
-                <ul class="list-group activity-feed">
-                    <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="lh-1">
-                                <p class="mb-2 fs-13 text-muted">Total Expenses</p>
-                                <h6 class="fw-medium mb-0">$134,032<span class="fs-12 text-success ms-2 fw-normal d-inline-block">0.45%<i class="ti ti-trending-up ms-1"></i></span></h6>
-                            </div>
-                            <div class="text-end">
-                                <div id="line-graph1"></div>
-                                <a href="javascript:void(0);" class="fs-12">
-                                    <span>See more</span>
-                                    <span class="table-icon"><i class="ms-1 d-inline-block ri-arrow-right-line"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="lh-1">
-                                <p class="mb-2 fs-13 text-muted">General Leads</p>
-                                <h6 class="fw-medium mb-0">74,354<span class="fs-12 text-danger ms-2 fw-normal d-inline-block">3.84%<i class="ti ti-trending-down ms-1"></i></span></h6>
-                            </div>
-                            <div class="text-end">
-                                <div id="line-graph2"></div>
-                                <a href="javascript:void(0);" class="fs-12">
-                                    <span>See more</span>
-                                    <span class="table-icon"><i class="ms-1 d-inline-block ri-arrow-right-line"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="lh-1">
-                                <p class="mb-2 fs-13 text-muted">Churn Rate</p>
-                                <h6 class="fw-medium mb-0">6.02%<span class="fs-12 text-success ms-2 fw-normal d-inline-block">0.72%<i class="ti ti-trending-up ms-1"></i></span></h6>
-                            </div>
-                            <div class="text-end">
-                                <div id="line-graph3"></div>
-                                <a href="javascript:void(0);" class="fs-12">
-                                    <span>See more</span>
-                                    <span class="table-icon"><i class="ms-1 d-inline-block ri-arrow-right-line"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="lh-1">
-                                <p class="mb-2 fs-13 text-muted">New Users</p>
-                                <h6 class="fw-medium mb-0">7,893<span class="fs-12 text-success ms-2 fw-normal d-inline-block">11.05%<i class="ti ti-trending-up ms-1"></i></span></h6>
-                            </div>
-                            <div class="text-end">
-                                <div id="line-graph4"></div>
-                                <a href="javascript:void(0);" class="fs-12">
-                                    <span>See more</span>
-                                    <span class="table-icon"><i class="ms-1 d-inline-block ri-arrow-right-line"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="lh-1">
-                                <p class="mb-2 fs-13 text-muted">Returning Users</p>
-                                <h6 class="fw-medium mb-0">3,258<span class="fs-12 text-success ms-2 fw-normal d-inline-block">1.69%<i class="ti ti-trending-up ms-1"></i></span></h6>
-                            </div>
-                            <div class="text-end">
-                                <div id="line-graph5"></div>
-                                <a href="javascript:void(0);" class="fs-12">
-                                    <span>See more</span>
-                                    <span class="table-icon"><i class="ms-1 d-inline-block ri-arrow-right-line"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xxl-4 col-xl-6">
+    <div class="col-sm-6">
         <div class="card custom-card overflow-hidden">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Catégories les plus vendues
+                    Profit
                 </div>
             </div>
-            <div class="card-body p-0">
-                <div class="p-3 pb-0">
-                    <div class="progress-stacked progress-sm mb-2 gap-1">
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-primary1" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-primary2" role="progressbar" style="width: 15%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-primary3" role="progressbar" style="width: 25%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 20%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div>Overall Sales</div>
-                        <div class="h6 mb-0"><span class="text-success me-2 fs-11">2.74%<i class="ti ti-arrow-narrow-up"></i></span>1,25,875</div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table text-nowrap">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <span class="fw-medium top-category-name one">Clothing</span>
-                            </td>
-                            <td>
-                                <span class="fw-medium">31,245</span>
-                            </td>
-                            <td class="text-center">
-                                <span class="text-muted fs-12">25% Gross</span>
-                            </td>
-                            <td class="text-end">
-                                <span class="badge bg-success">0.45% <i class="ti ti-trending-up"></i></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="fw-medium top-category-name two">Electronics</span>
-                            </td>
-                            <td>
-                                <span class="fw-medium">29,553</span>
-                            </td>
-                            <td class="text-center">
-                                <span class="text-muted fs-12">16% Gross</span>
-                            </td>
-                            <td class="text-end">
-                                <span class="badge bg-warning">0.27% <i class="ti ti-trending-up"></i></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="fw-medium top-category-name three">Grocery</span>
-                            </td>
-                            <td>
-                                <span class="fw-medium">24,577</span>
-                            </td>
-                            <td class="text-center">
-                                <span class="text-muted fs-12">22% Gross</span>
-                            </td>
-                            <td class="text-end">
-                                <span class="badge bg-secondary">0.63% <i class="ti ti-trending-up"></i></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="fw-medium top-category-name four">Automobiles</span>
-                            </td>
-                            <td>
-                                <span class="fw-medium">19,278</span>
-                            </td>
-                            <td class="text-center">
-                                <span class="text-muted fs-12">18% Gross</span>
-                            </td>
-                            <td class="text-end">
-                                <span class="badge bg-primary1">1.14% <i class="ti ti-trending-down"></i></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border-bottom-0">
-                                <span class="fw-medium top-category-name five">others</span>
-                            </td>
-                            <td class="border-bottom-0">
-                                <span class="fw-medium">15,934</span>
-                            </td>
-                            <td class="text-center border-bottom-0">
-                                <span class="text-muted fs-12">15% Gross</span>
-                            </td>
-                            <td class="text-end border-bottom-0">
-                                <span class="badge bg-primary">3.87% <i class="ti ti-trending-up"></i></span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="card-body">
+                <canvas id="performanceChart" height="150"></canvas>
             </div>
         </div>
     </div>
-
 </div>
+
+<!-- in templates/Categories/sales_dashboard.php -->
+ <!-- Charts Section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">
+                        Ventes par catégories
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesDistributionChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">
+                        Tendance Mensuelle des ventes
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyTrendChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Table -->
+    <div class="card custom-card">
+        <div class="card-header justify-content-between">
+            <div class="card-title">
+                Performance de ventes par catégories
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Category</th>
+                        <th class="text-right">Total Sales</th>
+                        <th class="text-right">Quantity Sold</th>
+                        <th class="text-right">Avg. Price</th>
+                        <th class="text-right">Products</th>
+                        <th class="text-right">Orders</th>
+                        <th class="text-right">Sales/Product</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($salesStats as $category): ?>
+                        <tr>
+                            <td><?= h($category->name) ?></td>
+                            <td class="text-right"><?= $this->Number->currency($category->total_sales) ?></td>
+                            <td class="text-right"><?= $this->Number->format($category->total_quantity) ?></td>
+                            <td class="text-right"><?= $this->Number->currency($category->avg_price) ?></td>
+                            <td class="text-right"><?= $this->Number->format($category->product_count) ?></td>
+                            <td class="text-right"><?= $this->Number->format($category->order_count) ?></td>
+                            <td class="text-right">
+                                <?= $category->product_count > 0 ?
+                                    $this->Number->currency($category->total_sales / $category->product_count) :
+                                    'N/A' ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<?php $this->Html->script('https://cdn.jsdelivr.net/npm/chart.js', ['block' => true]); ?>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        // Sales Distribution Chart
+        const distributionCtx = document.getElementById('salesDistributionChart').getContext('2d');
+        const distributionChart = new Chart(distributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: <?= json_encode(array_column($salesStats, 'name')) ?>,
+                datasets: [{
+                    data: <?= json_encode(array_column($salesStats, 'total_sales')) ?>,
+                    backgroundColor: [
+                        '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                        '#5a5c69', '#858796', '#3a3b45', '#f8f9fc', '#d1d3e2'
+                    ],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let value = context.raw || 0;
+                                let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                let percentage = Math.round((value / total) * 100);
+                                return `${label}: ${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Monthly Trend Chart
+        const monthlyData = <?= json_encode($monthlyTrend) ?>;
+        const uniqueMonths = [...new Set(monthlyData.map(item => item.year_months))];
+        const categories = [...new Set(monthlyData.map(item => item.category_name))];
+
+        const datasets = categories.map(category => {
+            const categoryData = monthlyData.filter(item => item.category_name === category);
+            return {
+                label: category,
+                data: uniqueMonths.map(month => {
+                    const found = categoryData.find(item => item.year_months === month);
+                    return found ? found.monthly_sales : 0;
+                }),
+                fill: false
+            };
+        });
+
+        const trendCtx = document.getElementById('monthlyTrendChart').getContext('2d');
+        const trendChart = new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: uniqueMonths,
+                datasets: datasets
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' +
+                                    '$' + context.raw.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const metrics = <?= json_encode($metrics) ?>;
+
+        const labels = Object.keys(metrics);
+        const salesData = labels.map(label => metrics[label].sales);
+        const profitData = labels.map(label => metrics[label].profit);
+        const growthData = labels.map(label => metrics[label].growth);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Sales ($)',
+                        data: salesData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Profit ($)',
+                        data: profitData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Growth Rate (%)',
+                        data: growthData,
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Sales & Profit ($)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Growth Rate (%)' },
+                        min: Math.min(...growthData) - 5,
+                        max: Math.max(...growthData) + 5,
+                        grid: { drawOnChartArea: false }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label.includes('Growth')) {
+                                    return label + ': ' + context.raw.toFixed(2) + '%';
+                                }
+                                return label + ': $' + context.raw.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

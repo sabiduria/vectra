@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
+use Cake\Http\ServerRequest;
 use Cake\I18n\DateTime;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -15,7 +17,10 @@ class GeneralController extends AppController
      */
     public function dashboard(): void
     {
+        $request = new ServerRequest();
         $this->viewBuilder()->setLayout('dashboard');
+        self::performanceMetrics();
+        self::salesTrend();
     }
 
     public function monitoring(): void
@@ -673,5 +678,75 @@ WHERE id = :purchase_id",
     public function abc()
     {
 
+    }
+
+    public function performanceMetrics()
+    {
+        // Fetch data for the last 12 months
+        $timeframe = new DateTime('first day of this month -11 months');
+        $startDate = $timeframe->format('Y-m-d 00:00:00');
+
+        // --- SALES METRICS ---
+        $salesData = TableRegistry::getTableLocator()->get('Sales')
+            ->find()
+            ->select([
+                'month' => 'DATE_FORMAT(Sales.created, "%Y-%m")',
+                'total_sales' => 'SUM(Sales.total_amount)',
+                'total_profit' => 'SUM(SalesItems.subtotal - (Stockinsdetails.purchase_price * SalesItems.qty))'
+            ])
+            ->join([
+                'SalesItems' => [
+                    'table' => 'salesitems',
+                    'type' => 'INNER',
+                    'conditions' => 'SalesItems.sale_id = Sales.id'
+                ],
+                'Products' => [
+                    'table' => 'products',
+                    'type' => 'INNER',
+                    'conditions' => 'Products.id = SalesItems.product_id'
+                ],
+                'Stockinsdetails' => [
+                    'table' => 'Stockinsdetails',
+                    'type' => 'INNER',
+                    'conditions' => 'Products.id = Stockinsdetails.product_id'
+                ]
+            ])
+            ->where(['Sales.created >=' => $startDate])
+            ->group('month')
+            ->order('month')
+            ->toArray();
+
+        // --- GROWTH RATE CALCULATION ---
+        $metrics = [];
+        foreach ($salesData as $key => $record) {
+            $metrics[$record->month] = [
+                'sales' => (float)$record->total_sales,
+                'profit' => (float)$record->total_profit,
+                'growth' => ($key > 0) && $salesData[$key-1]->total_sales > 0
+                    ? (($record->total_sales - $salesData[$key-1]->total_sales) / $salesData[$key-1]->total_sales) * 100
+                    : 0
+            ];
+        }
+
+        $this->set(compact('metrics'));
+        $this->viewBuilder()->setOption('serialize', ['metrics']);
+    }
+
+    public function salesTrend()
+    {
+        $startDate = $this->request->getQuery('start_date', new FrozenTime('-1 month'));
+        $endDate = $this->request->getQuery('end_date', new FrozenTime('now'));
+
+        $Categories = $this->fetchTable('Categories');
+
+        $this->set([
+            'salesStats' => $Categories->find('salesStatistics', compact('startDate', 'endDate'))->toArray(),
+            'monthlyTrend' => $Categories->find('monthlyTrend', [
+                'start_date' => new FrozenTime('-12 months'),
+                'end_date' => new FrozenTime('now')
+            ])->toArray(),
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ]);
     }
 }
