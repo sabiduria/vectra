@@ -7,6 +7,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Http\ServerRequest;
 use Cake\I18n\Date;
 use Cake\I18n\DateTime;
+use Cake\I18n\FrozenDate;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -23,6 +24,8 @@ class GeneralController extends AppController
         self::performanceMetrics();
         self::salesTrend();
         self::revenueGrowth();
+        self::stockTrend();
+        self::generalDashboardMetrics();
     }
 
     public function monitoring(): void
@@ -1023,5 +1026,169 @@ WHERE id = :purchase_id",
                 return $exp->between('Sales.created', $startDate, $endDate);
             })
             ->count();
+    }
+
+    protected function stockTrend()
+    {
+        $shopstocksTable = $this->fetchTable('Shopstocks');
+
+        // Critical stock (below 50% of min)
+        $criticalStock = $shopstocksTable->find('criticalStock')->all();
+
+        // Low stock (below min but above 50%)
+        $lowStock = $shopstocksTable->find('lowStock')
+            ->where(['Shopstocks.stock <= (Shopstocks.stock_min + (Shopstocks.stock_min * 0.5))'])
+            ->all();
+
+        // Stock history for chart - need to execute query first
+        $stockHistory = $shopstocksTable->find('stockHistory', [
+            'product_id' => $this->request->getQuery('product_id', 1),
+            'room_id' => $this->request->getQuery('room_id', 1)
+        ])->all(); // Added ->all() here to convert to collection
+
+        // Get products and rooms for dropdowns
+        $products = $shopstocksTable->Products->find('list')->all();
+        $rooms = $shopstocksTable->Rooms->find('list')->contain(['Shops'])->all();
+
+        // Aggregates for summary cards
+        $stats = $shopstocksTable->find()
+            ->select([
+                'total_items' => 'COUNT(Shopstocks.id)',
+                'low_stock_items' => 'SUM(CASE WHEN Shopstocks.stock < Shopstocks.stock_min THEN 1 ELSE 0 END)',
+                'critical_items' => 'SUM(CASE WHEN Shopstocks.stock < Shopstocks.stock_min * 0.5 THEN 1 ELSE 0 END)',
+                'avg_stock_vs_min' => 'AVG(Shopstocks.stock/Shopstocks.stock_min)'
+            ])
+            ->first();
+
+        $this->set(compact('criticalStock', 'lowStock', 'stockHistory', 'stats', 'products', 'rooms'));
+    }
+
+    public function exportStockCsv()
+    {
+        $shopstocksTable = $this->getTableLocator()->get('Shopstocks');
+        $data = $shopstocksTable->find('lowStock')
+            ->contain(['Products', 'Rooms.Shops'])
+            ->all();
+
+        $_serialize = 'data';
+        $_header = ['Product', 'Shop', 'Room', 'Current Stock', 'Min Stock', 'Deficit'];
+        $_extract = [
+            'product.name',
+            'room.shop.name',
+            'room.name',
+            'stock',
+            'stock_min',
+            function ($row) {
+                return $row['stock_min'] - $row['stock'];
+            }
+        ];
+
+        $this->set(compact('data', '_serialize', '_header', '_extract'));
+        $this->viewBuilder()
+            ->setClassName('CsvView.Csv')
+            ->setOption('serialize', 'data');
+    }
+
+    public function generalDashboardMetrics()
+    {
+        // Get date ranges
+        $today = FrozenDate::today();
+        $startOfMonth = $today->firstOfMonth();
+        $endOfMonth = $today->lastOfMonth();
+        $lastMonthStart = $startOfMonth->subMonths(1);
+        $lastMonthEnd = $endOfMonth->subMonths(1);
+
+        // Load required tables
+        $salesTable = TableRegistry::getTableLocator()->get('Sales');
+        $productsTable = TableRegistry::getTableLocator()->get('Products');
+        $shopStocksTable = TableRegistry::getTableLocator()->get('ShopStocks');
+        $attendancesTable = TableRegistry::getTableLocator()->get('Attendances');
+        $expensesTable = TableRegistry::getTableLocator()->get('Expenses');
+
+        // Sales Metrics
+        $currentMonthSales = $salesTable->find()
+            ->where(['created >=' => $startOfMonth, 'created <=' => $endOfMonth])
+            ->select(['total' => $salesTable->find()->func()->sum('total_amount')])
+            ->first()
+            ->total;
+
+        $lastMonthSales = $salesTable->find()
+            ->where(['created >=' => $lastMonthStart, 'created <=' => $lastMonthEnd])
+            ->select(['total' => $salesTable->find()->func()->sum('total_amount')])
+            ->first()
+            ->total;
+
+        $salesGrowth = $lastMonthSales > 0
+            ? (($currentMonthSales - $lastMonthSales) / $lastMonthSales) * 100
+            : 100;
+
+        // Top Products
+        $topProducts = $productsTable->find()
+            ->select([
+                'Products.name',
+                'total_sold' => 'SUM(Salesitems.qty)',
+                'total_revenue' => 'SUM(Salesitems.subtotal)'
+            ])
+            ->innerJoinWith('Salesitems')
+            ->group('Products.id')
+            ->order(['total_revenue' => 'DESC'])
+            ->limit(5)
+            ->toArray();
+
+        // Inventory Alerts
+        $lowStockItems = $shopStocksTable->find()
+            ->contain(['Products'])
+            ->where(['Shopstocks.stock < Shopstocks.stock_min'])
+            ->order(['Shopstocks.stock' => 'ASC'])
+            ->limit(10)
+            ->toArray();
+
+        // Attendance Data
+        $attendanceStats = $attendancesTable->find()
+            ->select([
+                'affectation_id',
+                'present_days' => 'COUNT(DISTINCT DATE(check_in))',
+                'total_days' => $today->diffInDays($startOfMonth) + 1
+            ])
+            ->where(['check_in >=' => $startOfMonth, 'check_in <=' => $endOfMonth])
+            ->group('affectation_id')
+            ->contain(['Affectations.Users'])
+            ->toArray();
+
+        // Expense Breakdown
+        $expenseCategories = $expensesTable->find()
+            ->select([
+                'name' => 'Expensestypes.name',
+                'total_amount' => 'SUM(Expenses.amount)'
+            ])
+            ->contain(['Expensestypes'])
+            ->where(['Expenses.created >=' => $startOfMonth, 'Expenses.created <=' => $endOfMonth])
+            ->group('Expensestypes.name')
+            ->order(['total_amount' => 'DESC'])
+            ->toArray();
+
+        // Sales Trend Data (Last 6 Months)
+        $salesTrend = $salesTable->find()
+            ->select([
+                'month' => 'DATE_FORMAT(created, "%Y-%m")',
+                'total_sales' => 'SUM(total_amount)'
+            ])
+            ->where(['created >=' => $today->subMonths(6)])
+            ->group('month')
+            ->order(['month' => 'ASC'])
+            ->toArray();
+
+        $this->set(compact(
+            'currentMonthSales',
+            'lastMonthSales',
+            'salesGrowth',
+            'topProducts',
+            'lowStockItems',
+            'attendanceStats',
+            'expenseCategories',
+            'salesTrend',
+            'startOfMonth',
+            'endOfMonth'
+        ));
     }
 }

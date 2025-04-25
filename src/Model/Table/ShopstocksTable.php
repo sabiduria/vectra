@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -56,6 +57,40 @@ class ShopstocksTable extends Table
             'foreignKey' => 'room_id',
             'joinType' => 'INNER',
         ]);
+    }
+
+    public function findLowStock(Query $query, array $options)
+    {
+        return $query
+            ->contain(['Products', 'Rooms.Shops'])
+            ->where([
+                'Shopstocks.stock <= (Shopstocks.stock_min + (Shopstocks.stock_min*0.5))',
+                'Shopstocks.deleted IS NULL OR Shopstocks.deleted = false'
+            ])
+            ->order(['(Shopstocks.stock/Shopstocks.stock_min)' => 'ASC']);
+    }
+
+    public function findCriticalStock(Query $query, array $options)
+    {
+        return $query
+            ->contain(['Products', 'Rooms.Shops'])
+            ->where([
+                'Shopstocks.stock < Shopstocks.stock_min * 0.5',
+                'Shopstocks.deleted IS NULL OR Shopstocks.deleted = false'
+            ]);
+    }
+
+    public function findStockHistory(Query $query, array $options)
+    {
+        return $query
+            ->find('all')
+            ->contain(['Products', 'Rooms.Shops'])
+            ->where([
+                'Shopstocks.product_id' => $options['product_id'],
+                'Shopstocks.room_id' => $options['room_id']
+            ])
+            ->order(['Shopstocks.modified' => 'DESC'])
+            ->limit(30);
     }
 
     /**

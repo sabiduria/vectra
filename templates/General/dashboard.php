@@ -249,6 +249,214 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
     </div>
 </div>
 
+<div class="card custom-card">
+    <div class="card-header justify-content-between">
+        <div class="card-title">
+            Low Stock Items (Below Minimum)
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Location</th>
+                <th>Current</th>
+                <th>Min</th>
+                <th>Deficit</th>
+                <th>% of Min</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($lowStock as $item): ?>
+                <?php
+                    $stockLevel = $this->Number->format($item->stock - $item->stock_min);
+                ?>
+                <tr>
+                    <td><?= h($item->product->name) ?></td>
+                    <td><?= h($item->room->shop->name) ?> / <?= h($item->room->name) ?></td>
+                    <td><?= $this->Number->format($item->stock) ?></td>
+                    <td><?= $this->Number->format($item->stock_min) ?></td>
+                    <td class="<?= $stockLevel > 0 ? 'text-warning' : 'text-danger' ?>"><?= $stockLevel ?></td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar <?= $stockLevel > 0 ? 'bg-warning' : 'bg-danger' ?>"
+                                 role="progressbar"
+                                 style="width: <?= ($item->stock / ($item->stock_min + ($item->stock_min*0.5))) * 100 ?>%"
+                                 aria-valuenow="<?= ($item->stock / ($item->stock_min + ($item->stock_min*0.5))) * 100 ?>"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                <?= round(($item->stock / ($item->stock_min + ($item->stock_min*0.5))) * 100) ?>%
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <?= $this->Html->link('Order',
+                            ['controller' => 'Purchases', 'action' => 'add', '?' => ['product_id' => $item->product_id]],
+                            ['class' => 'btn btn-sm btn-primary']
+                        ) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------->
+<!-- templates/Dashboard/index.php -->
+<div class="dashboard-container">
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Sales</h5>
+                    <h2 class="card-text"><?= $this->Number->currency($currentMonthSales) ?></h2>
+                    <p class="text-<?= $salesGrowth >= 0 ? 'success' : 'danger' ?>">
+                        <?= $this->Number->toPercentage(abs($salesGrowth), 2) ?>
+                        <?= $salesGrowth >= 0 ? '↑' : '↓' ?> vs last month
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Low Stock Items</h5>
+                    <h2 class="card-text"><?= count($lowStockItems) ?></h2>
+                    <p class="text-muted">Items below minimum stock</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Avg. Attendance</h5>
+                    <h2 class="card-text">
+                        <?php
+                        $avgAttendance = count($attendanceStats) > 0 ?
+                            array_sum(array_map(fn($a) => ($a->present_days / $a->total_days) * 100, $attendanceStats)) / count($attendanceStats) :
+                            0;
+                        echo $this->Number->toPercentage($avgAttendance, 1);
+                        ?>
+                    </h2>
+                    <p class="text-muted">Current month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Sales Trend (Last 6 Months)</h5>
+                    <canvas id="salesTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Top Products by Revenue</h5>
+                    <canvas id="topProductsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Charts Row -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Expense Breakdown</h5>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Attendance Overview</h5>
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Tables -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Low Stock Alerts</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Current Stock</th>
+                                <th>Min Stock</th>
+                                <th>Deficit</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($lowStockItems as $item): ?>
+                                <tr>
+                                    <td><?= h($item->product->name) ?></td>
+                                    <td><?= h($item->stock) ?></td>
+                                    <td><?= h($item->stock_min) ?></td>
+                                    <td class="text-danger"><?= h($item->stock_min - $item->stock) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Top Performers</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Units Sold</th>
+                                <th>Revenue</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($topProducts as $product): ?>
+                                <tr>
+                                    <td><?= h($product->name) ?></td>
+                                    <td><?= h($product->total_sold) ?></td>
+                                    <td><?= $this->Number->currency($product->total_revenue) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--------------------------------------------------------------------------------------------------------->
+
 <?php $this->Html->script('https://cdn.jsdelivr.net/npm/chart.js', ['block' => true]); ?>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
@@ -504,6 +712,223 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
                     // For simplicity, we'll just reload
                     window.location.reload();
                 });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Stock History Chart
+        const ctx = document.getElementById('stockHistoryChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode($stockHistory->extract('modified')->map(function($date) {
+                    return $date->format('Y-m-d');
+                })->toList()) ?>,
+                datasets: [{
+                    label: 'Stock Level',
+                    data: <?= json_encode($stockHistory->extract('stock')->toList()) ?>,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    fill: false
+                }, {
+                    label: 'Minimum Stock',
+                    data: <?= json_encode($stockHistory->extract('stock_min')->toList()) ?>,
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderDash: [5, 5],
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<!-------------------------------------------------------------------------------------->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sales Trend Chart
+        const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
+        new Chart(salesTrendCtx, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode(array_column($salesTrend, 'month')) ?>,
+                datasets: [{
+                    label: 'Sales',
+                    data: <?= json_encode(array_column($salesTrend, 'total_sales')) ?>,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Sales: ' + new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                }).format(context.raw);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                    maximumFractionDigits: 0
+                                }).format(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Top Products Chart
+        const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+        new Chart(topProductsCtx, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode(array_column($topProducts, 'name')) ?>,
+                datasets: [{
+                    label: 'Revenue',
+                    data: <?= json_encode(array_column($topProducts, 'total_revenue')) ?>,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Revenue: ' + new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                }).format(context.raw);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                    maximumFractionDigits: 0
+                                }).format(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Expense Breakdown Chart
+        const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+        new Chart(expenseCtx, {
+            type: 'doughnut',
+            data: {
+                labels: <?= json_encode(array_column($expenseCategories, 'name')) ?>,
+                datasets: [{
+                    data: <?= json_encode(array_column($expenseCategories, 'total_amount')) ?>,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'CDF'
+                                }).format(context.raw);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Attendance Chart
+        const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(attendanceCtx, {
+            type: 'radar',
+            data: {
+                labels: <?= json_encode(array_map(fn($a) => $a->affectation->user->firstname, $attendanceStats)) ?>,
+                datasets: [{
+                    label: 'Attendance Rate',
+                    data: <?= json_encode(array_map(fn($a) => ($a->present_days / $a->total_days) * 100, $attendanceStats)) ?>,
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    pointBackgroundColor: 'rgba(153, 102, 255, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(153, 102, 255, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw.toFixed(1) + '%';
+                            }
+                        }
+                    }
+                }
+            }
         });
     });
 </script>
