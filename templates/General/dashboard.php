@@ -122,6 +122,20 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
             </div>
         </div>
     </div>
+
+    <div class="col-sm-6">
+        <!-- Revenue Trend Chart -->
+        <div class="card custom-card overflow-hidden">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Revenue Trend
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="revenueTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- in templates/Categories/sales_dashboard.php -->
@@ -195,6 +209,45 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
             </div>
         </div>
     </div>
+
+<div class="card custom-card">
+    <div class="card-header justify-content-between">
+        <div class="card-title">
+            Top Articles (Revenue)
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Revenue</th>
+                    <th>Quantity</th>
+                    <th>Growth</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data['product_performance'] as $product): ?>
+                    <tr>
+                        <td><?= h($product['product_name']) ?></td>
+                        <td><?= h($product['category']) ?></td>
+                        <td><?= number_format($product['total_sales'], 2) ?></td>
+                        <td><?= number_format($product['quantity']) ?></td>
+                        <td>
+                            <span class="badge <?= $product['growth'] >= 0 ? 'bg-success' : 'bg-danger' ?>">
+                                <?= number_format($product['growth'], 2) ?>%
+                                <i class="ti ti-<?= $product['growth'] >= 0 ? 'trending-up' : 'trending-down' ?>"></i>
+                            </span>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <?php $this->Html->script('https://cdn.jsdelivr.net/npm/chart.js', ['block' => true]); ?>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -371,6 +424,86 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
                     }
                 }
             }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Revenue Trend Chart
+        const revenueCtx = document.getElementById('revenueTrendChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode(array_column($data['revenue_trends']['current'], 'period')) ?>,
+                datasets: [
+                    {
+                        label: 'Current Period',
+                        data: <?= json_encode(array_column($data['revenue_trends']['current'], 'total')) ?>,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.1,
+                        fill: true
+                    },
+                    {
+                        label: 'Comparison Period',
+                        data: <?= json_encode(array_column($data['revenue_trends']['comparison'], 'total')) ?>,
+                        borderColor: 'rgba(201, 203, 207, 1)',
+                        backgroundColor: 'rgba(201, 203, 207, 0.2)',
+                        tension: 0.1,
+                        fill: true,
+                        borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                });
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // AJAX form submission for filters
+        document.getElementById('dashboard-filters').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const params = new URLSearchParams(formData);
+
+            fetch(window.location.pathname + '?' + params.toString(), {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the dashboard with new data
+                    // This would involve updating all the charts and tables
+                    // For simplicity, we'll just reload
+                    window.location.reload();
+                });
         });
     });
 </script>

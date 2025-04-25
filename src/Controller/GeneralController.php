@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\Http\ServerRequest;
+use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
@@ -21,6 +22,7 @@ class GeneralController extends AppController
         $this->viewBuilder()->setLayout('dashboard');
         self::performanceMetrics();
         self::salesTrend();
+        self::revenueGrowth();
     }
 
     public function monitoring(): void
@@ -748,5 +750,278 @@ WHERE id = :purchase_id",
             'startDate' => $startDate,
             'endDate' => $endDate
         ]);
+    }
+
+    public function revenueGrowth()
+    {
+        // Prevent JSON view from being auto-rendered
+        $this->viewBuilder()->setOption('serialize', true);
+
+        // Get date range (default: last 12 months)
+        $startDate = $this->request->getQuery('start_date', (new Date('-12 months'))->format('Y-m-d'));
+        $endDate = $this->request->getQuery('end_date', (new Date()))->format('Y-m-d');
+
+        // Get comparison period (previous year or previous period)
+        $comparePeriod = $this->request->getQuery('compare_period', 'previous_year');
+
+// Convert string dates to DateTime objects
+        $startDateObj = new DateTime($startDate);
+        $endDateObj = new DateTime($endDate);
+
+        if ($comparePeriod === 'previous_year') {
+            // For year comparison, subtract 1 year from both dates
+            $compareStart = (clone $startDateObj)->modify('-1 year')->format('Y-m-d');
+            $compareEnd = (clone $endDateObj)->modify('-1 year')->format('Y-m-d');
+        } else {
+            // For period comparison, calculate the difference between dates
+            $interval = $startDateObj->diff($endDateObj);
+            $compareStart = (clone $startDateObj)->sub($interval)->format('Y-m-d');
+            $compareEnd = (clone $startDateObj)->modify('-1 day')->format('Y-m-d');
+        }
+
+        // Fetch data
+        $data = [
+            'time_period' => [
+                'current' => ['start' => $startDate, 'end' => $endDate],
+                'comparison' => ['start' => $compareStart, 'end' => $compareEnd]
+            ],
+            'revenue_trends' => $this->getRevenueTrends($startDate, $endDate, $compareStart, $compareEnd),
+            'growth_metrics' => $this->getGrowthMetrics($startDate, $endDate, $compareStart, $compareEnd),
+            'product_performance' => $this->getProductPerformance($startDate, $endDate),
+            'customer_segments' => $this->getCustomerSegments($startDate, $endDate),
+            'sales_channels' => $this->getSalesChannels($startDate, $endDate),
+            'revenue_health' => $this->getRevenueHealthIndicators()
+        ];
+
+        $this->set(compact('data'));
+    }
+
+    protected function getRevenueTrends($startDate, $endDate, $compareStart, $compareEnd)
+    {
+        $Sales = $this->fetchTable('Sales');
+        // Current period revenue by month
+        $currentRevenue = $Sales->find()
+            ->select([
+                'period' => 'DATE_FORMAT(Sales.created, "%Y-%m")',
+                'total' => 'SUM(Sales.total_amount)',
+                'count' => 'COUNT(Sales.id)'
+            ])
+            ->where(function ($exp) use ($startDate, $endDate) {
+                return $exp->between('Sales.created', $startDate, $endDate);
+            })
+            ->group('period')
+            ->order('period')
+            ->all()
+            ->toArray();
+
+        // Comparison period revenue by month
+        $comparisonRevenue = $Sales->find()
+            ->select([
+                'period' => 'DATE_FORMAT(Sales.created, "%Y-%m")',
+                'total' => 'SUM(Sales.total_amount)',
+                'count' => 'COUNT(Sales.id)'
+            ])
+            ->where(function ($exp) use ($compareStart, $compareEnd) {
+                return $exp->between('Sales.created', $compareStart, $compareEnd);
+            })
+            ->group('period')
+            ->order('period')
+            ->all()
+            ->toArray();
+
+        return [
+            'current' => $currentRevenue,
+            'comparison' => $comparisonRevenue
+        ];
+    }
+
+    protected function getGrowthMetrics($startDate, $endDate, $compareStart, $compareEnd)
+    {
+        $Sales = $this->fetchTable('Sales');
+        // Total revenue for current period
+        $currentTotal = $Sales->find()
+            ->select(['total' => 'SUM(Sales.total_amount)'])
+            ->where(function ($exp) use ($startDate, $endDate) {
+                return $exp->between('Sales.created', $startDate, $endDate);
+            })
+            ->first()
+            ->total ?? 0;
+
+        // Total revenue for comparison period
+        $comparisonTotal = $Sales->find()
+            ->select(['total' => 'SUM(Sales.total_amount)'])
+            ->where(function ($exp) use ($compareStart, $compareEnd) {
+                return $exp->between('Sales.created', $compareStart, $compareEnd);
+            })
+            ->first()
+            ->total ?? 0;
+
+        // Calculate growth metrics
+        $revenueGrowth = $comparisonTotal != 0
+            ? (($currentTotal - $comparisonTotal) / $comparisonTotal) * 100
+            : ($currentTotal > 0 ? 100 : 0);
+
+        // Customer count growth
+        $currentCustomers = $Sales->find()
+            ->select(['count' => 'COUNT(DISTINCT Sales.customer_id)'])
+            ->where(function ($exp) use ($startDate, $endDate) {
+                return $exp->between('Sales.created', $startDate, $endDate);
+            })
+            ->first()
+            ->count ?? 0;
+
+        $comparisonCustomers = $Sales->find()
+            ->select(['count' => 'COUNT(DISTINCT Sales.customer_id)'])
+            ->where(function ($exp) use ($compareStart, $compareEnd) {
+                return $exp->between('Sales.created', $compareStart, $compareEnd);
+            })
+            ->first()
+            ->count ?? 0;
+
+        $customerGrowth = $comparisonCustomers != 0
+            ? (($currentCustomers - $comparisonCustomers) / $comparisonCustomers) * 100
+            : ($currentCustomers > 0 ? 100 : 0);
+
+        // Average order value
+        $currentAOV = $currentTotal / max(1, $this->getSalesCount($startDate, $endDate));
+        $comparisonAOV = $comparisonTotal / max(1, $this->getSalesCount($compareStart, $compareEnd));
+        $aovGrowth = $comparisonAOV != 0
+            ? (($currentAOV - $comparisonAOV) / $comparisonAOV) * 100
+            : ($currentAOV > 0 ? 100 : 0);
+
+        return [
+            'revenue' => [
+                'current' => $currentTotal,
+                'comparison' => $comparisonTotal,
+                'growth' => $revenueGrowth,
+                'direction' => $revenueGrowth >= 0 ? 'up' : 'down'
+            ],
+            'customers' => [
+                'current' => $currentCustomers,
+                'comparison' => $comparisonCustomers,
+                'growth' => $customerGrowth,
+                'direction' => $customerGrowth >= 0 ? 'up' : 'down'
+            ],
+            'aov' => [
+                'current' => $currentAOV,
+                'comparison' => $comparisonAOV,
+                'growth' => $aovGrowth,
+                'direction' => $aovGrowth >= 0 ? 'up' : 'down'
+            ]
+        ];
+    }
+
+    protected function getProductPerformance($startDate, $endDate)
+    {
+        $SalesItems = $this->fetchTable('salesitems');
+        // Previous period subquery (3 months prior)
+        $prevStart = (new Date($startDate))->subMonths(3)->format('Y-m-d');
+        $prevEnd = (new Date($startDate))->subDays(1)->format('Y-m-d');
+
+        $prevPeriod = $SalesItems->find()
+            ->select([
+                'product_id',
+                'total' => 'SUM(salesitems.subtotal)'
+            ])
+            ->where(function ($exp) use ($prevStart, $prevEnd) {
+                return $exp->between('salesitems.created', $prevStart, $prevEnd);
+            })
+            ->group('product_id');
+
+        // Main query
+        $query = $SalesItems->find();
+
+        // Build the SQL query
+        $sql = "
+        SELECT
+            Products.id AS product_id,
+            Products.name AS product_name,
+            Categories.name AS category,
+            SUM(Salesitems.subtotal) AS total_sales,
+            SUM(Salesitems.qty) AS quantity,
+            CASE
+                WHEN prevy.total IS NULL OR prevy.total = 0 THEN
+                    CASE
+                        WHEN SUM(Salesitems.subtotal) > 0 THEN 100
+                        ELSE 0
+                    END
+                ELSE
+                    ((SUM(Salesitems.subtotal) - prevy.total) / prevy.total) * 100
+            END AS growth
+        FROM
+            salesitems Salesitems
+        INNER JOIN
+            products Products ON Products.id = Salesitems.product_id
+        INNER JOIN
+            categories Categories ON Categories.id = Products.category_id
+        LEFT JOIN
+            (
+                SELECT
+                    Salesitems.product_id,
+                    SUM(Salesitems.subtotal) AS total
+                FROM
+                    salesitems Salesitems
+                WHERE
+                    Salesitems.created BETWEEN :previousStart AND :previousEnd
+                GROUP BY
+                    Salesitems.product_id
+            ) prevy ON prevy.product_id = Products.id
+        WHERE
+            Salesitems.created BETWEEN :currentStart AND :currentEnd
+        GROUP BY
+            Products.id, Products.name, Categories.name, prevy.total
+        ORDER BY
+            total_sales DESC
+        LIMIT 10
+    ";
+
+        // Get database connection
+        $connection = ConnectionManager::get('default');
+
+        $statement = $connection->execute($sql, [
+            'currentStart' => $startDate,
+            'currentEnd' => $endDate,
+            'previousStart' => $prevStart,
+            'previousEnd' => $prevEnd]);
+
+        // Fetch results
+        $results = $statement->fetchAll('assoc');
+
+        // Format the results if needed
+        foreach ($results as &$row) {
+            $row['total_sales'] = (float)$row['total_sales'];
+            $row['quantity'] = (float)$row['quantity'];
+            $row['growth'] = (float)$row['growth'];
+        }
+
+        return $results;
+    }
+
+    protected function getCustomerSegments($startDate, $endDate)
+    {
+        // Implementation for customer segmentation
+        // ...
+    }
+
+    protected function getSalesChannels($startDate, $endDate)
+    {
+        // Implementation for sales channel analysis
+        // ...
+    }
+
+    protected function getRevenueHealthIndicators()
+    {
+        // Implementation for revenue health KPIs
+        // ...
+    }
+
+    protected function getSalesCount($startDate, $endDate)
+    {
+        $Sales = $this->fetchTable('Sales');
+        return $Sales->find()
+            ->where(function ($exp) use ($startDate, $endDate) {
+                return $exp->between('Sales.created', $startDate, $endDate);
+            })
+            ->count();
     }
 }
