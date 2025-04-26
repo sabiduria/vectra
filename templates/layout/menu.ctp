@@ -51,6 +51,9 @@
                     <?= $this->Html->link('Modèles', ['controller' => 'brands', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
+                    <?= $this->Html->link('Packaging', ['controller' => 'packagings', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
                     <?= $this->Html->link('Statistiques', ['controller' => 'products', 'action' => 'stats'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
             </ul>
@@ -330,9 +333,6 @@
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Fériés', ['controller' => 'holidays', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Packaging', ['controller' => 'packagings', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
             </ul>
         </li>

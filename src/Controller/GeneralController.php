@@ -77,6 +77,18 @@ class GeneralController extends AppController
         return null;
     }
 
+    public static function getCountPerPackage($packaging_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT COUNT(*) as nber FROM products WHERE packaging_id =:packaging_id', ['packaging_id' => $packaging_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
+
     public static function getSupplierData($data, $supplier_id): mixed
     {
         $conn = ConnectionManager::get('default');
