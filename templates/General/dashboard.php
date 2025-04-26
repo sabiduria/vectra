@@ -27,7 +27,7 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
             </div>
             <div class="min-w-fit-content">
                 <p class="mb-1">Taux d'échanges</p>
-                <h4 class="fw-medium mb-0">$124,784.23<span class="badge bg-danger ms-2 fs-9"><i class="ti ti-trending-down me-1"></i>0.12%</span></h4>
+                <h4 class="fw-medium mb-0">1$ = <?= GeneralController::getLatestExchangeRates() ?></h4>
             </div>
             <div class="flex-1 text-sm-end mt-2 mt-sm-0 ms-auto">
                 <a href="javascript:void(0);" class="btn btn-w-lg btn-primary1-light"><i class="ti ti-plus me-1"></i>Details</a>
@@ -184,7 +184,7 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
                         <th class="text-right">Quantity Sold</th>
                         <th class="text-right">Avg. Price</th>
                         <th class="text-right">Products</th>
-                        <th class="text-right">Orders</th>
+                        <th class="text-right">Sales</th>
                         <th class="text-right">Sales/Product</th>
                     </tr>
                     </thead>
@@ -454,6 +454,95 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
     </div>
 </div>
 
+
+<!--------------------------------------------------------------------------------------------------------->
+
+<div class="dashboard-summary">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Sales</h5>
+                    <h2 class="card-value" id="totalSales"><?= $summary->total_sales ?? 0 ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Revenue</h5>
+                    <h2 class="card-value" id="totalRevenue"><?= $this->Number->currency($summary->total_revenue ?? 0) ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Customers</h5>
+                    <h2 class="card-value" id="totalCustomers"><?= $summary->total_customers ?? 0 ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Avg Sale Value</h5>
+                    <h2 class="card-value" id="avgOrderValue"><?= $this->Number->currency($summary->avg_order_value ?? 0) ?></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-charts mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sales Trend</h5>
+                    <canvas id="salesTrendChart2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Top Products by Revenue</h5>
+                    <canvas id="topProductsChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-customer-metrics mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">New Customers</h5>
+                    <h2 class="card-value" id="newCustomers"><?= $customerMetrics['new_customers'] ?? 0 ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Returning Customers</h5>
+                    <h2 class="card-value" id="returningCustomers"><?= $customerMetrics['returning_customers'] ?? 0 ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Avg Customer Lifetime Value</h5>
+                    <h2 class="card-value" id="avgClv"><?= $this->Number->currency($customerMetrics['avg_clv'] ?? 0) ?></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--------------------------------------------------------------------------------------------------------->
 
@@ -929,6 +1018,129 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
                     }
                 }
             }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize charts
+        const salesTrendCtx = document.getElementById('salesTrendChart2').getContext('2d');
+        const topProductsCtx = document.getElementById('topProductsChart2').getContext('2d');
+
+        let salesTrendChart2 = new Chart(salesTrendCtx, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode(array_column($trend, 'period')) ?>,
+                datasets: [{
+                    label: 'Revenue',
+                    data: <?= json_encode(array_column($trend, 'total_revenue')) ?>,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    yAxisID: 'y'
+                }, {
+                    label: 'Sales',
+                    data: <?= json_encode(array_column($trend, 'total_sales')) ?>,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.1,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Revenue'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Sales'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        let topProductsChart = new Chart(topProductsCtx, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode(array_column($topProducts, 'product_name')) ?>,
+                datasets: [{
+                    label: 'Revenue',
+                    data: <?= json_encode(array_column($topProducts, 'total_revenue')) ?>,
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Revenue'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Filter form submission with AJAX
+        $('#dashboardFilter').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'GET',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    // Update summary cards
+                    $('#totalSales').text(response.summary.total_sales);
+                    $('#totalRevenue').text('$' + parseFloat(response.summary.total_revenue).toFixed(2));
+                    $('#totalCustomers').text(response.summary.total_customers);
+                    $('#avgOrderValue').text('$' + parseFloat(response.summary.avg_order_value).toFixed(2));
+
+                    // Update customer metrics
+                    $('#newCustomers').text(response.customerMetrics.new_customers);
+                    $('#returningCustomers').text(response.customerMetrics.returning_customers);
+                    $('#avgClv').text('$' + parseFloat(response.customerMetrics.avg_clv).toFixed(2));
+
+                    // Update charts
+                    salesTrendChart2.data.labels = response.trend.map(item => item.period);
+                    salesTrendChart2.data.datasets[0].data = response.trend.map(item => item.total_revenue);
+                    salesTrendChart2.data.datasets[1].data = response.trend.map(item => item.total_sales);
+                    salesTrendChart2.update();
+
+                    topProductsChart2.data.labels = response.topProducts.map(item => item.product_name);
+                    topProductsChart2.data.datasets[0].data = response.topProducts.map(item => item.total_revenue);
+                    topProductsChart2.update();
+                }
+            });
         });
     });
 </script>

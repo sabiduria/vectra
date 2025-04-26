@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\SalesAnalyticsService;
 use Cake\Datasource\ConnectionManager;
 use Cake\Http\ServerRequest;
 use Cake\I18n\Date;
@@ -26,6 +27,7 @@ class GeneralController extends AppController
         self::revenueGrowth();
         self::stockTrend();
         self::generalDashboardMetrics();
+        self::salesDashboard();
     }
 
     public function monitoring(): void
@@ -81,6 +83,18 @@ class GeneralController extends AppController
     {
         $conn = ConnectionManager::get('default');
         $stmt = $conn->execute('SELECT COUNT(*) as nber FROM products WHERE packaging_id =:packaging_id', ['packaging_id' => $packaging_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
+
+    public static function getLatestExchangeRates(): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT rates FROM exchangerates ORDER BY created LIMIT 1');
         $result = $stmt->fetch('assoc');
         foreach ($result as $row) {
             return $row;
@@ -1202,5 +1216,38 @@ WHERE id = :purchase_id",
             'startOfMonth',
             'endOfMonth'
         ));
+    }
+
+    public function salesDashboard()
+    {
+        $salesService = new SalesAnalyticsService();
+
+        // Default to last 30 days
+        $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-30 days')));
+        $endDate = $this->request->getQuery('end_date', date('Y-m-d'));
+        $shopId = $this->request->getQuery('shop_id');
+
+        $options = [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'shop_id' => $shopId
+        ];
+
+        $summary = $salesService->getSalesSummary($options);
+        $trend = $salesService->getSalesTrend('daily', $options);
+        $topProducts = $salesService->getTopProducts(5, $options);
+        $customerMetrics = $salesService->getCustomerMetrics($options);
+
+        // For AJAX requests, return JSON
+        if ($this->request->is('ajax')) {
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode(compact('summary', 'trend', 'topProducts', 'customerMetrics')));
+        }
+
+        $this->set(compact('summary', 'trend', 'topProducts', 'customerMetrics', 'startDate', 'endDate', 'shopId'));
+
+        // Load shops for filter dropdown
+        $shops = $this->fetchTable('Shops')->find('list')->toArray();
+        $this->set('shops', $shops);
     }
 }
