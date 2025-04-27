@@ -35,75 +35,148 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
         </div>
     </div>
 
-    <div class="col-xxl-3 col-xl-6">
-        <div class="card custom-card overflow-hidden main-content-card">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
-                    <div>
-                        <span class="text-muted d-block mb-1 text-nowrap">Total Produits</span>
-                        <h4 class="fw-medium mb-0">854</h4>
-                    </div>
-                    <div class="lh-1">
-                        <span class="avatar avatar-md avatar-rounded bg-primary">
-                            <i class="ti ti-shopping-cart fs-5"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="text-muted fs-13">Stats : <span class="text-success">2.56%<i class="ti ti-arrow-narrow-up fs-16"></i></span></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xxl-3 col-xl-6">
-        <div class="card custom-card overflow-hidden main-content-card">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
-                    <div>
-                        <span class="text-muted d-block mb-1 text-nowrap">Total Clients</span>
-                        <h4 class="fw-medium mb-0">31,876</h4>
-                    </div>
-                    <div class="lh-1">
-                        <span class="avatar avatar-md avatar-rounded bg-primary1">
-                            <i class="ti ti-users fs-5"></i>
-                        </span>
+    <div class="dashboard-summary">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Total Ventes (30 jours)</span>
+                                <h4 class="fw-medium mb-0" id="totalSales"><?= $summary->total_sales ?? 0 ?></h4>
+                            </div>
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-primary3">
+                                    <i class="ti ti-shopping-cart-plus fs-5"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="text-muted fs-13">Stats : <span class="text-success">0.34%<i class="ti ti-arrow-narrow-up fs-16"></i></span></div>
             </div>
-        </div>
-    </div>
-    <div class="col-xxl-3 col-xl-6">
-        <div class="card custom-card overflow-hidden main-content-card">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
-                    <div>
-                        <span class="text-muted d-block mb-1 text-nowrap">Total Revenue</span>
-                        <h4 class="fw-medium mb-0">$34,241</h4>
-                    </div>
-                    <div class="lh-1">
-                        <span class="avatar avatar-md avatar-rounded bg-primary2">
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Total Revenue (30 jours)</span>
+                                <h4 class="fw-medium mb-0" id="totalRevenue"><?= $this->Number->currency($summary->total_revenue ?? 0) ?></h4>
+                            </div>
+                            <div class="lh-1">
+                        <span class="avatar avatar-md avatar-rounded bg-primary3">
                             <i class="ti ti-currency-dollar fs-5"></i>
                         </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="text-muted fs-13">Stats : <span class="text-success">7.66%<i class="ti ti-arrow-narrow-up fs-16"></i></span></div>
+            </div>
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Total Clients (30 jours)</span>
+                                <h4 class="fw-medium mb-0" id="totalCustomers"><?= $summary->total_customers ?? 0 ?></h4>
+                            </div>
+                            <div class="lh-1">
+                        <span class="avatar avatar-md avatar-rounded bg-primary3">
+                            <i class="ti ti-users fs-5"></i>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Moyenne Vente  (30 jours)</span>
+                                <h4 class="fw-medium mb-0" id="avgOrderValue"><?= $this->Number->currency($summary->avg_order_value ?? 0) ?></h4>
+                            </div>
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-primary3">
+                                    <i class="ti ti-currency-dollar fs-5"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-xxl-3 col-xl-6">
-        <div class="card custom-card overflow-hidden main-content-card">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
-                    <div>
-                        <span class="text-muted d-block mb-1 text-nowrap">Total Factures</span>
-                        <h4 class="fw-medium mb-0">1,76,586</h4>
-                    </div>
-                    <div class="lh-1">
-                        <span class="avatar avatar-md avatar-rounded bg-primary3">
-                            <i class="ti ti-chart-bar fs-5"></i>
-                        </span>
+
+    <div class="dashboard-customer-metrics">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Nouveaux clients</span>
+                                <h4 class="fw-medium mb-0" id="newCustomers"><?= $customerMetrics['new_customers'] ?? 0 ?></h4>
+                            </div>
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-primary2">
+                                    <i class="ti ti-user-up fs-5"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="text-muted fs-13">Stats : <span class="text-danger">0.74%<i class="ti ti-arrow-narrow-down fs-16"></i></span></div>
+            </div>
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Clients réguliers</span>
+                                <h4 class="fw-medium mb-0" id="returningCustomers"><?= $customerMetrics['returning_customers'] ?? 0 ?></h4>
+                            </div>
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-success">
+                                    <i class="ti ti-user-star fs-5"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Cycle de vie du client</span>
+                                <h4 class="fw-medium mb-0" id="avgClv"><?= $this->Number->currency($customerMetrics['avg_clv'] ?? 0) ?></h4>
+                            </div>
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-primary1">
+                                    <i class="ti ti-hourglass fs-5"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card custom-card overflow-hidden main-content-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
+                            <div>
+                                <span class="text-muted d-block mb-1 text-nowrap">Articles en rupture de stock</span>
+                                <h4 class="fw-medium mb-0" id="avgClv"><?= count($lowStockItems) ?></h4>
+                            </div>
+                            <div class="lh-1">
+                                <span class="avatar avatar-md avatar-rounded bg-primary">
+                                    <i class="ti ti-shopping-cart-x fs-5"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -139,76 +212,139 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
 </div>
 
 <!-- in templates/Categories/sales_dashboard.php -->
- <!-- Charts Section -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card custom-card">
-                <div class="card-header justify-content-between">
-                    <div class="card-title">
-                        Ventes par catégories
-                    </div>
-                </div>
-                <div class="card-body">
-                    <canvas id="salesDistributionChart" height="300"></canvas>
+<!-- Charts Section -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Ventes par catégories
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card custom-card">
-                <div class="card-header justify-content-between">
-                    <div class="card-title">
-                        Tendance Mensuelle des ventes
-                    </div>
-                </div>
-                <div class="card-body">
-                    <canvas id="monthlyTrendChart" height="300"></canvas>
-                </div>
+            <div class="card-body">
+                <canvas id="salesDistributionChart" height="300"></canvas>
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">
+                    Tendance Mensuelle des ventes
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="monthlyTrendChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Detailed Table -->
-    <div class="card custom-card">
-        <div class="card-header justify-content-between">
-            <div class="card-title">
-                Performance de ventes par catégories
+<div class="dashboard-charts">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tendance Jounalière des ventes</h5>
+                    <canvas id="salesTrendChart2"></canvas>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th>Articles</th>
+                                <th>Qté vendues</th>
+                                <th>Revenue</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($topProducts as $product): ?>
+                                <tr>
+                                    <td><?= h($product->product_name) ?></td>
+                                    <td><?= h($product->total_quantity) ?></td>
+                                    <td><?= $this->Number->currency($product->total_revenue) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>Category</th>
-                        <th class="text-right">Total Sales</th>
-                        <th class="text-right">Quantity Sold</th>
-                        <th class="text-right">Avg. Price</th>
-                        <th class="text-right">Products</th>
-                        <th class="text-right">Sales</th>
-                        <th class="text-right">Sales/Product</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($salesStats as $category): ?>
-                        <tr>
-                            <td><?= h($category->name) ?></td>
-                            <td class="text-right"><?= $this->Number->currency($category->total_sales) ?></td>
-                            <td class="text-right"><?= $this->Number->format($category->total_quantity) ?></td>
-                            <td class="text-right"><?= $this->Number->currency($category->avg_price) ?></td>
-                            <td class="text-right"><?= $this->Number->format($category->product_count) ?></td>
-                            <td class="text-right"><?= $this->Number->format($category->order_count) ?></td>
-                            <td class="text-right">
-                                <?= $category->product_count > 0 ?
-                                    $this->Number->currency($category->total_sales / $category->product_count) :
-                                    'N/A' ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Top Produits/Revenue</h5>
+                    <canvas id="topProductsChart2"></canvas>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th>Articles</th>
+                                <th>Qté vendues</th>
+                                <th>Revenue</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($topProducts as $product): ?>
+                                <tr>
+                                    <td><?= h($product->product_name) ?></td>
+                                    <td><?= h($product->total_quantity) ?></td>
+                                    <td><?= $this->Number->currency($product->total_revenue) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Detailed Table -->
+<div class="card custom-card">
+    <div class="card-header justify-content-between">
+        <div class="card-title">
+            Performance de ventes par catégories
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Catégories</th>
+                    <th class="text-right">Total Ventes</th>
+                    <th class="text-right">Qté Vendues</th>
+                    <th class="text-right">Moy. Prix</th>
+                    <th class="text-right">Articles</th>
+                    <th class="text-right">Ventes</th>
+                    <th class="text-right">Ventes/Articles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($salesStats as $category): ?>
+                    <tr>
+                        <td><?= h($category->name) ?></td>
+                        <td class="text-right"><?= $this->Number->currency($category->total_sales) ?></td>
+                        <td class="text-right"><?= $this->Number->format($category->total_quantity) ?></td>
+                        <td class="text-right"><?= $this->Number->currency($category->avg_price) ?></td>
+                        <td class="text-right"><?= $this->Number->format($category->product_count) ?></td>
+                        <td class="text-right"><?= $this->Number->format($category->order_count) ?></td>
+                        <td class="text-right">
+                            <?= $category->product_count > 0 ?
+                                $this->Number->currency($category->total_sales / $category->product_count) :
+                                'N/A' ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div class="card custom-card">
     <div class="card-header justify-content-between">
@@ -221,11 +357,11 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Category</th>
+                    <th>Articles</th>
+                    <th>Catégories</th>
                     <th>Revenue</th>
-                    <th>Quantity</th>
-                    <th>Growth</th>
+                    <th>Quantité</th>
+                    <th>Croissance</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -252,26 +388,26 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
 <div class="card custom-card">
     <div class="card-header justify-content-between">
         <div class="card-title">
-            Low Stock Items (Below Minimum)
+            Articles à faible stock (inférieur au minimum)
         </div>
     </div>
     <div class="card-body">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Product</th>
+                <th>Articles</th>
                 <th>Location</th>
-                <th>Current</th>
+                <th>En cours</th>
                 <th>Min</th>
-                <th>Deficit</th>
-                <th>% of Min</th>
+                <th>Deficite</th>
+                <th>% du Min</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($lowStock as $item): ?>
                 <?php
-                    $stockLevel = $this->Number->format($item->stock - $item->stock_min);
+                $stockLevel = $this->Number->format($item->stock - $item->stock_min);
                 ?>
                 <tr>
                     <td><?= h($item->product->name) ?></td>
@@ -307,70 +443,6 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
 <!--------------------------------------------------------------------------------------------------------->
 <!-- templates/Dashboard/index.php -->
 <div class="dashboard-container">
-    <!-- Summary Cards -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Monthly Sales</h5>
-                    <h2 class="card-text"><?= $this->Number->currency($currentMonthSales) ?></h2>
-                    <p class="text-<?= $salesGrowth >= 0 ? 'success' : 'danger' ?>">
-                        <?= $this->Number->toPercentage(abs($salesGrowth), 2) ?>
-                        <?= $salesGrowth >= 0 ? '↑' : '↓' ?> vs last month
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Low Stock Items</h5>
-                    <h2 class="card-text"><?= count($lowStockItems) ?></h2>
-                    <p class="text-muted">Items below minimum stock</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Avg. Attendance</h5>
-                    <h2 class="card-text">
-                        <?php
-                        $avgAttendance = count($attendanceStats) > 0 ?
-                            array_sum(array_map(fn($a) => ($a->present_days / $a->total_days) * 100, $attendanceStats)) / count($attendanceStats) :
-                            0;
-                        echo $this->Number->toPercentage($avgAttendance, 1);
-                        ?>
-                    </h2>
-                    <p class="text-muted">Current month</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts Row -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Sales Trend (Last 6 Months)</h5>
-                    <canvas id="salesTrendChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Top Products by Revenue</h5>
-                    <canvas id="topProductsChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Second Charts Row -->
     <div class="row mb-4">
         <div class="col-md-6">
@@ -391,160 +463,8 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
             </div>
         </div>
     </div>
-
-    <!-- Data Tables -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Low Stock Alerts</h5>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Current Stock</th>
-                                <th>Min Stock</th>
-                                <th>Deficit</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($lowStockItems as $item): ?>
-                                <tr>
-                                    <td><?= h($item->product->name) ?></td>
-                                    <td><?= h($item->stock) ?></td>
-                                    <td><?= h($item->stock_min) ?></td>
-                                    <td class="text-danger"><?= h($item->stock_min - $item->stock) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Top Performers</h5>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Units Sold</th>
-                                <th>Revenue</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($topProducts as $product): ?>
-                                <tr>
-                                    <td><?= h($product->name) ?></td>
-                                    <td><?= h($product->total_sold) ?></td>
-                                    <td><?= $this->Number->currency($product->total_revenue) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-
-<!--------------------------------------------------------------------------------------------------------->
-
-<div class="dashboard-summary">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Sales</h5>
-                    <h2 class="card-value" id="totalSales"><?= $summary->total_sales ?? 0 ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Revenue</h5>
-                    <h2 class="card-value" id="totalRevenue"><?= $this->Number->currency($summary->total_revenue ?? 0) ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Customers</h5>
-                    <h2 class="card-value" id="totalCustomers"><?= $summary->total_customers ?? 0 ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Avg Sale Value</h5>
-                    <h2 class="card-value" id="avgOrderValue"><?= $this->Number->currency($summary->avg_order_value ?? 0) ?></h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dashboard-charts mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Sales Trend</h5>
-                    <canvas id="salesTrendChart2"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Top Products by Revenue</h5>
-                    <canvas id="topProductsChart2"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dashboard-customer-metrics mt-4">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">New Customers</h5>
-                    <h2 class="card-value" id="newCustomers"><?= $customerMetrics['new_customers'] ?? 0 ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Returning Customers</h5>
-                    <h2 class="card-value" id="returningCustomers"><?= $customerMetrics['returning_customers'] ?? 0 ?></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Avg Customer Lifetime Value</h5>
-                    <h2 class="card-value" id="avgClv"><?= $this->Number->currency($customerMetrics['avg_clv'] ?? 0) ?></h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--------------------------------------------------------------------------------------------------------->
 
 <?php $this->Html->script('https://cdn.jsdelivr.net/npm/chart.js', ['block' => true]); ?>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -851,95 +771,6 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
 <!-------------------------------------------------------------------------------------->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Sales Trend Chart
-        const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
-        new Chart(salesTrendCtx, {
-            type: 'line',
-            data: {
-                labels: <?= json_encode(array_column($salesTrend, 'month')) ?>,
-                datasets: [{
-                    label: 'Sales',
-                    data: <?= json_encode(array_column($salesTrend, 'total_sales')) ?>,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    tension: 0.3,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return 'Sales: ' + new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'USD'
-                                }).format(context.raw);
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        ticks: {
-                            callback: function(value) {
-                                return new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'USD',
-                                    maximumFractionDigits: 0
-                                }).format(value);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Top Products Chart
-        const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
-        new Chart(topProductsCtx, {
-            type: 'bar',
-            data: {
-                labels: <?= json_encode(array_column($topProducts, 'name')) ?>,
-                datasets: [{
-                    label: 'Revenue',
-                    data: <?= json_encode(array_column($topProducts, 'total_revenue')) ?>,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return 'Revenue: ' + new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'USD'
-                                }).format(context.raw);
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        ticks: {
-                            callback: function(value) {
-                                return new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'USD',
-                                    maximumFractionDigits: 0
-                                }).format(value);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
         // Expense Breakdown Chart
         const expenseCtx = document.getElementById('expenseChart').getContext('2d');
         new Chart(expenseCtx, {
