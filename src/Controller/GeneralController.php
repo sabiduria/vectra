@@ -328,7 +328,7 @@ class GeneralController extends AppController
         if ($addCheck){
             $newQty = $currentQty+1;
             $newPrice = $newQty * $pricings[0];
-            $connection->update('Salesitems', [
+            $connection->update('salesitems', [
                 'unit_price' => $pricings[0],
                 'qty' => $newQty,
                 'subtotal' => $newPrice
@@ -336,7 +336,7 @@ class GeneralController extends AppController
                 'sale_id' => $salesId, 'product_id' => $product[0]
             ]);
         } else{
-            $connection->insert('Salesitems', [
+            $connection->insert('salesitems', [
                 'product_id' => $product[0],
                 'sale_id' => $salesId,
                 'qty' => 1,
@@ -737,7 +737,7 @@ WHERE id = :purchase_id",
                     'conditions' => 'Products.id = SalesItems.product_id'
                 ],
                 'Stockinsdetails' => [
-                    'table' => 'Stockinsdetails',
+                    'table' => 'stockinsdetails',
                     'type' => 'INNER',
                     'conditions' => 'Products.id = Stockinsdetails.product_id'
                 ]
@@ -1164,8 +1164,8 @@ WHERE id = :purchase_id",
         // Inventory Alerts
         $lowStockItems = $shopStocksTable->find()
             ->contain(['Products'])
-            ->where(['Shopstocks.stock < Shopstocks.stock_min'])
-            ->order(['Shopstocks.stock' => 'ASC'])
+            ->where(['stock < stock_min'])
+            ->order(['stock' => 'ASC'])
             ->limit(10)
             ->toArray();
 

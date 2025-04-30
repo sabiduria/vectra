@@ -221,7 +221,7 @@ class SalesController extends AppController
         $connection = ConnectionManager::get('default');
 
         $reference = GeneralController::generateReference('Sales', 'FCT');
-        $connection->insert('Sales', [
+        $connection->insert('sales', [
             'user_id' => $user_id,
             'customer_id' => null,
             'reference' => $reference,
