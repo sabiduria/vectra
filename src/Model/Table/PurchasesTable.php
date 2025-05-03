@@ -69,6 +69,40 @@ class PurchasesTable extends Table
         ]);
     }
 
+    public function findDeliveryPerformance(Query $query, array $options)
+    {
+        return $query->select([
+            'on_time' => $query->newExpr()
+                ->addCase([
+                    $query->newExpr()->lte('Purchases.receipt_date', 'Purchases.due_date'),
+                    1,
+                    0
+                ]),
+            'late' => $query->newExpr()
+                ->addCase([
+                    $query->newExpr()->gt('Purchases.receipt_date', 'Purchases.due_date'),
+                    1,
+                    0
+                ])
+        ])
+            ->select([
+                'total_orders' => $query->func()->count('*'),
+                'on_time_percent' => $query->func()->avg(
+                        $query->newExpr()->addCase([
+                            $query->newExpr()->lte('Purchases.receipt_date', 'Purchases.due_date'),
+                            1,
+                            0
+                        ])
+                    ) * 100,
+                'avg_delay_days' => $query->func()->avg(
+                    $query->func()->datediff([
+                        'Purchases.receipt_date' => 'literal',
+                        'Purchases.due_date' => 'literal'
+                    ])
+                )
+            ]);
+    }
+
     /**
      * Default validation rules.
      *

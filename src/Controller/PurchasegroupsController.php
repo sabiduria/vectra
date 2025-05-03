@@ -12,6 +12,29 @@ use Exception;
  */
 class PurchasegroupsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('PurchasesMetrics');
+    }
+
+    public function dashboard()
+    {
+        $timeRange = $this->request->getQuery('range', 'last_12_months');
+
+        $metrics = [
+            'supplier_performance' => $this->PurchasesMetrics->getSupplierPerformance(),
+            'procurement_trends' => $this->PurchasesMetrics->getMonthlyProcurementTrends(),
+            'category_spend' => $this->PurchasesMetrics->getCategoryWiseSpend(),
+            'price_variance' => $this->PurchasesMetrics->getPriceVarianceAnalysis(),
+            'delivery_performance' => $this->PurchasesMetrics->getDeliveryPerformance(),
+            'top_products' => $this->PurchasesMetrics->getTopProcuredProducts(5, 'last_quarter'),
+            'yoy_growth' => $this->PurchasesMetrics->getYearOverYearGrowth(),
+        ];
+        $supplierPerformance = $this->PurchasesMetrics->getSupplierPerformance();
+        $this->set(compact('metrics', 'supplierPerformance'));
+    }
+
     /**
      * Index method
      *
@@ -21,6 +44,8 @@ class PurchasegroupsController extends AppController
     {
         $query = $this->Purchasegroups->find()->where(['Purchasegroups.deleted' => 0]);
         $purchasegroups = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
+
+        $this->dashboard();
 
         $this->set(compact('purchasegroups'));
     }
