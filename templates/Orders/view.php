@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Order $order
  */
  $this->set('title_2', 'Orders');
+$this->set('menu_orders', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

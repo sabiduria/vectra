@@ -3,7 +3,8 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Product> $products
  */
-$this->set('title_2', 'Gestion de Articles');
+$this->set('menu_product', 'active open');
+$this->set('title_2', 'Gestion des Articles');
 $Number = 1;
 ?>
 <div class="mt-3">

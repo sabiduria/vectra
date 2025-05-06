@@ -6,6 +6,7 @@
  */
 $this->set('title_2', 'Spoilages');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_stock', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($spoilage) ?>

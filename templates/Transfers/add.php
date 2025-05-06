@@ -6,6 +6,7 @@
  */
 $this->set('title_2', 'Transfers');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_stock', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($transfer) ?>

@@ -3,7 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Affectation $affectation
  */
- $this->set('title_2', 'Affectations');
+$this->set('menu_parameters', 'active open');
+$this->set('title_2', 'Affectations');
 ?>
 <div class="row">
     <div class="column column-80">

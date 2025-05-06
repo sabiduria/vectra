@@ -6,6 +6,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $profiles
  * @var \Cake\Collection\CollectionInterface|string[] $shops
  */
+$this->set('menu_parameters', 'active open');
 $this->set('title_2', 'Affectations');
 $emptyText = "Veuillez selectionner";
 ?>

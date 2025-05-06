@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Attendance $attendance
  */
  $this->set('title_2', 'Attendances');
+$this->set('menu_attendances', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

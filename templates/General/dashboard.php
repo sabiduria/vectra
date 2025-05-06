@@ -446,18 +446,26 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
     <!-- Second Charts Row -->
     <div class="row mb-4">
         <div class="col-md-6">
-            <div class="card shadow-sm">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">
+                        Depenses Mensuelles
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Expense Breakdown</h5>
                     <canvas id="expenseChart"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow-sm">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">
+                        Aperçues sur les présences
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Attendance Overview</h5>
                     <canvas id="attendanceChart"></canvas>
                 </div>
             </div>

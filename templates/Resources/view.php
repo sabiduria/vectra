@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Resource $resource
  */
  $this->set('title_2', 'Resources');
+$this->set('menu_parameters', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

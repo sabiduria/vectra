@@ -8,6 +8,7 @@ use App\Controller\GeneralController;
 
 $this->set('title_2', 'Purchases');
 $Number = 1;
+$this->set('menu_purchases', 'active open');
 ?>
 <div class="mt-3">
     <div class="table-responsive">

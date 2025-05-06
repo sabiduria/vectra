@@ -8,6 +8,7 @@ use App\Controller\GeneralController;
 
 $this->set('title_2', 'Exchangerates');
 $Number = 1;
+$this->set('menu_parameters', 'active open');
 ?>
 <div class="mt-3">
     <button class="btn btn-sm btn-primary-light mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem"><i class="fa-thin fa-plus"></i> Ajouter</button>

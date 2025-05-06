@@ -6,6 +6,7 @@ $this->set('title_2', 'Achats');
 $emptyText = "Veuillez selectionner";
 $products = GeneralController::getAllProducts(1);
 $number = 1;
+$this->set('menu_purchases', 'active open');
 ?>
 
 <div class="row" style="height: 70vh">

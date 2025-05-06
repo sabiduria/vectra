@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Affectation> $affectations
  */
+$this->set('menu_parameters', 'active open');
 $this->set('title_2', 'Affectations');
 $Number = 1;
 ?>

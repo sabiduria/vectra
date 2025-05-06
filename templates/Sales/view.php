@@ -8,6 +8,7 @@ use App\Controller\GeneralController;
 
 $this->set('title_2', 'Sales');
  $number = 1;
+$this->set('menu_sales', 'active open');
 ?>
 <div class="row">
     <div class="col-xl-12">

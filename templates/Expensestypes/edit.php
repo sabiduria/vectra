@@ -5,6 +5,7 @@
  */
 $this->set('title_2', 'Expensestypes');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_expenses', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($expensestype) ?>

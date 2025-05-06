@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Leave $leave
  */
  $this->set('title_2', 'Leaves');
+$this->set('menu_attendances', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

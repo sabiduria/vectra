@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Stockinsdetail $stockinsdetail
  */
  $this->set('title_2', 'Stockinsdetails');
+$this->set('menu_stock', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

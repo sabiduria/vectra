@@ -160,7 +160,6 @@ $username = $session->read('Auth.Username');
     'libs/@simonwep/pickr/pickr.es5.min.js',
     'libs/flatpickr/flatpickr.min.js',
     'libs/apexcharts/apexcharts.min.js',
-    'sales-dashboard.js',
 ]) ?>
 </body>
 </html>

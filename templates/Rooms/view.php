@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Room $room
  */
  $this->set('title_2', 'Locaux');
+$this->set('menu_warehouse', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Holiday $holiday
  */
  $this->set('title_2', 'Holidays');
+$this->set('menu_parameters', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

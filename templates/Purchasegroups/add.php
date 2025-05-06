@@ -5,6 +5,7 @@
  */
 $this->set('title_2', 'Purchasegroups');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_purchases', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($purchasegroup) ?>

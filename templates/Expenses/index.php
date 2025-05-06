@@ -5,6 +5,7 @@
  */
 $this->set('title_2', 'Depenses');
 $Number = 1;
+$this->set('menu_expenses', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('Nouvelle dépense'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm mb-3']) ?>

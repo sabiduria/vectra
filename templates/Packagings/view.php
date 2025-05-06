@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Packaging $packaging
  */
+$this->set('menu_product', 'active open');
  $this->set('title_2', 'Packagings');
 ?>
 <div class="row">

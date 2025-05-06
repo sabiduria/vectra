@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Purchasesitem $purchasesitem
  */
  $this->set('title_2', 'Purchasesitems');
+$this->set('menu_purchases', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

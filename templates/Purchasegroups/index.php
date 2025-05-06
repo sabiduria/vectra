@@ -8,6 +8,7 @@ use App\Controller\GeneralController;
 
 $this->set('title_2', 'Bon d\'Achats');
 $Number = 1;
+$this->set('menu_purchases', 'active open');
 ?>
 <div class="row">
     <!--div class="col-md-6" style="height: 400px">

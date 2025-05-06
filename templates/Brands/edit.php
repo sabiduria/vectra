@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Brand $brand
  */
+$this->set('menu_product', 'active open');
 $this->set('title_2', 'Brands');
 $emptyText = "Veuillez selectionner";
 ?>

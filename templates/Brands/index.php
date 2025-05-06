@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Brand> $brands
  */
+$this->set('menu_product', 'active open');
 $this->set('title_2', 'Modèles');
 $Number = 1;
 ?>

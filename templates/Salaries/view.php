@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Salary $salary
  */
  $this->set('title_2', 'Salaries');
+$this->set('menu_payroll', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

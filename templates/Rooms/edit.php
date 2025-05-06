@@ -6,6 +6,7 @@
  */
 $this->set('title_2', 'Locaux');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_warehouse', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($room) ?>

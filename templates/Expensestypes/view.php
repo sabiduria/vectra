@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Expensestype $expensestype
  */
  $this->set('title_2', 'Expensestypes');
+$this->set('menu_expenses', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

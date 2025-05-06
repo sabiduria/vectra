@@ -1,4 +1,5 @@
 <?php
+$this->set('menu_product', 'active open');
 $this->set('title_2', 'Statistiques');
 ?>
 <iframe

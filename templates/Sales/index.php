@@ -8,6 +8,7 @@ use App\Controller\GeneralController;
 
 $this->set('title_2', 'Sales');
 $Number = 1;
+$this->set('menu_sales', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Html->link(__('<i class="fa-thin fa-plus"></i> Ajouter'), ['action' => 'pos'], ['class' => 'btn btn-sm btn-primary-light mb-3', 'escape' => false]) ?>

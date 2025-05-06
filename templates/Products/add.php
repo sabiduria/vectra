@@ -8,6 +8,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $brands
  * @var iterable<\App\Model\Entity\Room> $rooms
  */
+$this->set('menu_product', 'active open');
 $this->set('title_2', 'Articles');
 $emptyText = "Veuillez selectionner";
 ?>

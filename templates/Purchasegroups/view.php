@@ -7,6 +7,7 @@
 use App\Controller\GeneralController;
 
 $this->set('title_2', 'Bons d\'achats');
+$this->set('menu_purchases', 'active open');
 ?>
 <div class="row">
     <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">

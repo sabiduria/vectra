@@ -8,6 +8,7 @@
  */
 $this->set('title_2', 'Sales');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_sales', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($sale) ?>

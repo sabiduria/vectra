@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Profile $profile
  */
  $this->set('title_2', 'Profiles');
+$this->set('menu_parameters', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

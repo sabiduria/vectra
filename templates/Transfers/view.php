@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Transfer $transfer
  */
  $this->set('title_2', 'Transfers');
+$this->set('menu_stock', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

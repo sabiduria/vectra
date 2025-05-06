@@ -6,6 +6,7 @@
  */
 $this->set('title_2', 'Payrolls');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_payroll', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($payroll) ?>

@@ -7,6 +7,7 @@
  */
 $this->set('title_2', 'Inventories');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_stock', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($inventory) ?>

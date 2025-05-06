@@ -28,7 +28,7 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_product ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-list-timeline w-6 h-6 side-menu__icon"></i>
@@ -65,7 +65,7 @@
         <!-- End::slide__category -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_sales ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-cash-register w-6 h-6 side-menu__icon"></i>
@@ -74,9 +74,6 @@
             <ul class="slide-menu child1">
                 <li class="slide">
                     <?= $this->Html->link('Liste', ['controller' => 'sales', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Ajouter', ['controller' => 'sales', 'action' => 'add'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('POS', ['controller' => 'sales', 'action' => 'pos'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
@@ -89,13 +86,28 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide">
-            <?= $this->Html->link('<i class="fa-thin fa-money-check-dollar-pen w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Dépenses</span>', ['controller' => 'expenses', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+        <li class="slide has-sub <?= $menu_expenses ?? '' ?>">
+            <a href="javascript:void(0);" class="side-menu__item">
+                <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                <i class="fa-thin fa-money-check-dollar-pen w-6 h-6 side-menu__icon"></i>
+                <span class="side-menu__label">Dépenses</span>
+            </a>
+            <ul class="slide-menu child1">
+                <li class="slide">
+                    <?= $this->Html->link('Liste', ['controller' => 'expenses', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Ajouter', ['controller' => 'expenses', 'action' => 'add'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Types dépenses', ['controller' => 'expensestypes', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+            </ul>
         </li>
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_payroll ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-money-bill-1 w-6 h-6 side-menu__icon"></i>
@@ -120,7 +132,7 @@
         <!-- End::slide__category -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_orders ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-cart-shopping-fast w-6 h-6 side-menu__icon"></i>
@@ -141,7 +153,7 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_purchases ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-cart-shopping-fast w-6 h-6 side-menu__icon"></i>
@@ -178,7 +190,7 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_employee ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-users w-6 h-6 side-menu__icon"></i>
@@ -196,14 +208,23 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide">
-            <?= $this->Html->link('<i class="fa-thin fa-calendar-check w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Présences</span>', ['controller' => 'attendances', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-        </li>
-        <!-- End::slide -->
-
-        <!-- Start::slide -->
-        <li class="slide">
-            <?= $this->Html->link('<i class="fa-thin fa-calendar-circle-user w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Congés</span>', ['controller' => 'leaves', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+        <li class="slide has-sub <?= $menu_attendances ?? '' ?>">
+            <a href="javascript:void(0);" class="side-menu__item">
+                <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                <i class="fa-thin fa-calendar-check w-6 h-6 side-menu__icon"></i>
+                <span class="side-menu__label">Pointages</span>
+            </a>
+            <ul class="slide-menu child1">
+                <li class="slide">
+                    <?= $this->Html->link('Présences', ['controller' => 'attendances', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Congés', ['controller' => 'leaves', 'action' => 'add'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Types congés', ['controller' => 'leavestypes', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+            </ul>
         </li>
         <!-- End::slide -->
 
@@ -212,7 +233,7 @@
         <!-- End::slide__category -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_stock ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-boxes-stacked w-6 h-6 side-menu__icon"></i>
@@ -243,7 +264,7 @@
         <!-- End::slide__category -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_warehouse ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-warehouse w-6 h-6 side-menu__icon"></i>
@@ -273,7 +294,7 @@
         <!-- End::slide__category -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_reports ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-chart-pie w-6 h-6 side-menu__icon"></i>
@@ -300,7 +321,7 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub">
+        <li class="slide has-sub <?= $menu_parameters ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                 <i class="fa-thin fa-gear w-6 h-6 side-menu__icon"></i>
@@ -308,7 +329,7 @@
             </a>
             <ul class="slide-menu child1">
                 <li class="slide">
-                    <?= $this->Html->link('Utitlisateurs', ['controller' => 'users', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    <?= $this->Html->link('Utilisateurs', ['controller' => 'users', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Affectations', ['controller' => 'affectations', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
@@ -323,13 +344,7 @@
                     <?= $this->Html->link('Gestion des accès', ['controller' => 'products', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
-                    <?= $this->Html->link('Types dépenses', ['controller' => 'expensestypes', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
                     <?= $this->Html->link('Taux d\'échanges', ['controller' => 'exchangerates', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Types congés', ['controller' => 'leavestypes', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Fériés', ['controller' => 'holidays', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>

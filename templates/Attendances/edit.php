@@ -7,6 +7,7 @@
  */
 $this->set('title_2', 'Attendances');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_attendances', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($attendance) ?>

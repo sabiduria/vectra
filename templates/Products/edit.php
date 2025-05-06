@@ -6,6 +6,7 @@
  * @var \Cake\Collection\CollectionInterface|string[] $categories
  * @var \Cake\Collection\CollectionInterface|string[] $packagings
  */
+$this->set('menu_product', 'active open');
 $this->set('title_2', 'Articles');
 $emptyText = "Veuillez selectionner";
 ?>

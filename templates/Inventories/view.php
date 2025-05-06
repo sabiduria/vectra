@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Inventory $inventory
  */
  $this->set('title_2', 'Inventories');
+$this->set('menu_stock', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

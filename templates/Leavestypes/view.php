@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Leavestype $leavestype
  */
  $this->set('title_2', 'Leavestypes');
+$this->set('menu_attendances', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

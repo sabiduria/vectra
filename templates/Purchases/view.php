@@ -12,7 +12,7 @@ $number1 = 1;
 $number2 = 1;
 $payment_number = 1;
 $emptyText = "Veuillez selectionner";
-
+$this->set('menu_purchases', 'active open');
 ?>
 <div class="row">
     <div class="col-xl-12">

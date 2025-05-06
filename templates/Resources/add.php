@@ -5,6 +5,7 @@
  */
 $this->set('title_2', 'Resources');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_parameters', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($resource) ?>

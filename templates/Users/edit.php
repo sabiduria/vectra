@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
  */
+$this->set('menu_parameters', 'active open');
 $this->set('title_2', 'Employés');
 $emptyText = "Veuillez selectionner";
 $employeeType = ['Intern' => 'Interne', 'Extern' => 'Externe'];

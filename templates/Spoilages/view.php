@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Spoilage $spoilage
  */
  $this->set('title_2', 'Spoilages');
+$this->set('menu_stock', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

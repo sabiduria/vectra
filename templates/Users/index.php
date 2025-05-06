@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\User> $users
  */
+$this->set('menu_parameters', 'active open');
 $this->set('title_2', 'Employés');
 $Number = 1;
 $employeeType = ['Intern' => 'Interne', 'Extern' => 'Externe'];
