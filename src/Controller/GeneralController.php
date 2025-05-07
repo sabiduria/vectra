@@ -28,6 +28,7 @@ class GeneralController extends AppController
         self::stockTrend();
         self::generalDashboardMetrics();
         self::salesDashboard();
+        self::UpdateProductMetrics();
     }
 
     public function monitoring(): void
@@ -1249,5 +1250,81 @@ WHERE id = :purchase_id",
         // Load shops for filter dropdown
         $shops = $this->fetchTable('Shops')->find('list')->toArray();
         $this->set('shops', $shops);
+    }
+
+    //UpdateProductMetrics
+    private function calculateAnnualDemand(int $productId): float
+    {
+        $salesItemsTable = $this->getTableLocator()->get('SalesItems');
+
+        $result = $salesItemsTable->find()
+            ->where(['product_id' => $productId])
+            ->innerJoinWith('Sales', function ($q) {
+                return $q->where(['Sales.created >=' => new DateTime('-12 months')]);
+            })
+            ->select(['total' => 'SUM(Salesitems.qty)'])
+            ->first();
+
+        return $result ? (float)$result->total : 0.0;
+    }
+
+    private function calculateOrderingCost(int $productId): float
+    {
+        // Example: Avg. procurement cost from purchases
+        $purchasesItemsTable = $this->getTableLocator()->get('Purchasesitems');
+        $avgCost = $purchasesItemsTable->find()
+            ->where(['product_id' => $productId])
+            ->select(['avg_price' => 'AVG(price)'])
+            ->first();
+
+        return $avgCost ? (float)$avgCost->avg_price : 0.0;
+    }
+
+    private function calculateHoldingCost(int $productId): float
+    {
+        // Example: 20% of product's avg. price
+        return $this->calculateOrderingCost($productId) * 0.2;
+    }
+
+    private function calculateLeadTimeDays(int $productId): int
+    {
+        // Example: Avg. days between purchase order and receipt
+        $purchasesTable = $this->getTableLocator()->get('Purchases');
+        $avgLeadTime = $purchasesTable->find()
+            ->where(['Purchasesitems.product_id' => $productId])
+            ->select(['avg_lead' => 'AVG(DATEDIFF(receipt_date, Purchases.created))'])
+            ->innerJoinWith('Purchasesitems')
+            ->first();
+
+        return $avgLeadTime ? (int)$avgLeadTime->avg_lead : 7; // Default 7 days
+    }
+
+    public function UpdateProductMetrics()
+    {
+        $productsTable = $this->getTableLocator()->get('Products');
+
+        // Fetch all active products (modify conditions as needed)
+        $products = $productsTable->find()
+            ->where(['deleted' => 0])
+            ->all();
+
+        $updatedCount = 0;
+        foreach ($products as $product) {
+            // Calculate new values (replace with your logic)
+            $annualDemand = $this->calculateAnnualDemand($product->id);
+            $orderingCost = $this->calculateOrderingCost($product->id);
+            $holdingCost = $this->calculateHoldingCost($product->id);
+            $leadTimeDays = $this->calculateLeadTimeDays($product->id);
+
+            // Update the product
+            $product->annual_demand = $annualDemand;
+            $product->ordering_cost = $orderingCost;
+            $product->holding_cost = $holdingCost;
+            $product->lead_time_days = $leadTimeDays;
+
+            if ($productsTable->save($product)) {
+                $updatedCount++;
+            }
+        }
     }
 }

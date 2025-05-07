@@ -30,6 +30,10 @@ $this->set('title_2', 'Articles');
                                     <td><?= $product->hasValue('category') ? $this->Html->link($product->category->name, ['controller' => 'Categories', 'action' => 'view', $product->category->id]) : '' ?></td>
                                 </tr>
                                 <tr>
+                                    <th><?= __('Modele') ?></th>
+                                    <td><?= $product->hasValue('brand') ? $this->Html->link($product->brand->name, ['controller' => 'Brands', 'action' => 'view', $product->brand->id]) : '' ?></td>
+                                </tr>
+                                <tr>
                                     <td colspan="2">
                                         <strong><?= __('Specifications') ?></strong>
                                         <blockquote>
@@ -163,7 +167,6 @@ $this->set('title_2', 'Articles');
                             <td><?= h($pricing->created) ?></td>
                             <td><?= h($pricing->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Pricings', 'action' => 'view', $pricing->id], ['class' => 'btn btn-success btn-sm']) ?>
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Pricings', 'action' => 'edit', $pricing->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Pricings', 'action' => 'delete', $pricing->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
@@ -233,7 +236,7 @@ $this->set('title_2', 'Articles');
                             <td><?= h($purchasesitem->created) ?></td>
                             <td><?= h($purchasesitem->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Purchasesitems', 'action' => 'view', $purchasesitem->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Voir le bon'), ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase_id], ['class' => 'btn btn-success btn-sm']) ?>
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Purchasesitems', 'action' => 'edit', $purchasesitem->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Purchasesitems', 'action' => 'delete', $purchasesitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
@@ -273,7 +276,7 @@ $this->set('title_2', 'Articles');
                             <td><?= h($salesitem->modified) ?></td>
                             <td><?= h($salesitem->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Salesitems', 'action' => 'view', $salesitem->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link(__('Voir la facture'), ['controller' => 'Sales', 'action' => 'view', $salesitem->sale_id], ['class' => 'btn btn-success btn-sm']) ?>
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
@@ -313,7 +316,6 @@ $this->set('title_2', 'Articles');
                             <td><?= h($shopstock->created) ?></td>
                             <td><?= h($shopstock->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Shopstocks', 'action' => 'view', $shopstock->id], ['class' => 'btn btn-success btn-sm']) ?>
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Shopstocks', 'action' => 'edit', $shopstock->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Shopstocks', 'action' => 'delete', $shopstock->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
@@ -347,7 +349,6 @@ $this->set('title_2', 'Articles');
                             <td><?= h($spoilage->created) ?></td>
                             <td><?= h($spoilage->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Spoilages', 'action' => 'view', $spoilage->id], ['class' => 'btn btn-success btn-sm']) ?>
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Spoilages', 'action' => 'edit', $spoilage->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Spoilages', 'action' => 'delete', $spoilage->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
@@ -391,7 +392,7 @@ $this->set('title_2', 'Articles');
                             <td><?= h($stockinsdetail->created) ?></td>
                             <td><?= h($stockinsdetail->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Stockinsdetails', 'action' => 'view', $stockinsdetail->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <!--?= $this->Html->link(__('Details'), ['controller' => 'Stockinsdetails', 'action' => 'view', $stockinsdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Stockinsdetails', 'action' => 'edit', $stockinsdetail->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Stockinsdetails', 'action' => 'delete', $stockinsdetail->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
@@ -425,7 +426,7 @@ $this->set('title_2', 'Articles');
                             <td><?= h($transfersdetail->created) ?></td>
                             <td><?= h($transfersdetail->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Transfersdetails', 'action' => 'view', $transfersdetail->id], ['class' => 'btn btn-success btn-sm']) ?>
+                                <!--?= $this->Html->link(__('Details'), ['controller' => 'Transfersdetails', 'action' => 'view', $transfersdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
                                 <?= $this->Html->link(__('Editer'), ['controller' => 'Transfersdetails', 'action' => 'edit', $transfersdetail->id], ['class' => 'btn btn-primary btn-sm']) ?>
                                 <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Transfersdetails', 'action' => 'delete', $transfersdetail->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
