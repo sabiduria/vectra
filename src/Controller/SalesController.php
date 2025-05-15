@@ -307,9 +307,8 @@ class SalesController extends AppController
 
         if ($this->Sales->save($sale)) {
             try {
-                //$receiptText = "CakePHP 5 Receipt\nItem 1 - $10\nTotal: $10\n";
-                //$this->printer->printReceipt($receiptText);
-                //$this->Flash->success('Printed successfully!');
+                $print = new PrinterService();
+                $print->printLabel($this->getFormattedSalesItems($salesId));
                 $this->request->getSession()->delete('SalesId');
             } catch (Exception $e) {
                 throw new InternalErrorException('Print failed: ' . $e->getMessage());
@@ -318,5 +317,33 @@ class SalesController extends AppController
             return $this->redirect(['action' => 'pos']);
         }
         $this->Flash->error(__('The sale could not be saved. Please, try again.'));
+    }
+
+    public function getFormattedSalesItems($sale_id): array
+    {
+        $salesItemsTable = $this->getTableLocator()->get('Salesitems');
+
+        // Query sales items with product names
+        $query = $salesItemsTable->find()
+            ->select([
+                'product_name' => 'Products.name',
+                'quantity' => 'Salesitems.qty',
+                'total' => 'Salesitems.subtotal'
+            ])
+            ->contain(['Products'])
+            ->where(['Salesitems.sale_id' => $sale_id])
+            ->order(['SalesItems.created' => 'DESC']);
+
+        // Format results
+        $formattedItems = [];
+        foreach ($query->all() as $item) {
+            $formattedItems[] = [
+                $item->product_name,
+                (int)$item->quantity,
+                (float)$item->total
+            ];
+        }
+
+        return $formattedItems;
     }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Http\Exception\NotFoundException;
+use Cake\ORM\TableRegistry;
 use Exception;
 
 /**
@@ -83,9 +85,9 @@ class ProductsController extends AppController
             $product->createdby = $session->read('Auth.Username');
             $product->modifiedby = $session->read('Auth.Username');
             $product->deleted = 0;
+            $product->reference = 'HOP-' . random_int(100000, 999999);
 
             if ($this->Products->save($product)) {
-
                 $shop_id = GeneralController::getShopIdFromRoom($room_id);
                 GeneralController::NewStockIns($shop_id, $username);
                 GeneralController::NewPricings($barcode, $product->id, $packaging_id, $unit_price, $wholesale_price, $special_price, $username);
@@ -241,5 +243,36 @@ class ProductsController extends AppController
     public function import()
     {
 
+    }
+
+    public static function reorderPoint($productId)
+    {
+        $productsTable = TableRegistry::getTableLocator()->get('Products');
+        $shopStocksTable = TableRegistry::getTableLocator()->get('Shopstocks');
+
+        // Fetch product data (lead time, annual demand)
+        $product = $productsTable->get($productId, [
+            'fields' => ['annual_demand', 'lead_time_days']
+        ]);
+
+        // Fetch current stock data
+        $shopStock = $shopStocksTable->find()
+            ->where(['product_id' => $productId])
+            ->first();
+
+        if (!$product || !$shopStock) {
+            throw new NotFoundException('Product or stock data not found');
+        }
+
+        // Calculate average daily usage (annual demand ÷ 365)
+        $avgDailyUsage = $product->annual_demand / 365;
+
+        // Calculate reorder point (simplified: no safety stock)
+        $reorderPoint = ceil($avgDailyUsage * $product->lead_time_days);
+        $needs_reorder = ($shopStock->stock <= $reorderPoint);
+        $current_stock = $shopStock->stock;
+        $stock_min = $shopStock->stock;
+
+        return $reorderPoint . '-' . $current_stock . '-' . $stock_min . '-' . $needs_reorder;
     }
 }
