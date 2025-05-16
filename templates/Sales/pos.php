@@ -10,7 +10,7 @@ $exchangesRates = GeneralController::getLatestExchangeRate();
 
 <!-- Start Row-1 -->
 <div class="row">
-    <div class="col-xxl-8">
+    <div class="col-xxl-8 col-lg-8 col-sm-8 col-md-8">
         <?= $this->Form->create(null, ['controller' => 'sales', 'action'=>'pos']);?>
             <?= $this->Form->control('barcode', ['class' => 'form-control form-control-lg rounded-0', 'placeholder' => 'Code Barre', 'label' => false, 'required' => 'required']); ?>
         <?= $this->Form->end() ?>
@@ -97,7 +97,7 @@ $exchangesRates = GeneralController::getLatestExchangeRate();
             </div>
         </div>
     </div>
-    <div class="col-xxl-4">
+    <div class="col-xxl-4 col-lg-4 col-sm-4 col-md-4">
         <div class="card custom-card active">
             <div class="card-body p-0">
                 <div class="">
