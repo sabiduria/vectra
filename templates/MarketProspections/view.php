@@ -39,6 +39,14 @@
                     <td><?= $marketProspection->price === null ? '' : $this->Number->format($marketProspection->price) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Whole Price') ?></th>
+                    <td><?= $marketProspection->whole_price === null ? '' : $this->Number->format($marketProspection->whole_price) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Special Price') ?></th>
+                    <td><?= $marketProspection->special_price === null ? '' : $this->Number->format($marketProspection->special_price) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Created') ?></th>
                     <td><?= h($marketProspection->created) ?></td>
                 </tr>

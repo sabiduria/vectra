@@ -335,6 +335,9 @@
                     <?= $this->Html->link('Affectations', ['controller' => 'affectations', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
+                    <?= $this->Html->link('Paramètres Généraux', ['controller' => 'general-params', 'action' => 'view', 1], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
                     <?= $this->Html->link('Profiles', ['controller' => 'profiles', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">

@@ -82,6 +82,14 @@ class MarketProspectionsTable extends Table
             ->allowEmptyString('price');
 
         $validator
+            ->numeric('whole_price')
+            ->allowEmptyString('whole_price');
+
+        $validator
+            ->numeric('special_price')
+            ->allowEmptyString('special_price');
+
+        $validator
             ->scalar('comments')
             ->allowEmptyString('comments');
 

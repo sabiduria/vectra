@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
 use Exception;
 
 /**
@@ -83,7 +84,7 @@ class GeneralParamsController extends AppController
             if ($this->GeneralParams->save($generalParam)) {
                 $this->Flash->success(__('The general param has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $id]);
             }
             $this->Flash->error(__('The general param could not be saved. Please, try again.'));
         }
@@ -154,5 +155,17 @@ class GeneralParamsController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    static function getData($data)
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT '.$data.' FROM general_params WHERE id = 1');
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
     }
 }

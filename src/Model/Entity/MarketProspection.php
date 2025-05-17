@@ -13,6 +13,8 @@ use Cake\ORM\Entity;
  * @property string|null $vendor
  * @property int|null $packaging_id
  * @property float|null $price
+ * @property float|null $whole_price
+ * @property float|null $special_price
  * @property string|null $comments
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
@@ -39,6 +41,8 @@ class MarketProspection extends Entity
         'vendor' => true,
         'packaging_id' => true,
         'price' => true,
+        'whole_price' => true,
+        'special_price' => true,
         'comments' => true,
         'created' => true,
         'modified' => true,

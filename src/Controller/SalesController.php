@@ -308,7 +308,7 @@ class SalesController extends AppController
         if ($this->Sales->save($sale)) {
             try {
                 $print = new PrinterService();
-                $print->printLabel($this->getFormattedSalesItems($salesId));
+                $print->printLabel($this->getFormattedSalesItems($salesId), $salesId);
                 $this->request->getSession()->delete('SalesId');
             } catch (Exception $e) {
                 throw new InternalErrorException('Print failed: ' . $e->getMessage());
@@ -345,5 +345,12 @@ class SalesController extends AppController
         }
 
         return $formattedItems;
+    }
+
+    static function getData($sale_id)
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute("SELECT s.reference, COALESCE(c.name, 'N/A') customer, COALESCE(c.phone, 'N/A') phone, u.username cashier FROM sales s LEFT OUTER JOIN customers c ON s.customer_id = c.id INNER JOIN users u ON u.id = s.user_id WHERE s.id = :id ", ['id' => $sale_id]);
+        return $stmt->fetchAll('assoc');
     }
 }

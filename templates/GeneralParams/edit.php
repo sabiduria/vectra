@@ -3,29 +3,30 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\GeneralParam $generalParam
  */
-$this->set('title_2', 'General Params');
+$this->set('menu_parameters', 'active open');
+$this->set('title_2', 'Paramètres Généraux');
 $emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($generalParam) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('rccm', ['class' => 'form-control', 'label' => 'rccm']); ?>
+                <?= $this->Form->control('rccm', ['class' => 'form-control', 'label' => 'RCCM']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('idnat', ['class' => 'form-control', 'label' => 'idnat']); ?>
+                <?= $this->Form->control('idnat', ['class' => 'form-control', 'label' => 'ID NAT']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('impot', ['class' => 'form-control', 'label' => 'impot']); ?>
+                <?= $this->Form->control('impot', ['class' => 'form-control', 'label' => 'IMPOT']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('printer_name', ['class' => 'form-control', 'label' => 'printer_name']); ?>
+                <?= $this->Form->control('printer_name', ['class' => 'form-control', 'label' => 'NOM DE L\'IMPRIMANTE']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('printer_ip', ['class' => 'form-control', 'label' => 'printer_ip']); ?>
+                <?= $this->Form->control('printer_ip', ['class' => 'form-control', 'label' => 'IP DE L\'IMPRIMANTE']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('growth', ['class' => 'form-control', 'label' => 'growth']); ?>
+                <?= $this->Form->control('growth', ['class' => 'form-control', 'label' => 'TAUX DE CROISSANCE']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">

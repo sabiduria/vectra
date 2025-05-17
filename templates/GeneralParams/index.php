@@ -3,7 +3,8 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\GeneralParam> $generalParams
  */
-$this->set('title_2', 'General Params');
+$this->set('menu_parameters', 'active open');
+$this->set('title_2', 'Paramètres Généraux');
 $Number = 1;
 ?>
 <div class="mt-3">

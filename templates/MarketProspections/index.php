@@ -19,6 +19,8 @@ $Number = 1;
                     <th><?= $this->Paginator->sort('vendor') ?></th>
                     <th><?= $this->Paginator->sort('packaging_id') ?></th>
                     <th><?= $this->Paginator->sort('price') ?></th>
+                    <th><?= $this->Paginator->sort('whole_price') ?></th>
+                    <th><?= $this->Paginator->sort('special_price') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th><?= $this->Paginator->sort('createdby') ?></th>
@@ -36,6 +38,8 @@ $Number = 1;
                     <td><?= h($marketProspection->vendor) ?></td>
                     <td><?= $marketProspection->hasValue('packaging') ? $this->Html->link($marketProspection->packaging->name, ['controller' => 'Packagings', 'action' => 'view', $marketProspection->packaging->id]) : '' ?></td>
                     <td><?= $marketProspection->price === null ? '' : $this->Number->format($marketProspection->price) ?></td>
+                    <td><?= $marketProspection->whole_price === null ? '' : $this->Number->format($marketProspection->whole_price) ?></td>
+                    <td><?= $marketProspection->special_price === null ? '' : $this->Number->format($marketProspection->special_price) ?></td>
                     <td><?= h($marketProspection->created) ?></td>
                     <td><?= h($marketProspection->modified) ?></td>
                     <td><?= h($marketProspection->createdby) ?></td>
@@ -76,6 +80,12 @@ $Number = 1;
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('price', ['class' => 'form-control', 'label' => 'price']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('whole_price', ['class' => 'form-control', 'label' => 'whole_price']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('special_price', ['class' => 'form-control', 'label' => 'special_price']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('comments', ['class' => 'form-control', 'label' => 'comments']); ?>

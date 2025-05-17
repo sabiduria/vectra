@@ -3,7 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\GeneralParam $generalParam
  */
-$this->set('title_2', 'General Params');
+$this->set('menu_parameters', 'active open');
+$this->set('title_2', 'Paramètres Généraux');
 $emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">

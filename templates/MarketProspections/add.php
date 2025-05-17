@@ -24,6 +24,12 @@ $emptyText = "Veuillez selectionner";
                 <?= $this->Form->control('price', ['class' => 'form-control', 'label' => 'price']); ?>
             </div>
             <div class="col-xl-12">
+                <?= $this->Form->control('whole_price', ['class' => 'form-control', 'label' => 'whole_price']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('special_price', ['class' => 'form-control', 'label' => 'special_price']); ?>
+            </div>
+            <div class="col-xl-12">
                 <?= $this->Form->control('comments', ['class' => 'form-control', 'label' => 'comments']); ?>
             </div>
         </div>
