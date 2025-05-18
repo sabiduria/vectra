@@ -7,6 +7,7 @@
  */
 $this->set('title_2', 'Market Prospections');
 $emptyText = "Veuillez selectionner";
+$this->set('menu_prospection', 'active open');
 ?>
 <div class="mt-3">
     <?= $this->Form->create($marketProspection) ?>

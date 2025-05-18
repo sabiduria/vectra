@@ -10,6 +10,7 @@
 $this->set('title_2', 'Prospections');
 $Number = 1;
 $emptyText = "Veuillez selectionner";
+$this->set('menu_prospection', 'active open');
 ?>
 <div class="mt-3">
     <div class="row">

@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\MarketProspection $marketProspection
  */
  $this->set('title_2', 'Market Prospections');
+$this->set('menu_prospection', 'active open');
 ?>
 <div class="row">
     <div class="column column-80">

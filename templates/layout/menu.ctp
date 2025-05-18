@@ -283,8 +283,20 @@
             </ul>
         </li>
         <!-- Start::slide -->
-        <li class="slide">
-            <?= $this->Html->link('<i class="ri-line-chart-line w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Prospections</span>', ['controller' => 'prospections', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+        <li class="slide has-sub <?= $menu_prospection ?? '' ?>">
+            <a href="javascript:void(0);" class="side-menu__item">
+                <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                <i class="fa-thin fa-warehouse w-6 h-6 side-menu__icon"></i>
+                <span class="side-menu__label">Prospections</span>
+            </a>
+            <ul class="slide-menu child1">
+                <li class="slide">
+                    <?= $this->Html->link('Fournisseurs', ['controller' => 'prospections', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+                <li class="slide">
+                    <?= $this->Html->link('Marchés', ['controller' => 'market-prospections', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
+            </ul>
         </li>
         <!-- End::slide -->
         <!-- End::slide -->
