@@ -49,10 +49,16 @@ class PackagingsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->hasMany('MarketProspections', [
+            'foreignKey' => 'packaging_id',
+        ]);
         $this->hasMany('Pricings', [
             'foreignKey' => 'packaging_id',
         ]);
         $this->hasMany('Products', [
+            'foreignKey' => 'packaging_id',
+        ]);
+        $this->hasMany('Prospections', [
             'foreignKey' => 'packaging_id',
         ]);
         $this->hasMany('Salesitems', [
@@ -72,6 +78,10 @@ class PackagingsTable extends Table
             ->scalar('name')
             ->maxLength('name', 45)
             ->allowEmptyString('name');
+
+        $validator
+            ->numeric('weight')
+            ->allowEmptyString('weight');
 
         $validator
             ->scalar('createdby')

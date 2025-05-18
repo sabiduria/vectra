@@ -18,6 +18,7 @@ $Number = 1;
             <tr>
                 <th style="width: 5%"><?= $this->Paginator->sort('N°') ?></th>
                 <th><?= $this->Paginator->sort('Designation') ?></th>
+                <th><?= $this->Paginator->sort('Poids réel') ?></th>
                 <th><?= $this->Paginator->sort('Articles') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -27,6 +28,7 @@ $Number = 1;
                 <tr>
                     <td><?= $Number++ ?></td>
                     <td><?= h($packaging->name) ?></td>
+                    <td><?= h($packaging->weight) ?></td>
                     <td><?= GeneralController::getCountPerPackage($packaging->id) ?></td>
                     <td class="text-end">
                         <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $packaging->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
@@ -54,6 +56,9 @@ $Number = 1;
                 <div class="row gy-2">
                     <div class="col-xl-12">
                         <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'Designation']); ?>
+                    </div>
+                    <div class="col-xl-12">
+                        <?= $this->Form->control('weight', ['class' => 'form-control', 'label' => 'Poids réel (Kg)']); ?>
                     </div>
                 </div>
                 <div class="mt-3 mb-3">

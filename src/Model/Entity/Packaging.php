@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string|null $name
+ * @property float|null $weight
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -33,6 +34,7 @@ class Packaging extends Entity
      */
     protected array $_accessible = [
         'name' => true,
+        'weight' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,

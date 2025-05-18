@@ -13,6 +13,9 @@ $emptyText = "Veuillez selectionner";
             <div class="col-xl-12">
                 <?= $this->Form->control('name', ['class' => 'form-control', 'label' => 'name']); ?>
             </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('weight', ['class' => 'form-control', 'label' => 'Poids réel (Kg)']); ?>
+            </div>
         </div>
         <div class="mt-3 mb-3">
             <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
