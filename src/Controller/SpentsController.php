@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
 use Exception;
 
 /**
@@ -160,5 +161,17 @@ class SpentsController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    public static function getPurchaseTotalSpent($purchase_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(amount) total FROM spents WHERE purchase_id= :purchase_id', ['purchase_id' => $purchase_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
     }
 }

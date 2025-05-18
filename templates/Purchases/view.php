@@ -5,13 +5,15 @@
  */
 
 use App\Controller\GeneralController;
+use App\Controller\GeneralParamsController;
+use App\Controller\SpentsController;
 
 $this->set('title_2', 'Bon d\'Achats');
 $number = 1;
 $number1 = 1;
 $number2 = 1;
 $payment_number = 1;
-$emptyText = "Veuillez selectionner";
+$emptyText = 'Veuillez selectionner';
 $this->set('menu_purchases', 'active open');
 ?>
 <div class="row">
@@ -114,6 +116,58 @@ $this->set('menu_purchases', 'active open');
         </div>
     </div>
 
+    <hr>
+
+    <div class="row pb-5">
+        <div class="col-xl-12">
+            <h6><?= __('Estimatif des prix') ?></h6>
+            <div class="table-responsive">
+                <table class="table nowrap text-nowrap border mt-4">
+                    <thead>
+                    <tr>
+                        <th>ARTICLE</th>
+                        <th>QUANTITE</th>
+                        <th>PRIX UNITAIRE</th>
+                        <th>TOTAL KG</th>
+                        <th>TOTAUX</th>
+                        <th>ESTIMATIF / ARTICLES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($purchaseDetails as $key => $purchasesitem) : ?>
+                        <?php
+                            $spent = SpentsController::getPurchaseTotalSpent($purchasesitem['purchase_id']);
+                            $spent_per_product = ceil(round($spent / $purchasesitem['total_weight']) / 50) * 50;
+                            $purchase_price = $purchasesitem['total_price'] + $spent_per_product;
+                            $purchase_price_product = ceil(round($purchase_price / $purchasesitem['qty']) / 50) * 50;
+                            $percent = GeneralParamsController::getData('growth');
+                            $price_per_growth = ceil(round($purchase_price_product + ($purchase_price_product * $percent / 100)) / 50) * 50;
+                        ?>
+                        <tr>
+                            <td><?= $purchasesitem['product'] ?></td>
+                            <td><?= $purchasesitem['qty'] ?></td>
+                            <td>
+                                <strong>UNITE :</strong> <?= $purchasesitem['packaging'] ?> <br>
+                                <strong>POIDS :</strong> <?= $purchasesitem['weight'] ?> <br>
+                                <strong>PRIX :</strong> <?= $purchasesitem['unit_price'] ?>
+                            </td>
+                            <td><?= $purchasesitem['total_weight'] ?></td>
+                            <td><?= $purchasesitem['total_price'] ?></td>
+                            <td>
+                                <strong>Depenses :</strong> <?= $spent_per_product ?> <br>
+                                <strong>Prix d'achat :</strong> <?= $purchase_price_product ?> <br>
+                                <strong>Prix de vente (<?= $percent ?>%):</strong> <?= $price_per_growth ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
     <div class="column column-80">
         <div class="purchases view content">
             <div class="related">
@@ -179,6 +233,15 @@ $this->set('menu_purchases', 'active open');
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><h4>Totaux dépenses</h4></td>
+                                <td><h4><?= SpentsController::getPurchaseTotalSpent($purchase->id); ?></h4></td>
+                            </tr>
                         </table>
                     </div>
                 <?php endif; ?>
@@ -210,7 +273,7 @@ $this->set('menu_purchases', 'active open');
                     </div>
                 </div>
                 <div class="mt-3 mb-3">
-                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                    <?= $this->Form->button(__('Enregistrer'), ['class' => 'btn btn-success']) ?>
                 </div>
                 <?= $this->Form->end() ?>
             </div>
@@ -228,7 +291,7 @@ $this->set('menu_purchases', 'active open');
 
             // Perform AJAX request
             $.ajax({
-                url: '<?= $this->Url->build(["controller" => 'Spents', 'action' => 'insert', $purchase->id]) ?>',
+                url: '<?= $this->Url->build(['controller' => 'Spents', 'action' => 'insert', $purchase->id]) ?>',
                 method: 'POST',
                 data: formData,
                 dataType: 'json', // Expecting JSON in the response
@@ -270,7 +333,7 @@ $this->set('menu_purchases', 'active open');
                     </div>
                 </div>
                 <div class="mt-3 mb-3">
-                    <?= $this->Form->button(__('Enregistrer'), ['class'=>'btn btn-success']) ?>
+                    <?= $this->Form->button(__('Enregistrer'), ['class' => 'btn btn-success']) ?>
                 </div>
                 <?= $this->Form->end() ?>
             </div>
@@ -288,7 +351,7 @@ $this->set('menu_purchases', 'active open');
 
             // Perform AJAX request
             $.ajax({
-                url: '<?= $this->Url->build(["controller" => 'Paymentstosuppliers', 'action' => 'insert', $purchase->id]) ?>',
+                url: '<?= $this->Url->build(['controller' => 'Paymentstosuppliers', 'action' => 'insert', $purchase->id]) ?>',
                 method: 'POST',
                 data: formData,
                 dataType: 'json', // Expecting JSON in the response

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
 use Exception;
 
 /**
@@ -36,8 +37,9 @@ class PurchasesController extends AppController
     public function view($id = null)
     {
         $purchase = $this->Purchases->get($id, contain: ['Statuses', 'Suppliers', 'Paymentstosuppliers', 'Purchasesitems', 'Spents']);
+        $purchaseDetails = self::getPurchaseDetails($id);
         $spenttypes = $this->fetchTable('Spenttypes')->find('list')->all();
-        $this->set(compact('purchase', 'spenttypes'));
+        $this->set(compact('purchase', 'spenttypes', 'purchaseDetails'));
     }
 
     /**
@@ -209,5 +211,12 @@ class PurchasesController extends AppController
         $PODetails = GeneralController::getPODetails($reference);
 
         $this->set(compact('prospections', 'reference', 'PODetails'));
+    }
+
+    static function getPurchaseDetails($purchase_id)
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT pi.purchase_id, p.name product, pg.name packaging, pg.weight, pi.price unit_price, pi.qty, (pi.price*pi.qty) total_price, (pi.qty*pg.weight) total_weight FROM purchasesitems pi INNER JOIN products p ON p.id = pi.product_id INNER JOIN packagings pg ON pg.id = p.packaging_id WHERE pi.purchase_id = :purchase_id;', ['purchase_id' => $purchase_id]);
+        return $stmt->fetchAll('assoc');
     }
 }
