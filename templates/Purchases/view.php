@@ -6,6 +6,7 @@
 
 use App\Controller\GeneralController;
 use App\Controller\GeneralParamsController;
+use App\Controller\PurchasesController;
 use App\Controller\SpentsController;
 
 $this->set('title_2', 'Bon d\'Achats');
@@ -118,8 +119,8 @@ $this->set('menu_purchases', 'active open');
 
     <hr>
 
-    <div class="row pb-5">
-        <div class="col-xl-12">
+    <div class="pb-5">
+        <div class="">
             <h6><?= __('Estimatif des prix') ?></h6>
             <div class="table-responsive">
                 <table class="table nowrap text-nowrap border mt-4">
@@ -137,11 +138,11 @@ $this->set('menu_purchases', 'active open');
                     <?php foreach ($purchaseDetails as $key => $purchasesitem) : ?>
                         <?php
                             $spent = SpentsController::getPurchaseTotalSpent($purchasesitem['purchase_id']);
-                            $spent_per_product = ceil(round($spent / $purchasesitem['total_weight']) / 50) * 50;
-                            $purchase_price = $purchasesitem['total_price'] + $spent_per_product;
-                            $purchase_price_product = ceil(round($purchase_price / $purchasesitem['qty']) / 50) * 50;
+                            $spent_per_product = round($spent / PurchasesController::getPurchaseTotalWeight($purchase->id));
+                            $purchase_price = $purchasesitem['unit_price'] + ($spent_per_product * $purchasesitem['weight']);
+                            $purchase_price_product = round($purchase_price / $purchasesitem['qty']);
                             $percent = GeneralParamsController::getData('growth');
-                            $price_per_growth = ceil(round($purchase_price_product + ($purchase_price_product * $percent / 100)) / 50) * 50;
+                            $price_per_growth = round($purchase_price + ($purchase_price * $percent / 100));
                         ?>
                         <tr>
                             <td><?= $purchasesitem['product'] ?></td>
@@ -155,7 +156,7 @@ $this->set('menu_purchases', 'active open');
                             <td><?= $purchasesitem['total_price'] ?></td>
                             <td>
                                 <strong>Depenses :</strong> <?= $spent_per_product ?> <br>
-                                <strong>Prix d'achat :</strong> <?= $purchase_price_product ?> <br>
+                                <strong>Prix d'achat :</strong> <?= $purchase_price ?> <br>
                                 <strong>Prix de vente (<?= $percent ?>%):</strong> <?= $price_per_growth ?>
                             </td>
                         </tr>
@@ -176,12 +177,12 @@ $this->set('menu_purchases', 'active open');
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
-                                <th><?= __('N°') ?></th>
+                                <th style="width: 5%"><?= __('N°') ?></th>
                                 <th><?= __('Description') ?></th>
-                                <th><?= __('Montant') ?></th>
-                                <th><?= __('Date') ?></th>
-                                <th><?= __('Par') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
+                                <th style="width: 15%"><?= __('Montant') ?></th>
+                                <th style="width: 15%"><?= __('Date') ?></th>
+                                <th style="width: 15%"><?= __('Par') ?></th>
+                                <th class="actions" style="width: 15%"><?= __('Actions') ?></th>
                             </tr>
                             <?php foreach ($purchase->paymentstosuppliers as $paymentstosupplier) : ?>
                                 <tr>
@@ -210,13 +211,13 @@ $this->set('menu_purchases', 'active open');
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
-                                <th><?= __('Id') ?></th>
+                                <th style="width: 5%"><?= __('Id') ?></th>
                                 <th><?= __('Type') ?></th>
                                 <th><?= __('Description') ?></th>
-                                <th><?= __('Montant') ?></th>
-                                <th><?= __('Date') ?></th>
-                                <th><?= __('Par') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
+                                <th style="width: 15%"><?= __('Montant') ?></th>
+                                <th style="width: 15%"><?= __('Date') ?></th>
+                                <th style="width: 15%"><?= __('Par') ?></th>
+                                <th class="actions" style="width: 15%"><?= __('Actions') ?></th>
                             </tr>
                             <?php foreach ($purchase->spents as $spent) : ?>
                                 <tr>
@@ -234,13 +235,11 @@ $this->set('menu_purchases', 'active open');
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><h4>Totaux dépenses</h4></td>
-                                <td><h4><?= SpentsController::getPurchaseTotalSpent($purchase->id); ?></h4></td>
+                                <td colspan="6" class="text-end"><h4>Totaux dépenses</h4></td>
+                                <td class="text-end">
+                                    <h4><?= SpentsController::getPurchaseTotalSpent($purchase->id); ?>
+                                    </h4>
+                                </td>
                             </tr>
                         </table>
                     </div>

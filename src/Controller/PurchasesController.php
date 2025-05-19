@@ -219,4 +219,16 @@ class PurchasesController extends AppController
         $stmt = $conn->execute('SELECT pi.purchase_id, p.name product, pg.name packaging, pg.weight, pi.price unit_price, pi.qty, (pi.price*pi.qty) total_price, (pi.qty*pg.weight) total_weight FROM purchasesitems pi INNER JOIN products p ON p.id = pi.product_id INNER JOIN packagings pg ON pg.id = p.packaging_id WHERE pi.purchase_id = :purchase_id;', ['purchase_id' => $purchase_id]);
         return $stmt->fetchAll('assoc');
     }
+
+    public static function getPurchaseTotalWeight($purchase_id): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT SUM(pi.qty*pg.weight) total_weight FROM purchasesitems pi INNER JOIN products p ON p.id = pi.product_id INNER JOIN packagings pg ON pg.id = p.packaging_id WHERE pi.purchase_id = :purchase_id;', ['purchase_id' => $purchase_id]);
+        $result = $stmt->fetch('assoc');
+        foreach ($result as $row) {
+            return $row;
+        }
+
+        return null;
+    }
 }
