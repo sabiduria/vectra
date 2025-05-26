@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
+use Cake\ORM\TableRegistry;
 use Exception;
 
 /**
@@ -13,16 +15,29 @@ use Exception;
 class UsersController extends AppController
 {
     /**
+     * Initialize controller
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->Authentication->allowUnauthenticated(['login']);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index($employee_type = null)
     {
-        if ($employee_type != null)
+        if ($employee_type != null) {
             $query = $this->Users->find()->where(['Users.deleted' => 0, 'Users.employeetype' => $employee_type]);
-        else
+        } else {
             $query = $this->Users->find()->where(['Users.deleted' => 0]);
+        }
 
         $users = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000]);
 
@@ -36,7 +51,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $user = $this->Users->get($id, contain: ['Affectations', 'Leaves', 'Leavesbalances', 'Salaries', 'Sales']);
         $this->set(compact('user'));
@@ -75,7 +90,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $session = $this->request->getSession();
         $user = $this->Users->get($id, contain: []);
@@ -101,7 +116,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $session = $this->request->getSession();
         $this->request->allowMethod(['post', 'delete']);
@@ -134,18 +149,17 @@ class UsersController extends AppController
             $user->modifiedby = $session->read('Auth.Username');
             $user->deleted = 0;
 
-            try{
+            try {
                 if ($this->Users->save($user)) {
                     $response = [
                         'message' => 'Data saved successfully!',
-                        'data' => $user->toArray()
+                        'data' => $user->toArray(),
                     ];
-                }else {
+                } else {
                     $errors = $user->getErrors();
                     $response = ['message' => 'Failed to save data.', 'errors' => $errors];
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $response = ['message' => 'An error occurred: ' . $e->getMessage()];
             }
             // Set the response type to JSON
@@ -157,6 +171,50 @@ class UsersController extends AppController
 
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
+        }
+    }
+
+    public function beforeFilter(EventInterface $event): void
+    {
+        parent::beforeFilter($event);
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->addUnauthenticatedActions(['login']);
+    }
+
+    public function login()
+    {
+        $this->viewBuilder()->setLayout('login');
+        $session = $this->request->getSession();
+        $user = $this->request->getAttribute('identity');
+        $result = $this->Authentication->getResult();
+        // If the user is logged in send them away.
+        if ($result->isValid()) {
+            $session->write('Auth.Username', $user->username);
+            $session->write('Auth.Email', $user->email);
+            $session->write('Auth.Id', $user->id);
+
+            $target = $this->Authentication->getLoginRedirect() ?? '/';
+
+            if ($session->read('shop_id') !== null) {
+                return $this->redirect($target);
+            } else {
+                return $this->redirect(['controller' => 'affectations', 'action' => 'chooser']);
+            }
+        }
+        if ($this->request->is('post')) {
+            $this->Flash->error('Invalid username or password');
+        }
+    }
+
+    public function logout()
+    {
+        $result = $this->Authentication->getResult();
+        // regardless of POST or GET, redirect if user is logged in
+        if ($result && $result->isValid()) {
+            $this->Authentication->logout();
+
+            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
     }
 }

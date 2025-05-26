@@ -1,3 +1,9 @@
+<?php
+
+use App\Controller\GeneralController;
+
+$session = $this->request->getSession();
+?>
 <header class="app-header sticky" id="header">
 
     <!-- Start::main-header-container -->
@@ -23,10 +29,10 @@
             <!-- Start::header-element -->
             <div class="header-element header-search d-md-block d-none my-auto auto-complete-search">
                 <!-- Start::header-link -->
-                <input type="text" class="header-search-bar form-control" id="header-search" placeholder="Search anything here ..." spellcheck=false autocomplete="off" autocapitalize="off">
+                <!--input type="text" class="header-search-bar form-control" id="header-search" placeholder="Search anything here ..." spellcheck=false autocomplete="off" autocapitalize="off">
                 <a href="javascript:void(0);" class="header-search-icon border-0">
                     <i class="ri-search-line"></i>
-                </a>
+                </a-->
                 <!-- End::header-link -->
             </div>
             <!-- End::header-element -->
@@ -37,6 +43,12 @@
         <!-- Start::header-content-right -->
         <ul class="header-content-right">
 
+            <li class="header-element d-block">
+                <span class="badge bg-success mt-2">
+                    Shop Actif : <?= $session->read('Auth.ShopName') ?>
+                </span>
+            </li>
+
             <!-- Start::header-element -->
             <li class="header-element d-md-none d-block">
                 <a href="javascript:void(0);" class="header-link" data-bs-toggle="modal" data-bs-target="#header-responsive-search">
@@ -44,274 +56,6 @@
                     <i class="bi bi-search header-link-icon"></i>
                     <!-- End::header-link-icon -->
                 </a>
-            </li>
-            <!-- End::header-element -->
-
-            <!-- Start::header-element -->
-            <li class="header-element country-selector dropdown">
-                <!-- Start::header-link|dropdown-toggle -->
-                <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 header-link-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" />
-                    </svg>
-
-                </a>
-                <!-- End::header-link|dropdown-toggle -->
-                <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                        <?= $this->Html->image('flag.svg') ?>
-                                    </span>
-                                    English
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            español
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            français
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            عربي
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            Deutsch
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            中国人
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            Italiano
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                <?= $this->Html->image('flag.svg') ?>
-                            </span>
-                            Русский
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <!-- End::header-element -->
-
-            <!-- Start::header-element -->
-            <li class="header-element header-theme-mode">
-                <!-- Start::header-link|layout-setting -->
-                <a href="javascript:void(0);" class="header-link layout-setting">
-                    <span class="light-layout">
-                        <!-- Start::header-link-icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 header-link-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                          </svg>
-                        <!-- End::header-link-icon -->
-                    </span>
-                    <span class="dark-layout">
-                        <!-- Start::header-link-icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 header-link-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                          </svg>
-                        <!-- End::header-link-icon -->
-                    </span>
-                </a>
-                <!-- End::header-link|layout-setting -->
-            </li>
-            <!-- End::header-element -->
-
-            <!-- Start::header-element -->
-            <li class="header-element cart-dropdown dropdown">
-                <!-- Start::header-link|dropdown-toggle -->
-                <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 header-link-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
-                    <span class="badge bg-secondary rounded-pill header-icon-badge" id="cart-icon-badge">5</span>
-                </a>
-                <!-- End::header-link|dropdown-toggle -->
-                <!-- Start::main-header-dropdown -->
-                <div class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
-                    <div class="p-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <p class="mb-0 fs-15 fw-medium">Cart Items<span class="badge bg-primary2 text-fixed-white ms-1 fs-12 rounded-circle" id="cart-data">5</span></p>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="fs-12 fw-medium text-muted">Sub Total : </span>
-                                <h6 class="mb-0"> $740</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <ul class="list-unstyled mb-0" id="header-cart-items-scroll">
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center cart-dropdown-item gap-3">
-                                <div class="lh-1">
-                                    <span class="avatar avatar-xl bg-primary-transparent">
-                                        <?= $this->Html->image('flag.svg') ?>
-                                    </span>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="d-flex align-items-center justify-content-between mb-0">
-                                        <div class="mb-0 fs-14 fw-medium">
-                                            <a href="cart.html">Wireless Headphones</a>
-                                            <div class="text-truncate">
-                                                <p class="mb-0 header-cart-text text-truncate fs-11 text-muted">Wireless freedom with crystal-clear sound and comfortable </p>
-                                                <h6 class="fw-medium mb-0 mt-1"><span class="text-success fw-normal me-1 fs-11 d-inline-block">(Qty : 1)</span>$78</h6>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <a href="javascript:void(0);" class="header-cart-remove dropdown-item-close"><i class="ri-close-line"></i></a>
-                                            <h6 class="fw-medium mb-0 mt-3"><span class="text-info op-4 fw-normal me-1 fs-11 d-inline-block">Total :</span>$75</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center cart-dropdown-item gap-3">
-                                <div class="lh-1">
-                                    <span class="avatar avatar-xl bg-primary-transparent">
-                                        <?= $this->Html->image('flag.svg') ?>
-                                    </span>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="d-flex align-items-center justify-content-between mb-0">
-                                        <div class="mb-0 fs-14 fw-medium">
-                                            <a href="cart.html">Ladies Hand Bag</a>
-                                            <div class="text-truncate">
-                                                <p class="mb-0 header-cart-text text-truncate fs-11 text-muted">Both fashion and functionality. </p>
-                                                <h6 class="fw-medium mb-0 mt-1"><span class="text-success fw-normal me-1 fs-11 d-inline-block">(Qty : 2)</span>$15</h6>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <a href="javascript:void(0);" class="header-cart-remove dropdown-item-close"><i class="ri-close-line"></i></a>
-                                            <h6 class="fw-medium mb-0 mt-3"><span class="text-info op-4 fw-normal me-1 fs-11 d-inline-block">Total :</span>$30</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center cart-dropdown-item gap-3">
-                                <div class="lh-1">
-                                    <span class="avatar avatar-xl bg-primary-transparent">
-                                        <?= $this->Html->image('flag.svg') ?>
-                                    </span>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="d-flex align-items-center justify-content-between mb-0">
-                                        <div class="mb-0 fs-14 fw-medium">
-                                            <a href="cart.html">Alarm Clock</a>
-                                            <div class="text-truncate">
-                                                <p class="mb-0 header-cart-text text-truncate fs-11 text-muted">Add natural beauty to your space </p>
-                                                <h6 class="fw-medium mb-0 mt-1"><span class="text-success fw-normal me-1 fs-11 d-inline-block">(Qty : 1)</span>$84</h6>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <a href="javascript:void(0);" class="header-cart-remove dropdown-item-close"><i class="ri-close-line"></i></a>
-                                            <h6 class="fw-medium mb-0 mt-3"><span class="text-info op-4 fw-normal me-1 fs-11 d-inline-block">Total :</span>$84</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center cart-dropdown-item gap-3">
-                                <div class="lh-1">
-                                    <span class="avatar avatar-xl bg-primary-transparent">
-                                        <?= $this->Html->image('flag.svg') ?>
-                                    </span>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="d-flex align-items-center justify-content-between mb-0">
-                                        <div class="mb-0 fs-14 fw-medium">
-                                            <a href="cart.html">Kids' Party Wear Frock</a>
-                                            <div class="text-truncate">
-                                                <p class="mb-0 header-cart-text text-truncate fs-11 text-muted">Crafted from soft, breathable fabric and adorned with delightful </p>
-                                                <h6 class="fw-medium mb-0 mt-1"><span class="text-success fw-normal me-1 fs-11 d-inline-block">(Qty : 1)</span>$37</h6>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <a href="javascript:void(0);" class="header-cart-remove dropdown-item-close"><i class="ri-close-line"></i></a>
-                                            <h6 class="fw-medium mb-0 mt-3"><span class="text-info op-4 fw-normal me-1 fs-11 d-inline-block">Total :</span>$37</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-item">
-                            <div class="d-flex align-items-center cart-dropdown-item gap-3">
-                                <div class="lh-1">
-                                    <span class="avatar avatar-xl bg-primary-transparent">
-                                        <?= $this->Html->image('flag.svg') ?>
-                                    </span>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="d-flex align-items-center justify-content-between mb-0">
-                                        <div class="mb-0 fs-14 fw-medium">
-                                            <a href="cart.html">Advanced Smart Watch</a>
-                                            <div class="text-truncate">
-                                                <p class="mb-0 header-cart-text text-truncate fs-11 text-muted">ultimate in wearable technology,combining cutting-edge </p>
-                                                <h6 class="fw-medium mb-0 mt-1"><span class="text-success fw-normal me-1 fs-11 d-inline-block">(Qty : 2)</span>$29</h6>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <a href="javascript:void(0);" class="header-cart-remove dropdown-item-close"><i class="ri-close-line"></i></a>
-                                            <h6 class="fw-medium mb-0 mt-3"><span class="text-info op-4 fw-normal me-1 fs-11 d-inline-block">Total :</span>$48</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="p-3 empty-header-item border-top d-flex gap-2 align-items-center">
-                        <a href="checkout.html" class="btn flex-fill btn-primary btn-wave">Proceed to checkout</a>
-                    </div>
-                    <div class="p-5 empty-item d-none">
-                        <div class="text-center">
-                            <span class="avatar avatar-xl avatar-rounded bg-primary-transparent">
-                                <i class="ri-shopping-cart-2-line fs-2"></i>
-                            </span>
-                            <h6 class="fw-medium mb-1 mt-3">Your Cart is Empty</h6>
-                            <span class="mb-3 fw-normal fs-13 d-block">Add some items to make me happy :)</span>
-                            <a href="products.html" class="btn btn-primary1 btn-wave btn-sm m-1" data-abc="true">continue shopping <i class="bi bi-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End::main-header-dropdown -->
             </li>
             <!-- End::header-element -->
 
@@ -461,21 +205,6 @@
             <!-- End::header-element -->
 
             <!-- Start::header-element -->
-            <li class="header-element header-fullscreen">
-                <!-- Start::header-link -->
-                <a onclick="openFullscreen();" href="javascript:void(0);" class="header-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 full-screen-open header-link-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 full-screen-close header-link-icon d-none" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
-                    </svg>
-                </a>
-                <!-- End::header-link -->
-            </li>
-            <!-- End::header-element -->
-
-            <!-- Start::header-element -->
             <li class="header-element dropdown">
                 <!-- Start::header-link|dropdown-toggle -->
                 <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -486,42 +215,33 @@
                     </div>
                 </a>
                 <!-- End::header-link|dropdown-toggle -->
-                <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
+                <ul style="width: 15rem !important;" class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                     <li>
                         <div class="dropdown-item text-center border-bottom">
                             <span>
-                                Mr.Henry
+                                M. <?= GeneralController::getUserNameOf($session->read('Auth.Id')); ?>
                             </span>
-                            <span class="d-block fs-12 text-muted">UI/UX Designer</span>
+                            <span class="d-block fs-12 text-muted">
+                                <?= $session->read('Auth.Profile') ?>
+                            </span>
                         </div>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i class="fe fe-user p-1 rounded-circle bg-primary-transparent me-2 fs-16"></i>Profile</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="mail.html"><i class="fe fe-mail p-1 rounded-circle bg-primary-transparent me-2 fs-16"></i>Mail Inbox</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="file-manager.html"><i class="fe fe-database p-1 rounded-circle bg-primary-transparent klist me-2 fs-16"></i>File Manger<span class="badge bg-primary1 text-fixed-white ms-auto fs-9">2</span></a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="mail-settings.html"><i class="fe fe-settings p-1 rounded-circle bg-primary-transparent ings me-2 fs-16"></i>Settings</a></li>
-                    <li class="border-top bg-light"><a class="dropdown-item d-flex align-items-center" href="chat.html"><i class="fe fe-help-circle p-1 rounded-circle bg-primary-transparent set me-2 fs-16"></i>Help</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="sign-in-cover.html"><i class="fe fe-lock p-1 rounded-circle bg-primary-transparent ut me-2 fs-16"></i>Log Out</a></li>
+                    <li>
+                        <?= $this->Html->link('<i class="fe fe-user p-1 rounded-circle bg-primary-transparent me-2 fs-16"></i> Profile', ['controller' => 'users', 'action' => 'view'], ['class' => 'dropdown-item d-flex align-items-center', 'escape' => false]) ?>
+                    </li>
+                    <li class="border-top bg-light"><a class="dropdown-item d-flex align-items-center" href="#"><i class="fe fe-help-circle p-1 rounded-circle bg-primary-transparent set me-2 fs-16"></i>Aide</a></li>
+                    <li>
+                        <?= $this->Html->link('<i class="fe fe-crosshair p-1 rounded-circle bg-primary-transparent ut me-2 fs-16"></i> Changer de shop', ['controller' => 'affectations', 'action' => 'chooser'], ['class' => 'dropdown-item d-flex align-items-center', 'escape' => false]) ?>
+                    </li>
+                    <li>
+                        <?= $this->Html->link('<i class="fe fe-lock p-1 rounded-circle bg-primary-transparent ut me-2 fs-16"></i> Deconnexion', ['controller' => 'users', 'action' => 'logout'], ['class' => 'dropdown-item d-flex align-items-center', 'escape' => false]) ?>
+                    </li>
                 </ul>
-            </li>
-            <!-- End::header-element -->
-
-            <!-- Start::header-element -->
-            <li class="header-element">
-                <!-- Start::header-link|switcher-icon -->
-                <a href="javascript:void(0);" class="header-link switcher-icon" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 header-link-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                </a>
-                <!-- End::header-link|switcher-icon -->
             </li>
             <!-- End::header-element -->
 
         </ul>
         <!-- End::header-content-right -->
-
     </div>
     <!-- End::main-header-container -->
-
 </header>

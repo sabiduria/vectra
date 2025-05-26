@@ -84,29 +84,8 @@ $username = $session->read('Auth.Username');
         <div class="container-fluid">
             <!-- Start::page-header -->
             <div class="row">
-                <div class="col-sm-2 pt-3">
+                <div class="offset-5 col-sm-2 pt-3 pb-3">
                     <?= $this->Html->image('logo.png', ['style' => 'width : 80%']) ?>
-                </div>
-
-                <div class="col-sm-8">
-                    <div class="d-flex align-items-center justify-content-between page-header-breadcrumb flex-wrap gap-2">
-                        <div>
-                            <ol class="breadcrumb mb-1">
-                                <li class="breadcrumb-item">
-                                    <?= $this->Html->link('<i class="fa-thin fa-chart-waterfall w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Tableau de bord</span>', ['controller' => '/'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page"><?= $this->fetch('title') ?></li>
-                            </ol>
-                            <h1 class="page-title fw-medium fs-18 mb-0"><?= ucfirst($title_2 ?? 'Point de ventes') ?></h1>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-2 pt-3 text-end">
-                    Aujourd'hui
-                    <h6>
-                        <strong><?= date('Y-m-d') ?></strong>
-                    </h6>
                 </div>
             </div>
             <!-- End::page-header -->

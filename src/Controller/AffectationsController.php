@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
 use Exception;
 
 /**
@@ -161,5 +162,32 @@ class AffectationsController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    public function chooser($shop_id = null)
+    {
+        $session = $this->request->getSession();
+        $this->viewBuilder()->setLayout('empty2');
+        if ($shop_id != null){
+            $details = self::getLoginDetails($session->read('Auth.Id'), $shop_id);
+            foreach ($details as $detail){
+                $session->write('Auth.ShopId', $detail['shop_id']);
+                $session->write('Auth.ShopName', $detail['shop_name']);
+                $session->write('Auth.Profile', $detail['profile_name']);
+            }
+
+            return $this->redirect(['controller' => 'general', 'action' => 'dashboard']);
+        }
+    }
+
+    public static function getLoginDetails($user_id, $shop_id = null): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        if ($shop_id == null){
+            $stmt = $conn->execute('SELECT a.id, p.name profile_name, p.id profile_id, s.name shop_name, s.id shop_id, s.address, s.phone FROM affectations a INNER JOIN users u ON u.id = a.user_id INNER JOIN profiles p ON p.id = a.profile_id INNER JOIN shops s ON s.id = a.shop_id WHERE user_id = :user_id', ['user_id' => $user_id]);
+        } else {
+            $stmt = $conn->execute('SELECT a.id, p.name profile_name, p.id profile_id, s.name shop_name, s.id shop_id, s.address, s.phone FROM affectations a INNER JOIN users u ON u.id = a.user_id INNER JOIN profiles p ON p.id = a.profile_id INNER JOIN shops s ON s.id = a.shop_id WHERE user_id = :user_id AND shop_id = :shop_id', ['user_id' => $user_id, 'shop_id' => $shop_id]);
+        }
+        return $stmt->fetchAll('assoc');
     }
 }

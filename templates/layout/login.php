@@ -30,7 +30,15 @@ $username = $session->read('Auth.Username');
         <meta content="" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-        <?= $this->Html->css(['bootstrap.min', 'icons.min', 'metisMenu.min', 'app.min']) ?>
+        <?= $this->Html->script([
+            'authentication-main.js',
+        ]) ?>
+
+        <?= $this->Html->css([
+            'libs/bootstrap/css/bootstrap.min.css',
+            'styles.css',
+            'icons.css',
+        ]) ?>
         <style>
             .account-body .auth-header-box{
                 background-color : #fff !important;
@@ -41,6 +49,9 @@ $username = $session->read('Auth.Username');
     <body class="account-body accountbg">
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
-        <?= $this->Html->script(['jquery.min', 'bootstrap.bundle.min', 'metismenu.min', 'waves', 'feather.min', 'simplebar.min']) ?>
+        <?= $this->Html->script([
+            'libs/bootstrap/js/bootstrap.bundle.min.js',
+            'show-password.js',
+        ]) ?>
     </body>
 </html>
