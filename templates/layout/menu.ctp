@@ -356,7 +356,7 @@
                     <?= $this->Html->link('Ressources', ['controller' => 'resources', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
-                    <?= $this->Html->link('Gestion des accès', ['controller' => 'products', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    <?= $this->Html->link('Gestion des accès', ['controller' => 'permission', 'action' => ''], ['target' => '_blank', 'escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
                 <li class="slide">
                     <?= $this->Html->link('Taux d\'échanges', ['controller' => 'exchangerates', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
