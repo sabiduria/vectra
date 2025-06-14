@@ -1,7 +1,9 @@
 <?php
 
 include('resources/config/connexion.php');
-include('resources/model/autoload.php');
+include('resources/model/Accessrights.php');
+include('resources/model/Profiles.php');
+include('resources/model/Resources.php');
 extract($_GET);
 $profiles = json_decode(Profiles::select(), true);
 if (isset($profile)){
@@ -11,14 +13,13 @@ $resources = json_decode(Resources::select(), true);
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $target_link = substr($actual_link, 0,-11);
 
-if(isset($generator)){
+//if(isset($generator)){
     foreach ($profiles as $key=>$value){
-        //Accessrights::insert($value['id'], 15);
         foreach ($resources as $key2=>$value2){
             Accessrights::insert($value['id'], $value2['id']);
         }
     }
-}
+//}
 
 ?>
 <!DOCTYPE html>

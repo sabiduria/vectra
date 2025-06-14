@@ -174,6 +174,7 @@ class AffectationsController extends AppController
                 $session->write('Auth.ShopId', $detail['shop_id']);
                 $session->write('Auth.ShopName', $detail['shop_name']);
                 $session->write('Auth.Profile', $detail['profile_name']);
+                $session->write('Auth.ProfileId', $detail['profile_id']);
             }
 
             return $this->redirect(['controller' => 'general', 'action' => 'dashboard']);

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
 use Exception;
 
 /**
@@ -159,5 +160,20 @@ class AccessrightsController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    public static function checkRightsOn($profile_id, $resource, $access){
+        $conn = ConnectionManager::get('default');
+
+        $stmt = $conn->execute('SELECT '.strtolower(substr($access, 0, 1)).' FROM accessrights ar INNER JOIN resources rs ON ar.resource_id = rs.id WHERE ar.profile_id=:profile_id AND rs.generic_name=:resource', ['profile_id'=> $profile_id, 'resource'=> $resource]);
+        $result = $stmt->fetch('assoc');
+        if ($result!=null){
+            foreach ($result as $row) {
+                return ($row);
+            }
+        } else{
+            return 0;
+        }
+        return null;
     }
 }

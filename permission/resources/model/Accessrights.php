@@ -112,9 +112,11 @@ Class Accessrights {
 
 	public static function insert($profile_id, $resource_id) {
 		$connexion=Connexion::getConnexion();
-		$query="INSERT INTO accessrights (profile_id, resource_id, c, r, u, d, p, v, created, modified, createdby, modifiedby, deleted) VALUES (:profile_id, :resource_id, 0, 0, 0, 0, 0, 0, now(), now(), 'System', 'System', 0)";
-		$transaction=$connexion->prepare($query);
-		$transaction->execute(array('profile_id'=>$profile_id, 'resource_id'=>$resource_id));
+        if (self::getAcccessId($profile_id, $resource_id) == null ){
+            $query="INSERT INTO accessrights (profile_id, resource_id, c, r, u, d, p, v, created, modified, createdby, modifiedby, deleted) VALUES (:profile_id, :resource_id, 0, 0, 0, 0, 0, 0, now(), now(), 'System', 'System', 0)";
+            $transaction=$connexion->prepare($query);
+            $transaction->execute(array('profile_id'=>$profile_id, 'resource_id'=>$resource_id));
+        }
 		return true;
 	}
 

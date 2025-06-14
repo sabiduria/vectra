@@ -2,8 +2,8 @@
     use App\Controller\AccessrightsController;
     $session = $this->request->getSession();
     $profile_id = $session->read('Auth.ProfileId');
-    $profile = $session->read('Auth.ProfileName');
-    $agency_name = $session->read('Auth.AgencyName');
+    $profile = $session->read('Auth.Profile');
+    $agency_name = $session->read('Auth.ShopName');
 ?>
 
 <nav class="main-menu-container nav nav-pills flex-column sub-open">
@@ -22,49 +22,56 @@
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide">
-            <?= $this->Html->link('<i class="fa-thin fa-chart-radar w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Monitoring</span>', ['controller' => 'general', 'action' => 'monitoring'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-        </li>
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'MTR', 'VIEW')) :?>
+            <li class="slide">
+                <?= $this->Html->link('<i class="fa-thin fa-chart-radar w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Monitoring</span>', ['controller' => 'general', 'action' => 'monitoring'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+            </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
-        <li class="slide has-sub <?= $menu_product ?? '' ?>">
-            <a href="javascript:void(0);" class="side-menu__item">
-                <i class="ri-arrow-down-s-line side-menu__angle"></i>
-                <i class="fa-thin fa-list-timeline w-6 h-6 side-menu__icon"></i>
-                <span class="side-menu__label">Produits</span>
-            </a>
-            <ul class="slide-menu child1">
-                <li class="slide">
-                    <?= $this->Html->link('Liste', ['controller' => 'products', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Ajouter', ['controller' => 'products', 'action' => 'add'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Importer', ['controller' => 'products', 'action' => 'import'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Catégories', ['controller' => 'categories', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Modèles', ['controller' => 'brands', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Packaging', ['controller' => 'packagings', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-                <li class="slide">
-                    <?= $this->Html->link('Statistiques', ['controller' => 'products', 'action' => 'stats'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-                </li>
-            </ul>
-        </li>
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'ART', 'VIEW')) :?>
+            <li class="slide has-sub <?= $menu_product ?? '' ?>">
+                <a href="javascript:void(0);" class="side-menu__item">
+                    <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                    <i class="fa-thin fa-list-timeline w-6 h-6 side-menu__icon"></i>
+                    <span class="side-menu__label">Produits</span>
+                </a>
+                <ul class="slide-menu child1">
+                    <li class="slide">
+                        <?= $this->Html->link('Liste', ['controller' => 'products', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Ajouter', ['controller' => 'products', 'action' => 'add'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Importer', ['controller' => 'products', 'action' => 'import'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Catégories', ['controller' => 'categories', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Modèles', ['controller' => 'brands', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Packaging', ['controller' => 'packagings', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Statistiques', ['controller' => 'products', 'action' => 'stats'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                </ul>
+            </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'FCT', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Finance</span></li>
         <!-- End::slide__category -->
+        <?php endif; ?>
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'FCT', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_sales ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -83,9 +90,11 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'SPT', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_expenses ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -104,9 +113,11 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'PYR', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_payroll ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -125,13 +136,17 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'CMD', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Commandes</span></li>
         <!-- End::slide__category -->
+        <?php endif; ?>
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'CMD', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_orders ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -150,9 +165,11 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'PRC', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_purchases ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -171,25 +188,33 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'MTR', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Ressources Humaines</span></li>
         <!-- End::slide__category -->
+        <?php endif; ?>
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'CLT', 'VIEW')) :?>
         <li class="slide">
             <?= $this->Html->link('<i class="fa-thin fa-users w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Clients</span>', ['controller' => 'customers', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'SPL', 'VIEW')) :?>
         <li class="slide">
             <?= $this->Html->link('<i class="fa-thin fa-users-line w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Fournisseurs</span>', ['controller' => 'suppliers', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'EMP', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_employee ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -205,9 +230,11 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'ATDC', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_attendances ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -226,13 +253,17 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'STK', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Stocks</span></li>
         <!-- End::slide__category -->
+        <?php endif; ?>
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'STK', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_stock ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -257,13 +288,17 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'WRHS', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Lieux de ventes</span></li>
         <!-- End::slide__category -->
+        <?php endif; ?>
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'WRHS', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_warehouse ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -282,7 +317,11 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
+        <!-- End::slide -->
+
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'PRSP', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_prospection ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -298,14 +337,17 @@
                 </li>
             </ul>
         </li>
-        <!-- End::slide -->
+        <?php endif; ?>
         <!-- End::slide -->
 
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'RPT', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Rapports & Paramètres</span></li>
         <!-- End::slide__category -->
+        <?php endif; ?>
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'RPT', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_reports ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -330,9 +372,11 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'PRMT', 'VIEW')) :?>
         <li class="slide has-sub <?= $menu_parameters ?? '' ?>">
             <a href="javascript:void(0);" class="side-menu__item">
                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
@@ -366,6 +410,7 @@
                 </li>
             </ul>
         </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
     </ul>
