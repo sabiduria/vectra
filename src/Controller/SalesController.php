@@ -7,7 +7,11 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Http\Exception\InternalErrorException;
 use Cake\I18n\DateTime;
 use Cake\ORM\Table;
+use Cake\ORM\Locator\LocatorAwareTrait;
+use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 use Exception;
+use RuntimeException;
 
 /**
  * Sales Controller
@@ -307,8 +311,11 @@ class SalesController extends AppController
 
         if ($this->Sales->save($sale)) {
             try {
-                $print = new PrinterService();
-                $print->printLabel($this->getFormattedSalesItems($salesId), $salesId);
+                //$print = new PrinterService();
+                //$print->printLabel($this->getFormattedSalesItems($salesId), $salesId);
+
+                $this->reduceStockFromSale($salesId);
+
                 $this->request->getSession()->delete('SalesId');
             } catch (Exception $e) {
                 throw new InternalErrorException('Print failed: ' . $e->getMessage());
@@ -352,5 +359,76 @@ class SalesController extends AppController
         $conn = ConnectionManager::get('default');
         $stmt = $conn->execute("SELECT s.reference, COALESCE(c.name, 'N/A') customer, COALESCE(c.phone, 'N/A') phone, u.username cashier FROM sales s LEFT OUTER JOIN customers c ON s.customer_id = c.id INNER JOIN users u ON u.id = s.user_id WHERE s.id = :id ", ['id' => $sale_id]);
         return $stmt->fetchAll('assoc');
+    }
+
+    public function reduceStockFromSale($saleId)
+    {
+        // Load required tables
+        $salesItemsTable = TableRegistry::getTableLocator()->get('Salesitems');
+        $shopStocksTable = TableRegistry::getTableLocator()->get('Shopstocks');
+
+        // Start transaction
+        $connection = $salesItemsTable->getConnection();
+        $connection->begin();
+
+        try {
+            // Get all sales items for this sale
+            $salesItems = $salesItemsTable->find()
+                ->where(['sale_id' => $saleId, 'Salesitems.deleted' => 0])
+                ->contain(['Products'])
+                ->all();
+
+            if ($salesItems->isEmpty()) {
+                throw new RuntimeException('No sales items found for this sale');
+            }
+
+            foreach ($salesItems as $item) {
+                $shopStock = $shopStocksTable->find()
+                    ->where([
+                        'product_id' => $item->product_id,
+                        'deleted' => 0
+                        // Add room_id condition if needed
+                    ])
+                    ->first();
+
+                if (!$shopStock) {
+                    throw new RuntimeException(sprintf(
+                        'No stock record found for product ID %d',
+                        $item->product_id
+                    ));
+                }
+
+                // Check if enough stock is available
+                if ($shopStock->stock < $item->qty) {
+                    throw new RuntimeException(sprintf(
+                        'Insufficient stock for product ID %d. Available: %d, Requested: %d',
+                        $item->product_id,
+                        $shopStock->stock,
+                        $item->qty
+                    ));
+                }
+
+                // Reduce the stock
+                $shopStock->stock -= $item->qty;
+
+                // Save the updated stock
+                if (!$shopStocksTable->save($shopStock)) {
+                    throw new RuntimeException(sprintf(
+                        'Failed to update stock for product ID %d',
+                        $item->product_id
+                    ));
+                }
+            }
+
+            // Commit transaction if all updates succeeded
+            $connection->commit();
+            return true;
+
+        } catch (Exception $e) {
+            // Rollback transaction on error
+            $connection->rollback();
+            $this->log($e->getMessage(), 'error');
+            throw $e; // Re-throw for caller to handle
+        }
     }
 }
