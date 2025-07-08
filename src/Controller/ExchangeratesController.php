@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\ConnectionManager;
 use Exception;
 
 /**
@@ -164,5 +165,27 @@ class ExchangeratesController extends AppController
             // Ensure the response is sent as JSON (no need for a view)
             return $this->response->withStringBody(json_encode($response));
         }
+    }
+
+    public function activate($id)
+    {
+        $session = $this->request->getSession();
+        $connection = ConnectionManager::get('default');
+
+        $connection->update('exchangerates', [
+            'isactived' => 1,
+            'modifiedby' => $session->read('Auth.Username')
+        ], [
+            'id' => $id
+        ]);
+
+        $connection->update('exchangerates', [
+            'isactived' => 0,
+            'modifiedby' => $session->read('Auth.Username')
+        ], [
+            'id <>' => $id
+        ]);
+
+        return $this->redirect(['action' => 'index']);
     }
 }

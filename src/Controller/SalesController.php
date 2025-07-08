@@ -279,7 +279,7 @@ class SalesController extends AppController
                 $salesAmount = GeneralController::getSalesAmount($salesId);
                 $vat = $salesAmount * 15 / 100;
                 $discount = 0;
-                $total = $salesAmount + $vat - $discount;
+                $total = $salesAmount - $discount;
 
                 echo json_encode(['success' => true, 'message' => 'Item updated successfully', 'subtotal' => $salesAmount,
                     'vat' => $vat,

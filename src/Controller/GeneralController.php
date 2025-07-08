@@ -92,18 +92,6 @@ class GeneralController extends AppController
         return null;
     }
 
-    public static function getLatestExchangeRates(): mixed
-    {
-        $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('SELECT rates FROM exchangerates ORDER BY created LIMIT 1');
-        $result = $stmt->fetch('assoc');
-        foreach ($result as $row) {
-            return $row;
-        }
-
-        return null;
-    }
-
     public static function getSupplierData($data, $supplier_id): mixed
     {
         $conn = ConnectionManager::get('default');

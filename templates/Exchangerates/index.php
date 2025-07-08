@@ -6,7 +6,7 @@
 
 use App\Controller\GeneralController;
 
-$this->set('title_2', 'Exchangerates');
+$this->set('title_2', 'Taux d\'echange');
 $Number = 1;
 $this->set('menu_parameters', 'active open');
 ?>
@@ -22,7 +22,7 @@ $this->set('menu_parameters', 'active open');
                     <th><?= $this->Paginator->sort('Devise 2') ?></th>
                     <th><?= $this->Paginator->sort('Taux') ?></th>
                     <th><?= $this->Paginator->sort('Status') ?></th>
-                    <th><?= $this->Paginator->sort('Date') ?></th>
+                    <th><?= $this->Paginator->sort('Date Activation') ?></th>
                     <th><?= $this->Paginator->sort('Par') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
@@ -35,10 +35,10 @@ $this->set('menu_parameters', 'active open');
                     <td><?= GeneralController::getNameOf($exchangerate->currency_to, 'Currencies') ?></td>
                     <td><?= $exchangerate->rates === null ? '' : $this->Number->format($exchangerate->rates) ?></td>
                     <td><?= $exchangerate->isactived == 1 ? '<span class="badge bg-success-transparent">Actif</span>' : '<span class="badge bg-danger-transparent">Expiré</span>' ?></td>
-                    <td><?= h($exchangerate->created) ?></td>
-                    <td><?= h($exchangerate->createdby) ?></td>
+                    <td><?= h($exchangerate->modified) ?></td>
+                    <td><?= h($exchangerate->modifiedby) ?></td>
                     <td class="text-end">
-                        <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $exchangerate->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-check-double-line"></i>'), ['action' => 'activate', $exchangerate->id], ['class' => 'btn btn-outline-success btn-sm', 'escape' => false]) ?>
                         <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $exchangerate->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
                         <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $exchangerate->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                     </td>

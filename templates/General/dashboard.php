@@ -27,7 +27,7 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
             </div>
             <div class="min-w-fit-content">
                 <p class="mb-1">Taux d'échanges</p>
-                <h4 class="fw-medium mb-0">1$ = <?= GeneralController::getLatestExchangeRates() ?></h4>
+                <h4 class="fw-medium mb-0">1$ = <?= GeneralController::getLatestExchangeRate() ?></h4>
             </div>
             <div class="flex-1 text-sm-end mt-2 mt-sm-0 ms-auto">
                 <a href="javascript:void(0);" class="btn btn-w-lg btn-primary1-light"><i class="ti ti-plus me-1"></i>Details</a>
@@ -166,7 +166,7 @@ $totalQuantity = array_sum(array_column($salesStats, 'total_quantity'));
                     <div class="card-body">
                         <div class="d-flex align-items-start justify-content-between mb-2 gap-1 flex-xxl-nowrap flex-wrap">
                             <div>
-                                <span class="text-muted d-block mb-1 text-nowrap">Articles en rupture de stock</span>
+                                <span class="text-muted d-block mb-1 text-nowrap">Rupture de stock</span>
                                 <h4 class="fw-medium mb-0" id="avgClv"><?= count($lowStockItems) ?></h4>
                             </div>
                             <div class="lh-1">

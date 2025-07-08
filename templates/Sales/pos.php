@@ -226,7 +226,7 @@ $exchangesRates = GeneralController::getLatestExchangeRate();
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="text-muted">Sous Total</div>
                             <div class="fw-medium fs-14">
-                                <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $salesAmount ?>" readonly>
+                                <input id="SalesAmountBill" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $salesAmount ?>" readonly>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb-3">
@@ -302,7 +302,7 @@ $exchangesRates = GeneralController::getLatestExchangeRate();
                 row.find("#item-subtotal").text(subtotal);
 
                 let vat = (subtotal * 15) / 100;
-                let total = subtotal + vat;
+                let total = subtotal;
 
                 // Send AJAX request to update the quantity and subtotal
                 $.ajax({
@@ -323,8 +323,10 @@ $exchangesRates = GeneralController::getLatestExchangeRate();
                             console.log(parsedResponse); // Log the parsed response
 
                             $("#subtotal").val(parsedResponse.subtotal);
+                            $("#SalesAmountBill").val(parsedResponse.subtotal);
                             $("#vat").val(parsedResponse.vat);
                             $("#total").val(parsedResponse.total);
+                            $("#TotalBill").val(parsedResponse.total);
                         } catch (e) {
                             console.error('Error parsing JSON response:', e);
                             alert("Error parsing response");
