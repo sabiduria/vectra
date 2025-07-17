@@ -11,14 +11,15 @@
         <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path> </svg>
     </div>
     <ul class="main-menu">
-        <!-- Start::slide__category -->
-        <li class="slide__category"><span class="category-name">Main</span></li>
-        <!-- End::slide__category -->
-
         <!-- Start::slide -->
-        <li class="slide">
-            <?= $this->Html->link('<i class="fa-thin fa-chart-waterfall w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Tableau de bord</span>', ['controller' => '/'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
-        </li>
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'DASH', 'VIEW')) :?>
+            <!-- Start::slide__category -->
+            <li class="slide__category"><span class="category-name">Main</span></li>
+            <!-- End::slide__category -->
+            <li class="slide">
+                <?= $this->Html->link('<i class="fa-thin fa-chart-waterfall w-6 h-6 side-menu__icon"></i><span class="side-menu__label">Tableau de bord</span>', ['controller' => '/'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+            </li>
+        <?php endif; ?>
         <!-- End::slide -->
 
         <!-- Start::slide -->

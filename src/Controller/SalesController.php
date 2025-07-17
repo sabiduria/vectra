@@ -5,7 +5,9 @@ namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\Http\Exception\InternalErrorException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\I18n\DateTime;
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Table;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Log\Log;
@@ -38,7 +40,25 @@ class SalesController extends AppController
      */
     public function index()
     {
+        $session = $this->request->getSession();
+
+        if ($session->read('Auth.ProfileId') == 2 || $session->read('Auth.ProfileId') == 3)
+            return $this->redirect(['controller' => 'sales', 'action' => 'sales']);
+
         $query = $this->Sales->find()->where(['Sales.deleted' => 0])
+            ->contain(['Users', 'Customers', 'Statuses'])->orderByDesc('Sales.id');
+        $sales = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000,]);
+
+        $this->set(compact('sales'));
+    }
+
+    public function sales()
+    {
+        $today = FrozenDate::today();
+        $query = $this->Sales->find()->where([
+            'Sales.deleted' => 0,
+            'DATE(Sales.created)' => $today->format('Y-m-d')
+        ])
             ->contain(['Users', 'Customers', 'Statuses'])->orderByDesc('Sales.id');
         $sales = $this->paginate($query, ['limit' => 10000, 'maxLimit' => 10000,]);
 
@@ -311,9 +331,6 @@ class SalesController extends AppController
 
         if ($this->Sales->save($sale)) {
             try {
-                //$print = new PrinterService();
-                //$print->printLabel($this->getFormattedSalesItems($salesId), $salesId);
-
                 $this->reduceStockFromSale($salesId);
 
                 $this->request->getSession()->delete('SalesId');
@@ -324,6 +341,47 @@ class SalesController extends AppController
             return $this->redirect(['action' => 'pos']);
         }
         $this->Flash->error(__('The sale could not be saved. Please, try again.'));
+    }
+
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        // Disable CSRF for the print action
+        if ($this->request->getParam('action') === 'print') {
+            $this->getEventManager()->off($this->Csrf);
+        }
+    }
+
+    public function print($salesId): void
+    {
+        $this->request->allowMethod(['post', 'ajax']);
+
+        if (!$this->Sales->exists(['id' => $salesId])) {
+            throw new NotFoundException('Sales record not found.');
+        }
+
+        try {
+            $print = new PrinterService();
+
+            $connectionStatus = $print->getHandle();
+
+            if ($connectionStatus['status'] === 'error') {
+                // If printer connection failed, return the error message
+                $response = ['status' => 'error', 'message' => $connectionStatus['message']];
+            } else {
+                // Proceed with printing if the printer is connected
+                $print->printLabel($this->getFormattedSalesItems($salesId), $salesId);
+                $response = ['status' => 'success', 'message' => 'Print job sent successfully.'];
+            }
+
+        } catch (Exception $e) {
+            $response = ['status' => 'error', 'message' => $e->getMessage()];
+        }
+
+        $this->viewBuilder()->setClassName('Json');
+        $this->set(compact('response'));
+        $this->viewBuilder()->setOption('serialize', ['response']);
     }
 
     public function getFormattedSalesItems($sale_id): array

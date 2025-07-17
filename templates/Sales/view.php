@@ -74,9 +74,41 @@ $this->set('menu_sales', 'active open');
                                 <?php endforeach; ?>
                             </table>
                         </div>
+
+                        <div class="text-end">
+                            <button class="print-btn btn btn-success btn-sm mt-3">Imprimer</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on('click', '.print-btn', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '<?= $this->Url->build(["controller" => 'Sales', 'action' => 'print', $sale->id]) ?>',
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrfToken"]').attr('content') // Include CSRF token
+            },
+            success: function (data) {
+                if (data.response.status === 'success') {
+                    alert('Print job sent successfully.');
+                } else {
+                    alert('Error: ' + (data.message || 'Unknown error'));
+                    //alert('Error: ' + data.response.message);
+                }
+            },
+            error: function (xhr) {
+                alert('AJAX Error: ' + xhr.statusText);
+            }
+        });
+    });
+</script>

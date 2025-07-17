@@ -177,7 +177,12 @@ class AffectationsController extends AppController
                 $session->write('Auth.ProfileId', $detail['profile_id']);
             }
 
-            return $this->redirect(['controller' => 'general', 'action' => 'dashboard']);
+            if ($detail['profile_id'] == 1)
+                return $this->redirect(['controller' => 'general', 'action' => 'dashboard']);
+            elseif ($detail['profile_id'] == 2 || $detail['profile_id'] == 3)
+                return $this->redirect(['controller' => 'sales', 'action' => 'sales']);
+            else
+                return $this->redirect(['controller' => 'affectations', 'action' => 'chooser']);
         }
     }
 

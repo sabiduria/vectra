@@ -18,8 +18,13 @@ class GeneralController extends AppController
     /**
      * @return void
      */
-    public function dashboard(): void
+    public function dashboard()
     {
+        $session = $this->request->getSession();
+
+        if ($session->read('Auth.ProfileId') == 2 || $session->read('Auth.ProfileId') == 3)
+            return $this->redirect(['controller' => 'sales', 'action' => 'sales']);
+
         $request = new ServerRequest();
         $this->viewBuilder()->setLayout('dashboard');
         self::performanceMetrics();

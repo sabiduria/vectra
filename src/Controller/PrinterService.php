@@ -48,7 +48,8 @@ class PrinterService
             $this->handle = fopen($printer_name, 'w');
 
             if (!$this->handle) {
-                throw new RuntimeException('Cannot connect to printer');
+                //throw new RuntimeException('Cannot connect to printer');
+                return ['status' => 'error', 'message' => 'Cannot connect to printer'];
             }
         }
 
