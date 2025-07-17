@@ -114,6 +114,10 @@ class EquipmentsTable extends Table
             ->allowEmptyString('maximum_fuel');
 
         $validator
+            ->numeric('minimum_fuel')
+            ->allowEmptyString('minimum_fuel');
+
+        $validator
             ->boolean('tracked_fuel')
             ->allowEmptyString('tracked_fuel');
 

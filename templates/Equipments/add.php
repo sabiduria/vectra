@@ -43,6 +43,9 @@ $emptyText = "Veuillez selectionner";
                 <?= $this->Form->control('maximum_fuel', ['class' => 'form-control', 'label' => 'maximum_fuel']); ?>
             </div>
             <div class="col-xl-12">
+                <?= $this->Form->control('minimum_fuel', ['class' => 'form-control', 'label' => 'minimum_fuel']); ?>
+            </div>
+            <div class="col-xl-12">
                 <?= $this->Form->control('tracked_fuel', ['class' => 'form-control', 'label' => 'tracked_fuel']); ?>
             </div>
         </div>

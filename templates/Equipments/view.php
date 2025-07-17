@@ -51,6 +51,10 @@
                     <td><?= $equipment->maximum_fuel === null ? '' : $this->Number->format($equipment->maximum_fuel) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Minimum Fuel') ?></th>
+                    <td><?= $equipment->minimum_fuel === null ? '' : $this->Number->format($equipment->minimum_fuel) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Purchase Date') ?></th>
                     <td><?= h($equipment->purchase_date) ?></td>
                 </tr>

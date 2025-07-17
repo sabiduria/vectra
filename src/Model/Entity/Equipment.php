@@ -20,6 +20,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Date|null $next_maintenance_date
  * @property int|null $maintenance_frequency
  * @property float|null $maximum_fuel
+ * @property float|null $minimum_fuel
  * @property bool|null $tracked_fuel
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
@@ -53,6 +54,7 @@ class Equipment extends Entity
         'next_maintenance_date' => true,
         'maintenance_frequency' => true,
         'maximum_fuel' => true,
+        'minimum_fuel' => true,
         'tracked_fuel' => true,
         'created' => true,
         'modified' => true,

@@ -27,6 +27,7 @@ $emptyText = "Veuillez selectionner";
                     <th><?= $this->Paginator->sort('next_maintenance_date') ?></th>
                     <th><?= $this->Paginator->sort('maintenance_frequency') ?></th>
                     <th><?= $this->Paginator->sort('maximum_fuel') ?></th>
+                    <th><?= $this->Paginator->sort('minimum_fuel') ?></th>
                     <th><?= $this->Paginator->sort('tracked_fuel') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
@@ -52,6 +53,7 @@ $emptyText = "Veuillez selectionner";
                     <td><?= h($equipment->next_maintenance_date) ?></td>
                     <td><?= $equipment->maintenance_frequency === null ? '' : $this->Number->format($equipment->maintenance_frequency) ?></td>
                     <td><?= $equipment->maximum_fuel === null ? '' : $this->Number->format($equipment->maximum_fuel) ?></td>
+                    <td><?= $equipment->minimum_fuel === null ? '' : $this->Number->format($equipment->minimum_fuel) ?></td>
                     <td><?= h($equipment->tracked_fuel) ?></td>
                     <td><?= h($equipment->created) ?></td>
                     <td><?= h($equipment->modified) ?></td>
@@ -114,6 +116,9 @@ $emptyText = "Veuillez selectionner";
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('maximum_fuel', ['class' => 'form-control', 'label' => 'maximum_fuel']); ?>
+            </div>
+            <div class="col-xl-12">
+                <?= $this->Form->control('minimum_fuel', ['class' => 'form-control', 'label' => 'minimum_fuel']); ?>
             </div>
             <div class="col-xl-12">
                 <?= $this->Form->control('tracked_fuel', ['class' => 'form-control', 'label' => 'tracked_fuel']); ?>

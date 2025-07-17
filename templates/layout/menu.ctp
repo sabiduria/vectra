@@ -342,6 +342,35 @@
         <!-- End::slide -->
 
         <?php if (AccessrightsController::checkRightsOn($profile_id, 'RPT', 'VIEW')) :?>
+            <!-- Start::slide__category -->
+            <li class="slide__category"><span class="category-name">Equipements & Maintenances</span></li>
+            <!-- End::slide__category -->
+        <?php endif; ?>
+
+        <!-- Start::slide -->
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'PRMT', 'VIEW')) :?>
+            <li class="slide has-sub <?= $menu_parameters ?? '' ?>">
+                <a href="javascript:void(0);" class="side-menu__item">
+                    <i class="ri-arrow-down-s-line side-menu__angle"></i>
+                    <i class="fa-thin fa-gear w-6 h-6 side-menu__icon"></i>
+                    <span class="side-menu__label">Equipments</span>
+                </a>
+                <ul class="slide-menu child1">
+                    <li class="slide">
+                        <?= $this->Html->link('Listes', ['controller' => 'equipments', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Maintenances', ['controller' => 'maintenance_records', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                    <li class="slide">
+                        <?= $this->Html->link('Gestion Carburant', ['controller' => 'fuel_levels', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                    </li>
+                </ul>
+            </li>
+        <?php endif; ?>
+        <!-- End::slide -->
+
+        <?php if (AccessrightsController::checkRightsOn($profile_id, 'RPT', 'VIEW')) :?>
         <!-- Start::slide__category -->
         <li class="slide__category"><span class="category-name">Rapports & Paramètres</span></li>
         <!-- End::slide__category -->
