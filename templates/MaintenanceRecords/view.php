@@ -3,86 +3,73 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\MaintenanceRecord $maintenanceRecord
  */
- $this->set('title_2', 'Maintenance Records');
+ $this->set('title_2', 'Maintenances');
 ?>
 <div class="row">
     <div class="column column-80">
         <div class="maintenanceRecords view content">
-            <h3><?= h($maintenanceRecord->id) ?></h3>
-            <table class="table">
-                <tr>
-                    <th><?= __('Maintenance Type') ?></th>
-                    <td><?= h($maintenanceRecord->maintenance_type) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Equipment') ?></th>
-                    <td><?= $maintenanceRecord->hasValue('equipment') ? $this->Html->link($maintenanceRecord->equipment->name, ['controller' => 'Equipments', 'action' => 'view', $maintenanceRecord->equipment->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Maintenance Status') ?></th>
-                    <td><?= h($maintenanceRecord->maintenance_status) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Createdby') ?></th>
-                    <td><?= h($maintenanceRecord->createdby) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modifiedby') ?></th>
-                    <td><?= h($maintenanceRecord->modifiedby) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($maintenanceRecord->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Cost') ?></th>
-                    <td><?= $maintenanceRecord->cost === null ? '' : $this->Number->format($maintenanceRecord->cost) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Downtime Hours') ?></th>
-                    <td><?= $maintenanceRecord->downtime_hours === null ? '' : $this->Number->format($maintenanceRecord->downtime_hours) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Scheduled Date') ?></th>
-                    <td><?= h($maintenanceRecord->scheduled_date) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Completion Date') ?></th>
-                    <td><?= h($maintenanceRecord->completion_date) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($maintenanceRecord->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($maintenanceRecord->modified) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Deleted') ?></th>
-                    <td><?= $maintenanceRecord->deleted ? __('Yes') : __('No'); ?></td>
-                </tr>
-            </table>
-            <div class="text">
-                <strong><?= __('Description') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($maintenanceRecord->description)); ?>
-                </blockquote>
+            <h3>Maintenance de (d') <?= h($maintenanceRecord->equipment->name) ?></h3>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table">
+                        <tr>
+                            <th><?= __('Maintenance Type') ?></th>
+                            <td><?= h($maintenanceRecord->maintenance_type) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Status') ?></th>
+                            <td><?= h($maintenanceRecord->maintenance_status) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Cout') ?></th>
+                            <td><?= $maintenanceRecord->cost === null ? '' : $this->Number->format($maintenanceRecord->cost) ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-6">
+                    <table class="table">
+                        <tr>
+                            <th><?= __('Maintenance Type') ?></th>
+                            <td><?= h($maintenanceRecord->maintenance_type) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Status') ?></th>
+                            <td><?= h($maintenanceRecord->maintenance_status) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Cout') ?></th>
+                            <td><?= $maintenanceRecord->cost === null ? '' : $this->Number->format($maintenanceRecord->cost) ?></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="text">
-                <strong><?= __('Findings') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($maintenanceRecord->findings)); ?>
-                </blockquote>
+
+            <div class="row">
+                <div class="text">
+                    <strong><?= __('Description') ?></strong>
+                    <blockquote>
+                        <?= $this->Text->autoParagraph(h($maintenanceRecord->description)); ?>
+                    </blockquote>
+                </div>
+                <div class="text">
+                    <strong><?= __('Constats') ?></strong>
+                    <blockquote>
+                        <?= $this->Text->autoParagraph(h($maintenanceRecord->findings)); ?>
+                    </blockquote>
+                </div>
+                <div class="text">
+                    <strong><?= __('Recommendations') ?></strong>
+                    <blockquote>
+                        <?= $this->Text->autoParagraph(h($maintenanceRecord->recommendations)); ?>
+                    </blockquote>
+                </div>
             </div>
-            <div class="text">
-                <strong><?= __('Recommendations') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($maintenanceRecord->recommendations)); ?>
-                </blockquote>
-            </div>
+
+            <hr>
+
             <div class="related">
-                <h4><?= __('Related Maintenance Tasks') ?></h4>
+                <h4><?= __('Tâches') ?></h4>
                 <?php if (!empty($maintenanceRecord->maintenance_tasks)) : ?>
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -125,7 +112,7 @@
                 <?php endif; ?>
             </div>
             <div class="related">
-                <h4><?= __('Related Parts Useds') ?></h4>
+                <h4><?= __('Outils utilisés') ?></h4>
                 <?php if (!empty($maintenanceRecord->parts_useds)) : ?>
                 <div class="table-responsive">
                     <table class="table table-bordered">

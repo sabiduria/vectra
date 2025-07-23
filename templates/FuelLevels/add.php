@@ -4,17 +4,17 @@
  * @var \App\Model\Entity\FuelLevel $fuelLevel
  * @var \Cake\Collection\CollectionInterface|string[] $equipments
  */
-$this->set('title_2', 'Fuel Levels');
+$this->set('title_2', 'Niveau Carburant');
 $emptyText = "Veuillez selectionner";
 ?>
 <div class="mt-3">
     <?= $this->Form->create($fuelLevel) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
-                <?= $this->Form->control('equipment_id', ['options' => $equipments, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'equipment_id']); ?>
+                <?= $this->Form->control('equipment_id', ['options' => $equipments, 'empty' => $emptyText, 'class' => 'form-select js-example-basic-single', 'label' => 'Equipement']); ?>
             </div>
             <div class="col-xl-12">
-                <?= $this->Form->control('current_level', ['class' => 'form-control', 'label' => 'current_level']); ?>
+                <?= $this->Form->control('current_level', ['class' => 'form-control', 'label' => 'Niveau Actuel']); ?>
             </div>
         </div>
         <div class="mt-3 mb-3">
