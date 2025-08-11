@@ -141,38 +141,51 @@ $exchangesRates = GeneralController::getLatestExchangeRate();
                         <?php endif; ?>
                     </ul>
 
-                    <div class="p-3 border-bottom border-block-end-dashed">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="text-muted">Sous Total</div>
-                            <div class="fw-medium fs-14">
-                                <input id="subtotal" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $salesAmount ?>" readonly>
+                    <?= $this->Form->create(null, ['id' => 'DataForm', 'action' => 'updateBill']);?>
+                        <div class="p-3 border-bottom border-block-end-dashed">
+                            <div class="row gy-2">
+                                <div class="col-xl-12">
+                                    <?= $this->Form->control('client_code', ['class' => 'form-control', 'label' => 'Code du Client']); ?>
+                                </div>
+                                <div class="col-xl-12">
+                                    <?= $this->Form->control('client_name', ['class' => 'form-control', 'label' => 'Nom du Client', 'readonly']); ?>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="text-muted">Sous Total</div>
+                                <div class="fw-medium fs-14">
+                                    <input id="subtotal" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $salesAmount ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="text-muted">Remise</div>
+                                <div class="fw-medium fs-14">
+                                    <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="0" readonly>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="text-muted">TVA (15%)</div>
+                                <div class="fw-medium fs-14">
+                                    <input id="vat" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $vat ?>" readonly>
+                                </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="text-muted">Remise</div>
-                            <div class="fw-medium fs-14">
-                                <input type="text" class="form-control form-control-light" placeholder="Enter Amount" value="0" readonly>
+                        <div class="p-3">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="fs-15">Total :</div>
+                                <div class="fw-semibold fs-16 text-dark">
+                                    <input id="total" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $total ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 mt-4">
+                                <a href="javascript:void(0);" class="btn btn-primary1-light btn-wave flex-fill waves-effect waves-light">Annuler la facture</a>
+                                <?= $this->Form->button(__('Valider la facture'), ['class'=>'btn btn-primary btn-wave flex-fill waves-effect waves-light']) ?>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="text-muted">TVA (15%)</div>
-                            <div class="fw-medium fs-14">
-                                <input id="vat" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $vat ?>" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="fs-15">Total :</div>
-                            <div class="fw-semibold fs-16 text-dark">
-                                <input id="total" type="text" class="form-control form-control-light" placeholder="Enter Amount" value="<?= $total ?>" readonly>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-3 mt-4">
-                            <a href="javascript:void(0);" class="btn btn-primary1-light btn-wave flex-fill waves-effect waves-light">Annuler la facture</a>
-                            <button class="btn btn-primary btn-wave flex-fill waves-effect waves-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#NewItem" aria-controls="NewItem">Valider la facture</button>
-                        </div>
-                    </div>
+                    <?= $this->Form->end() ?>
                 </div>
             </div>
         </div>

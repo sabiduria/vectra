@@ -43,8 +43,9 @@ class PrinterService
 
     public function getHandle(): mixed
     {
+        $printer = GeneralParamsController::getData('printer_name');
         if (!$this->handle) {
-            $printer_name = '\\\\localhost\\XprinterX80C';
+            $printer_name = '\\\\localhost\\' . $printer;
             $this->handle = fopen($printer_name, 'w');
 
             if (!$this->handle) {
@@ -100,8 +101,8 @@ class PrinterService
             '%-25s %10s %10s %10s',
             substr($article, 0, 20),  // Article (max 20 chars)
             $qty . ' | ',                     // Quantity
-            number_format($price, 2) . ' | ', // Price
-            number_format($total, 2)  // Total
+            number_format($price, 2), // Price
+            ' | '. number_format($total, 2)  // Total
         );
 
         $this->formatText($line . "\n", ['left', 'font_b']);
@@ -149,15 +150,15 @@ class PrinterService
             }
 
             $orderTotal = $this->getOrderTotal($products);
-            $tax = $orderTotal * 0.1;
-            $totalWithTax = $orderTotal + $tax;
+            $tax = $orderTotal * 0.15;
+            //$totalWithTax = $orderTotal + $tax;
 
             // Order total
             $this->formatText("\n", ['left']);
             $this->formatText("-----------------------------------------------\n", ['left']);
             $this->formatText('SUB TOTAL: ' . number_format($orderTotal, 2) . "\n", ['right']);
-            $this->formatText('TAX (10%): ' . number_format($tax, 2) . "\n", ['right']);
-            $this->formatText('TOTAL: ' . number_format($totalWithTax, 2) . "\n", ['right', 'bold_on']);
+            $this->formatText('TAX (15%): ' . number_format($tax, 2) . "\n", ['right']);
+            $this->formatText('TOTAL: ' . number_format($orderTotal, 2) . "\n", ['right', 'bold_on']);
 
             // Client Information
             $this->formatText("-----------------------------------------------\n", ['left']);
@@ -172,13 +173,13 @@ class PrinterService
             $this->formatText("Merci pour votre achat!\n", ['center', 'font_b']);
             $this->formatText("Ouvert du Lundi au Dimanche de 07H30 a 15H00\n", ['center', 'font_b']);
             $this->formatText("La marchandise vendue n'est ni remise ni echangee\n\n", ['center', 'font_b']);
-            $this->formatText("www.hopa-investments.com\n", ['center', 'font_b']);
+            $this->formatText("www.lahopainvestments.com\n", ['center', 'font_b']);
 
             // Add some empty space and cut
             fwrite($handle, $this->commands['feed'][0]);
             fwrite($handle, $this->commands['cut'][0]);
 
-            echo 'Receipt printed successfully!';
+            //echo 'Receipt printed successfully!';
         } finally {
             $this->closeHandle();
         }

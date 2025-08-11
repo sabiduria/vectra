@@ -11,6 +11,9 @@ $emptyText = "Veuillez selectionner";
     <?= $this->Form->create($generalParam) ?>
         <div class="row gy-2">
             <div class="col-xl-12">
+                <?= $this->Form->control('business_name', ['class' => 'form-control', 'label' => 'Denomination Sociale']); ?>
+            </div>
+            <div class="col-xl-12">
                 <?= $this->Form->control('rccm', ['class' => 'form-control', 'label' => 'rccm']); ?>
             </div>
             <div class="col-xl-12">

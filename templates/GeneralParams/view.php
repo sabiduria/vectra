@@ -15,6 +15,12 @@
             <table class="table">
                 <tr>
                     <th style="width: 20%">
+                        <strong><?= __('Denomination Sociale') ?></strong>
+                    </th>
+                    <td><?= h($generalParam->business_name) ?></td>
+                </tr>
+                <tr>
+                    <th style="width: 20%">
                         <strong><?= __('RCCM') ?></strong>
                     </th>
                     <td><?= h($generalParam->rccm) ?></td>

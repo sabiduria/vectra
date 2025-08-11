@@ -55,6 +55,11 @@ class GeneralParamsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('business_name')
+            ->maxLength('business_name', 100)
+            ->allowEmptyString('business_name');
+
+        $validator
             ->scalar('rccm')
             ->maxLength('rccm', 100)
             ->allowEmptyString('rccm');
@@ -82,6 +87,14 @@ class GeneralParamsTable extends Table
         $validator
             ->numeric('growth')
             ->allowEmptyString('growth');
+
+        $validator
+            ->numeric('whole_sale_price_percent')
+            ->allowEmptyString('whole_sale_price_percent');
+
+        $validator
+            ->numeric('special_price_percent')
+            ->allowEmptyString('special_price_percent');
 
         $validator
             ->scalar('createdby')

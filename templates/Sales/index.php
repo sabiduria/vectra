@@ -19,8 +19,8 @@ $this->set('menu_sales', 'active open');
                     <th><?= $this->Paginator->sort('N°') ?></th>
                     <th><?= $this->Paginator->sort('Ref.') ?></th>
                     <th><?= $this->Paginator->sort('Client') ?></th>
-                    <th><?= $this->Paginator->sort('Articles') ?></th>
-                    <th><?= $this->Paginator->sort('Quantité') ?></th>
+                    <!--th><?= $this->Paginator->sort('Articles') ?></th-->
+                    <!--th><?= $this->Paginator->sort('Quantité') ?></th-->
                     <th><?= $this->Paginator->sort('Total') ?></th>
                     <th><?= $this->Paginator->sort('Status') ?></th>
                     <th><?= $this->Paginator->sort('Caissier') ?></th>
@@ -34,8 +34,8 @@ $this->set('menu_sales', 'active open');
                     <td><?= $Number++ ?></td>
                     <td><?= h($sale->reference) ?></td>
                     <td><?= $sale->hasValue('customer') ? $this->Html->link($sale->customer->name, ['controller' => 'Customers', 'action' => 'view', $sale->customer->id]) : '<span class="badge bg-primary3-transparent">Ordinaire</span>' ?></td>
-                    <td><?= GeneralController::getSalesItemsNumber($sale->id) ?></td>
-                    <td><?= GeneralController::getSalesItemsQuantity($sale->id) ?></td>
+                    <!--td><?= GeneralController::getSalesItemsNumber($sale->id) ?></td-->
+                    <!--td><?= GeneralController::getSalesItemsQuantity($sale->id) ?></td-->
                     <td><?= $sale->total_amount === null ? '' : $this->Number->format($sale->total_amount) ?></td>
                     <td><?= $sale->status->name ?></td>
                     <td><?= $sale->hasValue('user') ? $this->Html->link($sale->user->username, ['controller' => 'Users', 'action' => 'view', $sale->user->id]) : '' ?></td>

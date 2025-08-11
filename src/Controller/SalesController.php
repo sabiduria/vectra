@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Datasource\ConnectionManager;
+use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\InternalErrorException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\I18n\DateTime;
@@ -75,7 +76,21 @@ class SalesController extends AppController
     public function view(?string $id = null)
     {
         $sale = $this->Sales->get($id, contain: ['Users', 'Customers', 'Statuses', 'Salesitems']);
-        $this->set(compact('sale'));
+        $salesAmount = GeneralController::getSalesAmount($id);
+        $vat = $salesAmount * 15 / 100;
+        $discount = 0;
+        $total = $salesAmount - $discount;
+        $this->set(compact('sale', 'salesAmount', 'vat', 'total'));
+    }
+
+    public function viewadmin(?string $id = null)
+    {
+        $sale = $this->Sales->get($id, contain: ['Users', 'Customers', 'Statuses', 'Salesitems']);
+        $salesAmount = GeneralController::getSalesAmount($id);
+        $vat = $salesAmount * 15 / 100;
+        $discount = 0;
+        $total = $salesAmount - $discount;
+        $this->set(compact('sale', 'salesAmount', 'vat', 'total'));
     }
 
     /**
@@ -343,45 +358,31 @@ class SalesController extends AppController
         $this->Flash->error(__('The sale could not be saved. Please, try again.'));
     }
 
-    public function beforeFilter(\Cake\Event\EventInterface $event)
-    {
-        parent::beforeFilter($event);
 
-        // Disable CSRF for the print action
-        if ($this->request->getParam('action') === 'print') {
-            $this->getEventManager()->off($this->Csrf);
-        }
-    }
 
-    public function print($salesId): void
+    public function print($id = null)
     {
         $this->request->allowMethod(['post', 'ajax']);
+        $this->autoRender = false;
 
-        if (!$this->Sales->exists(['id' => $salesId])) {
-            throw new NotFoundException('Sales record not found.');
+        if (!$id) {
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode(['success' => false, 'error' => 'Missing ID']));
         }
 
         try {
-            $print = new PrinterService();
+            $printerService = new PrinterService();
+            $printerService->printLabel($this->getFormattedSalesItems($id), $id);
 
-            $connectionStatus = $print->getHandle();
-
-            if ($connectionStatus['status'] === 'error') {
-                // If printer connection failed, return the error message
-                $response = ['status' => 'error', 'message' => $connectionStatus['message']];
-            } else {
-                // Proceed with printing if the printer is connected
-                $print->printLabel($this->getFormattedSalesItems($salesId), $salesId);
-                $response = ['status' => 'success', 'message' => 'Print job sent successfully.'];
-            }
-
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode(['success' => true]));
         } catch (Exception $e) {
-            $response = ['status' => 'error', 'message' => $e->getMessage()];
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode([
+                    'success' => false,
+                    'error' => $e->getMessage(),
+                ]));
         }
-
-        $this->viewBuilder()->setClassName('Json');
-        $this->set(compact('response'));
-        $this->viewBuilder()->setOption('serialize', ['response']);
     }
 
     public function getFormattedSalesItems($sale_id): array
@@ -393,7 +394,7 @@ class SalesController extends AppController
             ->select([
                 'product_name' => 'Products.name',
                 'quantity' => 'Salesitems.qty',
-                'total' => 'Salesitems.subtotal'
+                'total' => 'Salesitems.subtotal',
             ])
             ->contain(['Products'])
             ->where(['Salesitems.sale_id' => $sale_id])
@@ -405,7 +406,7 @@ class SalesController extends AppController
             $formattedItems[] = [
                 $item->product_name,
                 (int)$item->quantity,
-                (float)$item->total
+                (float)$item->total,
             ];
         }
 

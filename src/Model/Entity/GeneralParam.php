@@ -9,12 +9,15 @@ use Cake\ORM\Entity;
  * GeneralParam Entity
  *
  * @property int $id
+ * @property string|null $business_name
  * @property string|null $rccm
  * @property string|null $idnat
  * @property string|null $impot
  * @property string|null $printer_name
  * @property string|null $printer_ip
  * @property float|null $growth
+ * @property float|null $whole_sale_price_percent
+ * @property float|null $special_price_percent
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string|null $createdby
@@ -33,12 +36,15 @@ class GeneralParam extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'business_name' => true,
         'rccm' => true,
         'idnat' => true,
         'impot' => true,
         'printer_name' => true,
         'printer_ip' => true,
         'growth' => true,
+        'whole_sale_price_percent' => true,
+        'special_price_percent' => true,
         'created' => true,
         'modified' => true,
         'createdby' => true,

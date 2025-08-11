@@ -47,7 +47,8 @@ $username = $session->read('Auth.Username');
         'libs/choices.js/public/assets/styles/choices.min.css',
         'libs/flatpickr/flatpickr.min.css',
         'libs/@tarekraafat/autocomplete.js/css/autoComplete.css',
-        'libs/flatpickr/flatpickr.min.css'
+        'libs/flatpickr/flatpickr.min.css',
+        'libs/toastify-js/src/toastify.css',
     ]) ?>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
@@ -174,6 +175,7 @@ $username = $session->read('Auth.Username');
     'select2.js',
     'custom-switcher.min.js',
     'custom.js',
+    'libs/toastify-js/src/toastify.js',
 ]) ?>
 <!-- Datatables Cdn -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

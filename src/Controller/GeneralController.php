@@ -109,6 +109,17 @@ class GeneralController extends AppController
         return null;
     }
 
+    public static function getValueOf($id, $value, $tableName): ?string
+    {
+        $table = TableRegistry::getTableLocator()->get($tableName)
+            ->find()
+            ->select([$value])
+            ->where(['id' => $id])
+            ->first();
+
+        return $table ? $table->$value : null;
+    }
+
     public static function getNameOf($id, $tableName): ?string
     {
         $table = TableRegistry::getTableLocator()->get($tableName)
