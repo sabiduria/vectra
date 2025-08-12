@@ -91,9 +91,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($inventory->created) ?></td>
                             <td><?= h($inventory->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Inventories', 'action' => 'view', $inventory->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Inventories', 'action' => 'edit', $inventory->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Inventories', 'action' => 'delete', $inventory->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Inventories', 'action' => 'view', $inventory->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Inventories', 'action' => 'edit', $inventory->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Inventories', 'action' => 'delete', $inventory->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -129,9 +129,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($ordersitem->created) ?></td>
                             <td><?= h($ordersitem->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Ordersitems', 'action' => 'view', $ordersitem->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Ordersitems', 'action' => 'edit', $ordersitem->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Ordersitems', 'action' => 'delete', $ordersitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'view', $ordersitem->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'edit', $ordersitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'delete', $ordersitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -167,8 +167,8 @@ $this->set('title_2', 'Articles');
                             <td><?= h($pricing->created) ?></td>
                             <td><?= h($pricing->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Pricings', 'action' => 'edit', $pricing->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Pricings', 'action' => 'delete', $pricing->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Pricings', 'action' => 'edit', $pricing->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Pricings', 'action' => 'delete', $pricing->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -202,9 +202,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($promotionsproduct->created) ?></td>
                             <td><?= h($promotionsproduct->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Details'), ['controller' => 'Promotionsproducts', 'action' => 'view', $promotionsproduct->id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Promotionsproducts', 'action' => 'edit', $promotionsproduct->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Promotionsproducts', 'action' => 'delete', $promotionsproduct->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'view', $promotionsproduct->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'edit', $promotionsproduct->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'delete', $promotionsproduct->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -236,9 +236,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($purchasesitem->created) ?></td>
                             <td><?= h($purchasesitem->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Voir le bon'), ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase_id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Purchasesitems', 'action' => 'edit', $purchasesitem->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Purchasesitems', 'action' => 'delete', $purchasesitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase_id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Purchasesitems', 'action' => 'edit', $purchasesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Purchasesitems', 'action' => 'delete', $purchasesitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -276,9 +276,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($salesitem->modified) ?></td>
                             <td><?= h($salesitem->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Voir la facture'), ['controller' => 'Sales', 'action' => 'view', $salesitem->sale_id], ['class' => 'btn btn-success btn-sm']) ?>
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Sales', 'action' => 'view', $salesitem->sale_id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -293,7 +293,7 @@ $this->set('title_2', 'Articles');
                 <h6><?= __('Stocks') ?></h6>
                 <?php if (!empty($product->shopstocks)) : ?>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="scroll-vertical">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Chambre') ?></th>
@@ -316,8 +316,8 @@ $this->set('title_2', 'Articles');
                             <td><?= h($shopstock->created) ?></td>
                             <td><?= h($shopstock->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Shopstocks', 'action' => 'edit', $shopstock->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Shopstocks', 'action' => 'delete', $shopstock->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Shopstocks', 'action' => 'edit', $shopstock->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Shopstocks', 'action' => 'delete', $shopstock->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -349,8 +349,8 @@ $this->set('title_2', 'Articles');
                             <td><?= h($spoilage->created) ?></td>
                             <td><?= h($spoilage->createdby) ?></td>
                             <td class="text-end">
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Spoilages', 'action' => 'edit', $spoilage->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Spoilages', 'action' => 'delete', $spoilage->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Spoilages', 'action' => 'edit', $spoilage->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Spoilages', 'action' => 'delete', $spoilage->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -392,9 +392,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($stockinsdetail->created) ?></td>
                             <td><?= h($stockinsdetail->createdby) ?></td>
                             <td class="text-end">
-                                <!--?= $this->Html->link(__('Details'), ['controller' => 'Stockinsdetails', 'action' => 'view', $stockinsdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Stockinsdetails', 'action' => 'edit', $stockinsdetail->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Stockinsdetails', 'action' => 'delete', $stockinsdetail->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <!--?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'view', $stockinsdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'edit', $stockinsdetail->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'delete', $stockinsdetail->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -426,9 +426,9 @@ $this->set('title_2', 'Articles');
                             <td><?= h($transfersdetail->created) ?></td>
                             <td><?= h($transfersdetail->createdby) ?></td>
                             <td class="text-end">
-                                <!--?= $this->Html->link(__('Details'), ['controller' => 'Transfersdetails', 'action' => 'view', $transfersdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
-                                <?= $this->Html->link(__('Editer'), ['controller' => 'Transfersdetails', 'action' => 'edit', $transfersdetail->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                                <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Transfersdetails', 'action' => 'delete', $transfersdetail->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                <!--?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'view', $transfersdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
+                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'edit', $transfersdetail->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'delete', $transfersdetail->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
