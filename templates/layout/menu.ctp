@@ -336,6 +336,9 @@
                 <li class="slide">
                     <?= $this->Html->link('Marchés', ['controller' => 'market-prospections', 'action' => 'index'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
                 </li>
+                <li class="slide">
+                    <?= $this->Html->link('Comparateur Prix', ['controller' => 'prospections', 'action' => 'comparator'], ['escape'=>false, 'class' => 'side-menu__item']) ?>
+                </li>
             </ul>
         </li>
         <?php endif; ?>

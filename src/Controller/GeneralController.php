@@ -1331,4 +1331,64 @@ WHERE id = :purchase_id",
             }
         }
     }
+
+    public static function getPriceComparison(): mixed
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute("WITH LatestCompetitorPrices AS (
+            SELECT
+                product_id,
+                packaging_id,
+                vendor,
+                price AS competitor_price,
+                whole_price AS competitor_whole_price,
+                special_price AS competitor_special_price,
+                ROW_NUMBER() OVER (PARTITION BY product_id, packaging_id, vendor ORDER BY created DESC) AS rn
+            FROM market_prospections
+            WHERE deleted = 0 OR deleted IS NULL
+        ),
+        CurrentMyPrices AS (
+            SELECT
+                product_id,
+                packaging_id,
+                unit_price AS my_price,
+                wholesale_price AS my_whole_price,
+                special_price AS my_special_price
+            FROM pricings
+            WHERE (deleted = 0 OR deleted IS NULL)
+            AND id IN (
+                SELECT MAX(id)
+                FROM pricings
+                WHERE (deleted = 0 OR deleted IS NULL)
+                GROUP BY product_id, packaging_id
+            )
+        )
+
+        SELECT
+            prod.name AS product_name,
+            pack.name AS packaging_name,
+            p.vendor,
+            m.my_price,
+            p.competitor_price,
+            (m.my_price - p.competitor_price) AS price_difference,
+            CASE
+                WHEN m.my_price < p.competitor_price THEN 'Moins cher'
+                WHEN m.my_price > p.competitor_price THEN 'Plus cher'
+                ELSE 'Même prix'
+            END AS price_comparison,
+            m.my_whole_price,
+            p.competitor_whole_price,
+            (m.my_whole_price - p.competitor_whole_price) AS whole_price_difference,
+            m.my_special_price,
+            p.competitor_special_price,
+            (m.my_special_price - p.competitor_special_price) AS special_price_difference,
+            ROUND((m.my_price - p.competitor_price) * 100.0 / NULLIF(p.competitor_price, 0), 2) AS price_difference_percentage
+        FROM LatestCompetitorPrices p
+        JOIN CurrentMyPrices m ON p.product_id = m.product_id AND p.packaging_id = m.packaging_id
+        JOIN products prod ON p.product_id = prod.id
+        JOIN packagings pack ON p.packaging_id = pack.id
+        WHERE p.rn = 1
+        ORDER BY p.vendor, prod.name, pack.name;");
+        return $stmt->fetchAll('assoc');
+    }
 }

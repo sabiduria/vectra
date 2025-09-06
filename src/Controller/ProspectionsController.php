@@ -163,4 +163,9 @@ class ProspectionsController extends AppController
             return $this->response->withStringBody(json_encode($response));
         }
     }
+
+    public function comparator()
+    {
+
+    }
 }
