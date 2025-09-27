@@ -70,302 +70,369 @@ $this->set('title_2', 'Articles');
 
             <hr>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Inventaires Manuels') ?></h6>
-                <?php if (!empty($product->inventories)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Qte') ?></th>
-                            <th><?= __('Periode') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->inventories as $inventory) : ?>
-                        <tr>
-                            <td><?= h($inventory->id) ?></td>
-                            <td><?= h($inventory->qty) ?></td>
-                            <td><?= h($inventory->inventory_period) ?></td>
-                            <td><?= h($inventory->created) ?></td>
-                            <td><?= h($inventory->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Inventories', 'action' => 'view', $inventory->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Inventories', 'action' => 'edit', $inventory->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Inventories', 'action' => 'delete', $inventory->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
+                <div class="text-end">
+                    <?= $this->Html->link(__('<i class="ri-add-circle-line"></i> Ajouter'), ['controller' => 'invproducts', 'action' => 'add'], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
                 </div>
+                <?php if (!empty($product->inventories)) : ?>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Qte') ?></th>
+                                <th><?= __('Periode') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->inventories as $inventory) : ?>
+                                <tr>
+                                    <td><?= h($inventory->id) ?></td>
+                                    <td><?= h($inventory->qty) ?></td>
+                                    <td><?= h($inventory->inventory_period) ?></td>
+                                    <td><?= h($inventory->created) ?></td>
+                                    <td><?= h($inventory->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Inventories', 'action' => 'view', $inventory->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Inventories', 'action' => 'edit', $inventory->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Inventories', 'action' => 'delete', $inventory->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Commandes') ?></h6>
                 <?php if (!empty($product->ordersitems)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Reference') ?></th>
-                            <th><?= __('Qte') ?></th>
-                            <th><?= __('Prix Unitaire') ?></th>
-                            <th><?= __('Total') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->ordersitems as $ordersitem) : ?>
-                        <tr>
-                            <td><?= h($ordersitem->id) ?></td>
-                            <td><?= GeneralController::getReferenceOf($ordersitem->order_id, 'Orders') ?></td>
-                            <td><?= h($ordersitem->qty) ?></td>
-                            <td><?= h($ordersitem->unit_price) ?></td>
-                            <td><?= h($ordersitem->subtotal) ?></td>
-                            <td><?= h($ordersitem->created) ?></td>
-                            <td><?= h($ordersitem->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'view', $ordersitem->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'edit', $ordersitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'delete', $ordersitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Reference') ?></th>
+                                <th><?= __('Qte') ?></th>
+                                <th><?= __('Prix Unitaire') ?></th>
+                                <th><?= __('Total') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->ordersitems as $ordersitem) : ?>
+                                <tr>
+                                    <td><?= h($ordersitem->id) ?></td>
+                                    <td><?= GeneralController::getReferenceOf($ordersitem->order_id, 'Orders') ?></td>
+                                    <td><?= h($ordersitem->qty) ?></td>
+                                    <td><?= h($ordersitem->unit_price) ?></td>
+                                    <td><?= h($ordersitem->subtotal) ?></td>
+                                    <td><?= h($ordersitem->created) ?></td>
+                                    <td><?= h($ordersitem->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'view', $ordersitem->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'edit', $ordersitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Ordersitems', 'action' => 'delete', $ordersitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Pricings') ?></h6>
                 <?php if (!empty($product->pricings)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Packaging') ?></th>
-                            <th><?= __('Price Unitaire') ?></th>
-                            <th><?= __('Prix de gros') ?></th>
-                            <th><?= __('Prix Special') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->pricings as $pricing) : ?>
-                        <tr>
-                            <td><?= h($pricing->id) ?></td>
-                            <td><?= GeneralController::getNameOf($pricing->packaging_id, 'Packagings') ?></td>
-                            <td><?= h($pricing->unit_price) ?></td>
-                            <td><?= h($pricing->wholesale_price) ?></td>
-                            <td><?= h($pricing->special_price) ?></td>
-                            <td><?= h($pricing->created) ?></td>
-                            <td><?= h($pricing->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Pricings', 'action' => 'edit', $pricing->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Pricings', 'action' => 'delete', $pricing->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Packaging') ?></th>
+                                <th><?= __('Price Unitaire') ?></th>
+                                <th><?= __('Prix de gros') ?></th>
+                                <th><?= __('Prix Special') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->pricings as $pricing) : ?>
+                                <tr>
+                                    <td><?= h($pricing->id) ?></td>
+                                    <td><?= GeneralController::getNameOf($pricing->packaging_id, 'Packagings') ?></td>
+                                    <td><?= h($pricing->unit_price) ?></td>
+                                    <td><?= h($pricing->wholesale_price) ?></td>
+                                    <td><?= h($pricing->special_price) ?></td>
+                                    <td><?= h($pricing->created) ?></td>
+                                    <td><?= h($pricing->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Pricings', 'action' => 'edit', $pricing->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Pricings', 'action' => 'delete', $pricing->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Promotions') ?></h6>
                 <?php if (!empty($product->promotionsproducts)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Pourcentage') ?></th>
-                            <th><?= __('Date debut') ?></th>
-                            <th><?= __('Date fin') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->promotionsproducts as $promotionsproduct) : ?>
-                        <tr>
-                            <td><?= h($promotionsproduct->id) ?></td>
-                            <td><?= h($promotionsproduct->percent) ?></td>
-                            <td><?= h($promotionsproduct->startdate) ?></td>
-                            <td><?= h($promotionsproduct->enddate) ?></td>
-                            <td><?= h($promotionsproduct->created) ?></td>
-                            <td><?= h($promotionsproduct->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'view', $promotionsproduct->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'edit', $promotionsproduct->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'delete', $promotionsproduct->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Pourcentage') ?></th>
+                                <th><?= __('Date debut') ?></th>
+                                <th><?= __('Date fin') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->promotionsproducts as $promotionsproduct) : ?>
+                                <tr>
+                                    <td><?= h($promotionsproduct->id) ?></td>
+                                    <td><?= h($promotionsproduct->percent) ?></td>
+                                    <td><?= h($promotionsproduct->startdate) ?></td>
+                                    <td><?= h($promotionsproduct->enddate) ?></td>
+                                    <td><?= h($promotionsproduct->created) ?></td>
+                                    <td><?= h($promotionsproduct->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'view', $promotionsproduct->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'edit', $promotionsproduct->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Promotionsproducts', 'action' => 'delete', $promotionsproduct->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Achats') ?></h6>
                 <?php if (!empty($product->purchasesitems)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Reference') ?></th>
-                            <th><?= __('Qte') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->purchasesitems as $purchasesitem) : ?>
-                        <tr>
-                            <td><?= h($purchasesitem->id) ?></td>
-                            <td><?= GeneralController::getReferenceOf($purchasesitem->purchase_id, 'Purchases') ?></td>
-                            <td><?= h($purchasesitem->qty) ?></td>
-                            <td><?= h($purchasesitem->created) ?></td>
-                            <td><?= h($purchasesitem->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase_id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Purchasesitems', 'action' => 'edit', $purchasesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Purchasesitems', 'action' => 'delete', $purchasesitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Reference') ?></th>
+                                <th><?= __('Qte') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->purchasesitems as $purchasesitem) : ?>
+                                <tr>
+                                    <td><?= h($purchasesitem->id) ?></td>
+                                    <td><?= GeneralController::getReferenceOf($purchasesitem->purchase_id, 'Purchases') ?></td>
+                                    <td><?= h($purchasesitem->qty) ?></td>
+                                    <td><?= h($purchasesitem->created) ?></td>
+                                    <td><?= h($purchasesitem->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Purchases', 'action' => 'view', $purchasesitem->purchase_id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Purchasesitems', 'action' => 'edit', $purchasesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Purchasesitems', 'action' => 'delete', $purchasesitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Ventes') ?></h6>
                 <?php if (!empty($product->salesitems)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Reference') ?></th>
-                            <th><?= __('Qte') ?></th>
-                            <th><?= __('Packaging') ?></th>
-                            <th><?= __('Prix Unitaire') ?></th>
-                            <th><?= __('Total') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->salesitems as $salesitem) : ?>
-                        <tr>
-                            <td><?= h($salesitem->id) ?></td>
-                            <td><?= GeneralController::getReferenceOf($salesitem->sale_id, 'Sales') ?></td>
-                            <td><?= h($salesitem->qty) ?></td>
-                            <td><?= GeneralController::getNameOf($salesitem->packaging_id, 'Packagings') ?></td>
-                            <td><?= h($salesitem->unit_price) ?></td>
-                            <td><?= h($salesitem->subtotal) ?></td>
-                            <td><?= h($salesitem->modified) ?></td>
-                            <td><?= h($salesitem->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Sales', 'action' => 'view', $salesitem->sale_id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Reference') ?></th>
+                                <th><?= __('Qte') ?></th>
+                                <th><?= __('Packaging') ?></th>
+                                <th><?= __('Prix Unitaire') ?></th>
+                                <th><?= __('Total') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->salesitems as $salesitem) : ?>
+                                <tr>
+                                    <td><?= h($salesitem->id) ?></td>
+                                    <td><?= GeneralController::getReferenceOf($salesitem->sale_id, 'Sales') ?></td>
+                                    <td><?= h($salesitem->qty) ?></td>
+                                    <td><?= GeneralController::getNameOf($salesitem->packaging_id, 'Packagings') ?></td>
+                                    <td><?= h($salesitem->unit_price) ?></td>
+                                    <td><?= h($salesitem->subtotal) ?></td>
+                                    <td><?= h($salesitem->modified) ?></td>
+                                    <td><?= h($salesitem->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Sales', 'action' => 'view', $salesitem->sale_id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Salesitems', 'action' => 'edit', $salesitem->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Salesitems', 'action' => 'delete', $salesitem->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Stocks') ?></h6>
                 <?php if (!empty($product->shopstocks)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="scroll-vertical">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Chambre') ?></th>
-                            <th><?= __('Stock') ?></th>
-                            <th><?= __('Stock Min') ?></th>
-                            <th><?= __('Stock Max') ?></th>
-                            <th><?= __('Etat') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->shopstocks as $shopstock) : ?>
-                        <tr>
-                            <td><?= h($shopstock->id) ?></td>
-                            <td><?= GeneralController::getNameOf($shopstock->room_id, 'Rooms') ?></td>
-                            <td><?= h($shopstock->stock) ?></td>
-                            <td><?= h($shopstock->stock_min) ?></td>
-                            <td><?= h($shopstock->stock_max) ?></td>
-                            <td><?= $shopstock->stock <= $shopstock->stock_min ? "<span class='badge bg-danger-transparent ms-2'>Attention</span>" : "<span class='badge bg-success-transparent ms-2'>Disponible</span>" ?></td>
-                            <td><?= h($shopstock->created) ?></td>
-                            <td><?= h($shopstock->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Shopstocks', 'action' => 'edit', $shopstock->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Shopstocks', 'action' => 'delete', $shopstock->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Chambre') ?></th>
+                                <th><?= __('Stock') ?></th>
+                                <th><?= __('Stock Min') ?></th>
+                                <th><?= __('Stock Max') ?></th>
+                                <th><?= __('Etat') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->shopstocks as $shopstock) : ?>
+                                <tr>
+                                    <td><?= h($shopstock->id) ?></td>
+                                    <td><?= GeneralController::getNameOf($shopstock->room_id, 'Rooms') ?></td>
+                                    <td><?= h($shopstock->stock) ?></td>
+                                    <td><?= h($shopstock->stock_min) ?></td>
+                                    <td><?= h($shopstock->stock_max) ?></td>
+                                    <td><?= $shopstock->stock <= $shopstock->stock_min ? "<span class='badge bg-danger-transparent ms-2'>Attention</span>" : "<span class='badge bg-success-transparent ms-2'>Disponible</span>" ?></td>
+                                    <td><?= h($shopstock->created) ?></td>
+                                    <td><?= h($shopstock->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Shopstocks', 'action' => 'edit', $shopstock->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Shopstocks', 'action' => 'delete', $shopstock->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Déclassés') ?></h6>
                 <?php if (!empty($product->spoilages)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Qte') ?></th>
-                            <th><?= __('Raison') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->spoilages as $spoilage) : ?>
-                        <tr>
-                            <td><?= h($spoilage->id) ?></td>
-                            <td><?= h($spoilage->qty) ?></td>
-                            <td><?= h($spoilage->reason) ?></td>
-                            <td><?= h($spoilage->created) ?></td>
-                            <td><?= h($spoilage->createdby) ?></td>
-                            <td class="text-end">
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Spoilages', 'action' => 'edit', $spoilage->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Spoilages', 'action' => 'delete', $spoilage->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Qte') ?></th>
+                                <th><?= __('Raison') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->spoilages as $spoilage) : ?>
+                                <tr>
+                                    <td><?= h($spoilage->id) ?></td>
+                                    <td><?= h($spoilage->qty) ?></td>
+                                    <td><?= h($spoilage->reason) ?></td>
+                                    <td><?= h($spoilage->created) ?></td>
+                                    <td><?= h($spoilage->createdby) ?></td>
+                                    <td class="text-end">
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Spoilages', 'action' => 'edit', $spoilage->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Spoilages', 'action' => 'delete', $spoilage->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Entrées') ?></h6>
                 <?php if (!empty($product->stockinsdetails)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-sm datatable">
+                        <thead>
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Reference') ?></th>
@@ -379,65 +446,96 @@ $this->set('title_2', 'Articles');
                             <th><?= __('Par') ?></th>
                             <th class="text-end"><?= __('Actions') ?></th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <?php foreach ($product->stockinsdetails as $stockinsdetail) : ?>
-                        <tr>
-                            <td><?= h($stockinsdetail->id) ?></td>
-                            <td><?= GeneralController::getReferenceOf($stockinsdetail->stockin_id, 'Stockins') ?></td>
-                            <td><?= h($stockinsdetail->purchase_price) ?></td>
-                            <td><?= h($stockinsdetail->tax) ?></td>
-                            <td><?= h($stockinsdetail->purchase_price + $stockinsdetail->tax) ?></td>
-                            <td><?= h($stockinsdetail->barcode) ?></td>
-                            <td><?= h($stockinsdetail->qty) ?></td>
-                            <td><?= h($stockinsdetail->expiry_date) ?></td>
-                            <td><?= h($stockinsdetail->created) ?></td>
-                            <td><?= h($stockinsdetail->createdby) ?></td>
-                            <td class="text-end">
-                                <!--?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'view', $stockinsdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'edit', $stockinsdetail->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'delete', $stockinsdetail->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><?= h($stockinsdetail->id) ?></td>
+                                <td><?= GeneralController::getReferenceOf($stockinsdetail->stockin_id, 'Stockins') ?></td>
+                                <td><?= h($stockinsdetail->purchase_price) ?></td>
+                                <td><?= h($stockinsdetail->tax) ?></td>
+                                <td><?= h($stockinsdetail->purchase_price + $stockinsdetail->tax) ?></td>
+                                <td><?= h($stockinsdetail->barcode) ?></td>
+                                <td><?= h($stockinsdetail->qty) ?></td>
+                                <td><?= h($stockinsdetail->expiry_date) ?></td>
+                                <td><?= h($stockinsdetail->created) ?></td>
+                                <td><?= h($stockinsdetail->createdby) ?></td>
+                                <td class="text-end">
+                                    <!--?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'view', $stockinsdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
+                                    <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'edit', $stockinsdetail->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                    <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Stockinsdetails', 'action' => 'delete', $stockinsdetail->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
+                        </tbody>
                     </table>
-                </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <div class="related p-2 mb-3" style="border: 1px solid #e0e0e0">
+            <div class="related p-3 mb-3" style="border: 1px solid #e0e0e0">
                 <h6><?= __('Transferts') ?></h6>
                 <?php if (!empty($product->transfersdetails)) : ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Reference') ?></th>
-                            <th><?= __('Qte') ?></th>
-                            <th><?= __('Date') ?></th>
-                            <th><?= __('Par') ?></th>
-                            <th class="text-end"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->transfersdetails as $transfersdetail) : ?>
-                        <tr>
-                            <td><?= h($transfersdetail->id) ?></td>
-                            <td><?= GeneralController::getReferenceOf($transfersdetail->transfer_id, 'Transfers') ?></td>
-                            <td><?= h($transfersdetail->qty) ?></td>
-                            <td><?= h($transfersdetail->created) ?></td>
-                            <td><?= h($transfersdetail->createdby) ?></td>
-                            <td class="text-end">
-                                <!--?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'view', $transfersdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
-                                <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'edit', $transfersdetail->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'delete', $transfersdetail->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm datatable">
+                            <thead>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Reference') ?></th>
+                                <th><?= __('Qte') ?></th>
+                                <th><?= __('Date') ?></th>
+                                <th><?= __('Par') ?></th>
+                                <th class="text-end"><?= __('Actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($product->transfersdetails as $transfersdetail) : ?>
+                                <tr>
+                                    <td><?= h($transfersdetail->id) ?></td>
+                                    <td><?= GeneralController::getReferenceOf($transfersdetail->transfer_id, 'Transfers') ?></td>
+                                    <td><?= h($transfersdetail->qty) ?></td>
+                                    <td><?= h($transfersdetail->created) ?></td>
+                                    <td><?= h($transfersdetail->createdby) ?></td>
+                                    <td class="text-end">
+                                        <!--?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'view', $transfersdetail->id], ['class' => 'btn btn-success btn-sm']) ?-->
+                                        <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'edit', $transfersdetail->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
+                                        <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['controller' => 'Transfersdetails', 'action' => 'delete', $transfersdetail->id], ['class' => 'btn btn-danger btn-sm', 'escape' => false, 'confirm' => __('Voulez-vous supprimer cette information ?')]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                    Aucune donnée disponible
+                    <div class="text-center">
+                        <?= $this->Html->image('empty2.png', ['style' => 'width:10%']) ?>
+                        <br>
+                        <i>Aucune donnée disponible</i>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Datatables Cdn -->
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.6/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+    $(document).ready(function (){
+        $('.datatable').DataTable();
+    })
+</script>

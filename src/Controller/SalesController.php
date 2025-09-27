@@ -13,6 +13,7 @@ use Cake\ORM\Table;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
+use Dompdf\Dompdf;
 use Exception;
 use RuntimeException;
 
@@ -489,5 +490,39 @@ class SalesController extends AppController
             $this->log($e->getMessage(), 'error');
             throw $e; // Re-throw for caller to handle
         }
+    }
+
+    public function printInvoice($id)
+    {
+        // Load the Sale entity with related Salesitems and Customer
+        $sale = $this->Sales->get($id, [
+            'contain' => ['Salesitems', 'Customers']
+        ]);
+
+        // Pass data to the view
+        $this->set(compact('sale'));
+
+        // Render the invoice view into HTML
+        $html = $this->render('/Sales/invoice', 'pdf'); // optional: 'pdf' layout
+        $htmlContent = (string)$html->getBody(); // get the rendered HTML
+
+        // Initialize Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->set_option('isRemoteEnabled', true);
+        $dompdf->loadHtml($htmlContent);
+
+        // Set paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the PDF
+        $dompdf->render();
+
+        // Stream the PDF to the browser (Attachment=true forces download)
+        $dompdf->stream("Facture_{$sale->reference}.pdf", [
+            "Attachment" => true
+        ]);
+
+        // Stop CakePHP from rendering a view
+        return $this->response->withType('application/pdf');
     }
 }

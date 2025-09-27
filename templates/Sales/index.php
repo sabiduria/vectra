@@ -13,7 +13,7 @@ $this->set('menu_sales', 'active open');
 <div class="mt-3">
     <?= $this->Html->link(__('<i class="fa-thin fa-plus"></i> Ajouter'), ['action' => 'pos'], ['class' => 'btn btn-sm btn-primary-light mb-3', 'escape' => false]) ?>
     <div class="table-responsive">
-        <table id="scroll-vertical" class="table table-bordered text-nowrap w-100 TableData">
+        <table id="scroll-vertical" class="table table-bordered table-sm text-nowrap w-100 TableData">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('N°') ?></th>
@@ -42,6 +42,7 @@ $this->set('menu_sales', 'active open');
                     <td><?= h($sale->created) ?></td>
                     <td class="text-end">
                         <?= $this->Html->link(__('<i class="ri-eye-line"></i>'), ['action' => 'view', $sale->id], ['class' => 'btn btn-success btn-sm', 'escape' => false]) ?>
+                        <?= $this->Html->link(__('<i class="ri-file-list-3-line"></i>'), ['action' => 'viewadmin', $sale->id], ['class' => 'btn btn-warning btn-sm', 'escape' => false]) ?>
                         <?= $this->Html->link(__('<i class="ri-pencil-line"></i>'), ['action' => 'edit', $sale->id], ['class' => 'btn btn-primary btn-sm', 'escape' => false]) ?>
                         <?= $this->Form->postLink(__('<i class="ri-delete-bin-line"></i>'), ['action' => 'delete', $sale->id], ['class' => 'btn btn-danger btn-sm', 'confirm' => __('Voulez-vous supprimer cette information ?'), 'escape' => false]) ?>
                     </td>
